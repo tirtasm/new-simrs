@@ -16,6 +16,7 @@
     <!-- Query Menu -->
     <?php
     $role_id = $this->session->userdata('id_role');
+    // var_dump($role_id);
     $query = "SELECT um.id_menu, um.menu
                 FROM menu AS um JOIN akses AS uam
                 ON um.id_menu = uam.id_menu
@@ -34,7 +35,7 @@
         $querySubMenu = "SELECT *
                             FROM sub_menu
                             WHERE id_menu = $menuId
-                            AND is_active = 1
+                            AND is_active = 1 ORDER BY id_sub ASC
                             ";
         $subMenu = $this->db->query($querySubMenu)->result_array();
         ?>

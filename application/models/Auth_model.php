@@ -40,8 +40,11 @@
                 
 
                     if($dokter['id_role'] == 1){
-                      
-                        echo 'admin';
+                        $data = [
+                            'no_dokter' => $dokter['no_dokter'],
+                            'id_role' => $dokter['id_role']
+                        ];
+                        $this->session->set_userdata($data);
                         $this->session->set_flashdata('login_success', 'ok');
                         redirect('admin/dashboard');
                     }

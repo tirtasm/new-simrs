@@ -27,8 +27,8 @@
         public function dashboard()
         {
             // echo 'dashboard';
-            // $data['user'] = $this->Dokter_model->getUser();
-            // var_dump($data['user']);
+            $data['user'] = $this->Auth_model->getUser();
+            var_dump($data['user']);
             $data['judul'] = 'Dashboard | Dokter';
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);

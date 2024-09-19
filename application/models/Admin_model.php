@@ -18,7 +18,6 @@ class Admin_model extends CI_Model
         $data = [
             'role' => htmlspecialchars($this->input->post('role'))
         ];
-        echo $this->db->insert('role', $data);
     }
 
     
@@ -37,8 +36,8 @@ class Admin_model extends CI_Model
     public function getUser()
     {
         return $this->db->get_where(
-            'admin',
-            ['email' => $this->session->userdata['email']]
+            'dokter',
+            ['no_dokter' => $this->session->userdata['no_dokter']]
         )->row_array();
     }
     

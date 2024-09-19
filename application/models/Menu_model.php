@@ -8,6 +8,7 @@ class Menu_model extends CI_Model
     public function deleteMenu($id)
     {
         $this->db->delete('menu', ['id_menu' => $id]);
+        
     }
 
     public function getMenuById($id)
@@ -70,7 +71,6 @@ public function addMenu(){
         $data = [
             'judul' => htmlspecialchars($this->input->post('title')),
             'id_menu' => htmlspecialchars($this->input->post('menu_name')),
-            'url' => htmlspecialchars($this->input->post('url')),
             'ikon' => htmlspecialchars($this->input->post('icon')),
             'is_active' => htmlspecialchars($this->input->post('active'))
         ];

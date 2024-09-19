@@ -292,10 +292,12 @@ $(function () {
 	$(".btnEdit").on("click", function () {
 		$("#submenuModalLabel").html("Add Sub Menu");
 		$(".modal-footer button[type=submit]").html("Add");
+		$(".url_form input").removeAttr("disabled");
 	});
 	$(".subMenuModal").on("click", function () {
 		$("#submenuModalLabel").html("Edit Sub Menu");
 		$(".modal-footer button[type=submit]").html("Edit");
+		$(".url_form input").attr("disabled", true);
 		$(".modal-body form").attr(
 			"action",
 			"http://localhost/new-simrs/menu/editsubmenu/"
@@ -315,14 +317,15 @@ $(function () {
 					$("#id_sub").val(data.id_sub); // Sesuaikan dengan id_sub
 					$("#title").val(data.judul);
 					$("#menu_name").val(data.id_menu);
-					$("#url").val(data.url);
 					$("#icon").val(data.ikon);
+					$("#url").val(data.url);
 					$("option[value=" + data.id_menu + "]").attr("selected", "");
 					if (data.is_active == 1) {
 						$("#active").attr("checked", "");
 					} else {
 						$("#active").removeAttr("checked", "");
 					}
+					
 				} else {
 					console.error("Data is null or undefined");
 				}

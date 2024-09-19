@@ -31,6 +31,15 @@
                             <th><?= $sm['menu'] ?></th>
                             <th><?= $sm['url'] ?></th>
                             <th><?= $sm['ikon'] ?></th>
+                            <?php 
+                                if($sm['is_active'] == 1){
+                                    $sm['is_active'] = 'Active';
+                                    
+                                }else{
+                                    $sm['is_active'] = 'Not Active';
+                                }
+                                
+                            ?>
                             <th class="text-center"><?= $sm['is_active'] ?></th>
                             <td class="d-flex align-items-center">
                                 <a href="<?= base_url('menu/editsubmenu/') . $sm['id_sub'] ?>"
@@ -82,7 +91,7 @@
                                 </select>
                                 <!-- <small class="form-text text-danger" id="menu-error"></small> -->
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 url_form">
                                 <label for="url" class="form-label">URL</label>
                                 <input type="text" class="form-control" id="url" name="url" required>
                                 <!-- <small class="form-text text-danger" id="menu-error"></small> -->
@@ -93,7 +102,7 @@
                                 <!-- <small class="form-text text-danger" id="menu-error"></small> -->
                             </div>
                             <div class="mb-3 ml-4">
-                                <input type="checkbox" class="form-check-input" id="active" name="" value="1">
+                                <input type="checkbox" class="form-check-input" id="active" name="active" value="1">
                                 <label for="active" class="form-check-label">Active</label>
                                 <!-- <small class="form-text text-danger" id="menu-error"></small> -->
                             </div>

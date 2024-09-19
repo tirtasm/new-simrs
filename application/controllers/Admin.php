@@ -13,6 +13,7 @@ class Admin extends CI_Controller
     }
     public function dashboard()
     {
+        
         $data['user'] = $this->Admin_model->getUser();
         $data['judul'] = 'Dashboard';
         $this->load->view('templates/header', $data);
@@ -20,6 +21,9 @@ class Admin extends CI_Controller
         $this->load->view('templates/topbar', $data);
         $this->load->view('admin/index', $data);
         $this->load->view('templates/footer');
+    }
+    public function tes(){
+        echo 'tes';
     }
     public function role()
     {

@@ -9,14 +9,18 @@ class Menu extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Menu_model');
         $this->load->model('User_model');
-        check_login();
+        // check_login();
     }
-    public function index()
+   
+
+
+    //menu
+    public function menumanagement()
     {
 
         $data['user'] = $this->db->get_where(
-            'user',
-            ['email' => $this->session->userdata['email']]
+            'dokter',
+            ['no_dokter' => $this->session->userdata['no_dokter']]
         )->row_array();
         $data['menu'] = $this->Menu_model->getMenu();
 
@@ -29,32 +33,30 @@ class Menu extends CI_Controller
         $this->load->view('templates/footer');
 
     }
-
-
-    //menu
+    
     public function add()
     {
         $this->form_validation->set_rules('menu', 'Menu', 'required|trim|is_unique[menu.menu]');
         if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('menu_failed', ' already exist!');
-            redirect('menu');
+            redirect('menu/menumanagement');
         } else {
             $this->Menu_model->addMenu();
             $this->session->set_flashdata('menu_added', ' added!');
-            redirect('menu');
+            redirect('menu/menumanagement');
         }
     }
     public function delete($id)
     {
         $this->Menu_model->deleteMenu($id);
         $this->session->set_flashdata('menu_flash', ' deleted!');
-        redirect('menu');
+        redirect('menu/menumanagement');
     }
     public function editMenu()
     {
         $this->Menu_model->updateMenu();
         $this->session->set_flashdata('menu_flash', ' updated!');
-        redirect('menu');
+        redirect('menu/menumanagement');
     }
     public function getEditMenu(){  
         echo json_encode($this->Menu_model->getMenuById($this->input->post('id_menu')));
@@ -67,7 +69,6 @@ class Menu extends CI_Controller
     public function submenu()
     {
         $data['user'] = $this->User_model->getUser();
-
         $data['sub_menu'] = $this->Menu_model->getAllSubmenu();
         $data['menu'] = $this->Menu_model->getMenu();
         $data['judul'] = 'Submenu Management';
@@ -107,9 +108,6 @@ class Menu extends CI_Controller
     public function editsubmenu(){
         $this->form_validation->set_rules('title', 'Title', 'required|trim');
         $this->form_validation->set_rules('menu_name', 'Menu Name', 'required|trim');
-        $this->form_validation->set_rules('url', 'URL', 'required|trim|is_unique[sub_menu.url]', [
-            'is_unique' => 'This URL has already registered!'
-        ]);
         if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('submenu_failed', ' failed!');
             redirect('menu/submenu');
