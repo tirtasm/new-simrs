@@ -9,6 +9,7 @@ class Admin extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Admin_model');
         $this->load->model('Menu_model');
+        $this->load->model('Dokter_model');
         // check_login();
     }
     public function dashboard()
@@ -22,13 +23,8 @@ class Admin extends CI_Controller
         $this->load->view('admin/index', $data);
         $this->load->view('templates/footer');
     }
-    public function tes(){
-        echo 'tes';
-    }
     public function role()
     {
-        
-
         $data['judul'] = 'Role';
         $data['user'] = $this->Admin_model->getUser();
         $data['role'] = $this->Admin_model->getRole();
@@ -53,6 +49,39 @@ class Admin extends CI_Controller
         $this->load->view('admin/role-access', $data);
         $this->load->view('templates/footer');
 
+    }
+    public function data_dokter(){
+        $data['judul'] = 'Data Dokter';
+        $data['user'] = $this->Admin_model->getUser();
+        $data['dokter'] = $this->Dokter_model->getAllDokter();
+        
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/data_dokter', $data);
+        $this->load->view('templates/footer');
+    }
+    public function update_status() {
+        // Ambil data dari request POST
+        $no_dokter = $this->input->post('no_dokter');
+        $is_active = $this->input->post('is_active');
+
+        // Update status di database
+        $this->load->model('Dokter_model');
+        $this->Dokter_model->update_status($no_dokter, $is_active);
+
+        // Respon sukses
+        echo json_encode(['status' => 'success']);
+    }
+    public function data_pasien(){
+        $data['judul'] = 'Data Pasien';
+        $data['user'] = $this->Admin_model->getUser();
+        // $data['dokter'] = $this->Admin_model->getDokter();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/data_pasien', $data);
+        $this->load->view('templates/footer');
     }
     public function add()
     {

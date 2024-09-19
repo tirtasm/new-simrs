@@ -1,5 +1,8 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+ <style>
+
+ </style>
+<ul class="navbar-nav bg-gradient-primary  sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -11,8 +14,8 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-    
-    
+
+
     <!-- Query Menu -->
     <?php
     $role_id = $this->session->userdata('id_role');
@@ -24,7 +27,7 @@
                 ORDER BY uam.id_menu ASC
                 ";
     $menu = $this->db->query($query)->result_array();
-    
+
     ?>
     <?php foreach ($menu as $m): ?>
         <div class="sidebar-heading">
@@ -52,11 +55,11 @@
                 <a class="nav-link pb-0" href="<?= base_url($sm['url']); ?>">
                     <i class="<?= $sm['ikon']; ?>"></i>
                     <span><?= $sm['judul']; ?></span></a>
-                </li>
-                <?php endforeach; ?>
-                <hr class="sidebar-divider d-none d-md-block mt-2">
+            </li>
+        <?php endforeach; ?>
+        <hr class="sidebar-divider d-none d-md-block mt-2">
         <!-- Divider -->
-        
+
     <?php endforeach; ?>
     <!-- Divider -->
 

@@ -287,6 +287,40 @@ $(function () {
 	});
 });
 
+// UPDATE STATUS CHECK
+$(document).ready(function () {
+    $('.toggle-status').click(function () {
+        var button = $(this);
+        var isActive = button.attr('data-is-active') === 'true';
+        var no_dokter = button.attr('data-id'); 
+
+       
+        if (isActive) {
+            button.html('<i class="fas fa-xl text-danger fa-thin fa-xmark"></i>'); 
+            button.attr('data-is-active', 'false'); 
+        } else {
+            button.html('<i class="fas fa-xl text-success fa-thin fa-check"></i>'); 
+            button.attr('data-is-active', 'true'); 
+        }
+
+        
+        var newStatus = button.attr('data-is-active') === 'true' ? 1 : 0;
+		console.log(newStatus);
+
+        $.ajax({
+            url: 'http://localhost/new-simrs/admin/update_status', 
+            type: 'POST',
+            data: {
+                no_dokter: no_dokter,
+                is_active: newStatus
+            }
+        });
+    });
+});
+
+
+
+
 //submenu modal
 $(function () {
 	$(".btnEdit").on("click", function () {

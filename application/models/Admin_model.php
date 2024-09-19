@@ -18,6 +18,7 @@ class Admin_model extends CI_Model
         $data = [
             'role' => htmlspecialchars($this->input->post('role'))
         ];
+        $this->db->insert('role', $data);
     }
 
     
