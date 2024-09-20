@@ -21,7 +21,7 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th class="text-center">#</th>
                                     <th>No. Dokter</th>
                                     <th>Nama</th>
                                     <th>Spesialisasi</th>
@@ -31,11 +31,12 @@
                                 </tr>
                             </thead>
                             <?php
-                            $i = 1;
+                            $no = $this->uri->segment(3) ? $this->uri->segment(3) + 1 : 1;
+                            if(!empty($dokter)):
                             foreach ($dokter as $d): ?>
                                 <tbody>
                                     <tr>
-                                        <td><?= $i ?></td>
+                                        <td class="text-center"><?= $no ?></td>
                                         <td><?= $d['no_dokter'] ?></td>
                                         <td><?= $d['nama'] ?></td>
                                         <td><?= $d['spesialisasi'] ?></td>
@@ -57,69 +58,27 @@
                                     </tr>
                                 </tbody>
                                 <?php
-                                $i++;
+                                $no++;
                             endforeach; ?>
+                            <?php else: ?>
+                            <tbody>
+                                <tr>
+                                    <td colspan="7" class="text-center">Data Tidak Ditemukan</td>
+                                </tr>
+                            </tbody>
+                            <?php endif; ?>
                         </table>
-                    </div>
-                </div>
-            </div>
+                        <div class="container">
 
-        </div>
-    </div>
-    <!-- /.container-fluid -->
-
-</div>
-<!-- Modal -->
-<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="submenuModalLabel">Add Sub Menu</h5>
-
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="<?= base_url('menu/addsubmenu') ?>" method="post">
-                    <div class="row justify-content-center">
-
-                        <div class="col-lg-10 align-items-center ">
-                            <div class="mb-3">
-                                <input type="hidden" id="no_dokter" name="no_dokter">
-                                <label for="nama" class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control" id="nama" name="nama" required>
-                                <!-- <small class="form-text text-danger" id="menu-error"></small> -->
-                            </div>
-                            <div class="mb-3">
-                                <label for="no_telp" class="form-label">No. Telpon</label>
-                                <input type="number" class="form-control" id="no_telp" name="no_telp">
-                                <!-- <small class="form-text text-danger" id="menu-error"></small> -->
-                            </div>
-                            <div class="mb-3">
-                                <label for="icon" class="form-label">Icon</label>
-                                <input type="text" class="form-control" id="icon" name="icon">
-                                <!-- <small class="form-text text-danger" id="menu-error"></small> -->
-                            </div>
-                            <div class="mb-3">
-                                <label for="icon" class="form-label">Icon</label>
-                                <input type="text" class="form-control" id="icon" name="icon">
-                                <!-- <small class="form-text text-danger" id="menu-error"></small> -->
-                            </div>
-                            <div class="mb-3 ml-4">
-                                <input type="checkbox" class="form-check-input" id="active" name="active" value="1">
-                                <label for="active" class="form-check-label">Active</label>
-                                <!-- <small class="form-text text-danger" id="menu-error"></small> -->
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="container">
+                    <?= $pagination?>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Add</button>
-                <!-- <button type="button" id="editButton" class="btn btn-primary edit-button" data-id="" onclick="editMenu(this)" hidden>Edit</button> -->
-            </div>
-            </form>
         </div>
+        <!-- /.container-fluid -->
+        
     </div>
-</div>`

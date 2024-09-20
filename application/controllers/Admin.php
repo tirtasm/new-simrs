@@ -15,7 +15,7 @@ class Admin extends CI_Controller
     public function dashboard()
     {
         
-        $data['user'] = $this->Admin_model->getUser();
+        $data['dokter'] = $this->Admin_model->getDokterByNo();
         $data['judul'] = 'Dashboard';
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -26,7 +26,7 @@ class Admin extends CI_Controller
     public function role()
     {
         $data['judul'] = 'Role';
-        $data['user'] = $this->Admin_model->getUser();
+        $data['user'] = $this->Admin_model->getDokterByNo();
         $data['role'] = $this->Admin_model->getRole();
     
         $this->load->view('templates/header', $data);
@@ -38,7 +38,7 @@ class Admin extends CI_Controller
     public function roleaccess($role_id)
     {
         $data['judul'] = 'Role Access';
-        $data['user'] = $this->Admin_model->getUser();
+        $data['user'] = $this->Admin_model->getDokterByNo();
         $data['role'] = $this->Admin_model->getRoleById($role_id);
         $this->db->where('id_menu !=', 1);
 
@@ -52,9 +52,22 @@ class Admin extends CI_Controller
     }
     public function data_dokter(){
         $data['judul'] = 'Data Dokter';
-        $data['user'] = $this->Admin_model->getUser();
+        $data['user'] = $this->Admin_model->getDokterByNo();
         $data['dokter'] = $this->Dokter_model->getAllDokter();
-        
+        $data['total_dokter'] = $this->Admin_model->total_dokter();
+
+        $this->load->library('pagination');
+        $config['base_url'] = base_url('admin/data_dokter');
+        $config['total_rows'] = $data['total_dokter'];
+        $config['per_page'] = 10;
+        $config['num_links'] = 5;
+
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['dokter'] = $this->Admin_model->get_dokter($config['per_page'], $page);
+        $data['pagination'] = $this->pagination->create_links();
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -73,9 +86,10 @@ class Admin extends CI_Controller
         // Respon sukses
         echo json_encode(['status' => 'success']);
     }
+
     public function data_pasien(){
         $data['judul'] = 'Data Pasien';
-        $data['user'] = $this->Admin_model->getUser();
+        $data['user'] = $this->Admin_model->getDokterByNo();
         // $data['dokter'] = $this->Admin_model->getDokter();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
