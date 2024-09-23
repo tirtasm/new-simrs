@@ -8,7 +8,7 @@ class User extends CI_Controller
         $this->load->model('User_model');
         $this->load->model('Auth_model');
         $this->load->library('form_validation');
-        check_login();
+        // check_login();
     }
     public function error_404()
     {
@@ -87,5 +87,10 @@ class User extends CI_Controller
             $this->User_model->changePassword();
         }
 
+    }
+
+    public function delete($id){
+        $this->User_model->deleteUser($id);
+        
     }
 }

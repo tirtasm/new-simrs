@@ -287,9 +287,11 @@ $(function () {
 	});
 });
 
-// UPDATE STATUS CHECK
+
+
+// UPDATE STATUS CHECK DOKTER
 $(document).ready(function () {
-    $('.toggle-status').click(function () {
+    $('.status_dokter').click(function () {
         var button = $(this);
         var isActive = button.attr('data-is-active') === 'true';
         var no_dokter = button.attr('data-id'); 
@@ -308,10 +310,40 @@ $(document).ready(function () {
 		console.log(newStatus);
 
         $.ajax({
-            url: 'http://localhost/new-simrs/admin/update_status', 
+            url: 'http://localhost/new-simrs/admin/status_dokter', 
             type: 'POST',
             data: {
                 no_dokter: no_dokter,
+                is_active: newStatus
+            }
+        });
+    });
+});
+// UPDATE STATUS CHECK PASIEN
+$(document).ready(function () {
+    $('.status_pasien').click(function () {
+        var button = $(this);
+        var isActive = button.attr('data-is-active') === 'true';
+        var no_medis = button.attr('data-id'); 
+
+       
+        if (isActive) {
+            button.html('<i class="fas fa-xl text-danger fa-thin fa-xmark"></i>'); 
+            button.attr('data-is-active', 'false'); 
+        } else {
+            button.html('<i class="fas fa-xl text-success fa-thin fa-check"></i>'); 
+            button.attr('data-is-active', 'true'); 
+        }
+
+        
+        var newStatus = button.attr('data-is-active') === 'true' ? 1 : 0;
+		console.log(newStatus);
+
+        $.ajax({
+            url: 'http://localhost/new-simrs/admin/status_pasien', 
+            type: 'POST',
+            data: {
+                no_medis: no_medis,
                 is_active: newStatus
             }
         });

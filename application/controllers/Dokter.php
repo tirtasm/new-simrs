@@ -6,6 +6,7 @@
             parent::__construct();
             $this->load->library('form_validation');
             $this->load->model('Auth_model');
+            $this->load->model('Dokter_model');
         }
         public function login()
         {
@@ -50,7 +51,7 @@
         //crud role
         public function delete($id)
         {
-            $this->Dokter_model->deleteRole($id);
+            $this->Dokter_model->delete($id);
         }
     }
 ?>

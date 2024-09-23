@@ -59,7 +59,7 @@ public function addMenu(){
             'id_menu' => htmlspecialchars($this->input->post('menu_name')),
             'url' => htmlspecialchars($this->input->post('url')),
             'ikon' => htmlspecialchars($this->input->post('icon')),
-            'is_active' => $is_active
+            'is_active' => $is_active 
         ];
         $this->db->insert('sub_menu', $data);
     }

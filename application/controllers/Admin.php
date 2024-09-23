@@ -10,12 +10,13 @@ class Admin extends CI_Controller
         $this->load->model('Admin_model');
         $this->load->model('Menu_model');
         $this->load->model('Dokter_model');
+        $this->load->model('User_model');
         // check_login();
     }
     public function dashboard()
     {
         
-        $data['dokter'] = $this->Admin_model->getDokterByNo();
+        $data['user'] = $this->Admin_model->getDokterByNo();
         $data['judul'] = 'Dashboard';
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -50,10 +51,16 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer');
 
     }
+   
+    
+
+    
+
+
     public function data_dokter(){
         $data['judul'] = 'Data Dokter';
         $data['user'] = $this->Admin_model->getDokterByNo();
-        $data['dokter'] = $this->Dokter_model->getAllDokter();
+        // $data['dokter'] = $this->Dokter_model->getAllDokter(); udah diambil sama yang bawah get_dokter
         $data['total_dokter'] = $this->Admin_model->total_dokter();
 
         $this->load->library('pagination');
@@ -74,29 +81,46 @@ class Admin extends CI_Controller
         $this->load->view('admin/data_dokter', $data);
         $this->load->view('templates/footer');
     }
-    public function update_status() {
-        // Ambil data dari request POST
-        $no_dokter = $this->input->post('no_dokter');
-        $is_active = $this->input->post('is_active');
-
-        // Update status di database
-        $this->load->model('Dokter_model');
-        $this->Dokter_model->update_status($no_dokter, $is_active);
-
-        // Respon sukses
-        echo json_encode(['status' => 'success']);
-    }
-
     public function data_pasien(){
         $data['judul'] = 'Data Pasien';
         $data['user'] = $this->Admin_model->getDokterByNo();
-        // $data['dokter'] = $this->Admin_model->getDokter();
+        
+        $data['total_pasien'] = $this->Admin_model->total_pasien();
+
+        $this->load->library('pagination');
+        $config['base_url'] = base_url('admin/data_pasien');
+        $config['total_rows'] = $data['total_pasien'];
+        $config['per_page'] = 10;
+        $config['num_links'] = 5;
+
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['pasien'] = $this->Admin_model->get_pasien($config['per_page'], $page);
+        $data['pagination'] = $this->pagination->create_links();
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('admin/data_pasien', $data);
         $this->load->view('templates/footer');
     }
+
+
+    public function status_dokter() {
+        $no_dokter = $this->input->post('no_dokter');
+        $is_active = $this->input->post('is_active');
+        $this->Dokter_model->update_status($no_dokter, $is_active);
+        echo json_encode(['status' => 'success']);
+    }
+    public function status_pasien() {
+        $no_medis = $this->input->post('no_medis');
+        $is_active = $this->input->post('is_active');
+        $this->User_model->update_status($no_medis, $is_active);
+        echo json_encode(['status' => 'success']);
+    }
+
+    
     public function add()
     {
         $this->form_validation->set_rules('role', 'Role', 'required|trim|is_unique[role.role]', [

@@ -19,6 +19,16 @@ class User_model extends CI_Model
         )->row_array();
     }
 
+    public function update_status($no_medis, $is_active) {
+        $this->db->where('no_medis', $no_medis);
+        $this->db->update('pasien', ['is_active' => $is_active]);
+    }
+    public function deleteUser($id)
+    {
+        $this->db->delete('pasien', ['no_medis' => $id]);
+        redirect('admin/data_pasien');
+    }
+
     public function editUser()
     {
         $this->db->set('name', htmlspecialchars($this->input->post('name')));
