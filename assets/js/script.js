@@ -1,23 +1,23 @@
-// const loginFlash = $("#loginflash");
-// const loginBerhasil = loginFlash.data("login-success");
-// const loginGagal = loginFlash.data("login-error");
-// if (loginBerhasil) {
-// 	Swal.fire({
-// 		title: "Login Berhasil",
-// 		text: loginBerhasil,
-// 		icon: "success",
-// 	}).then((result) => {
-// 		if (result.isConfirmed) {
-// 			document.location.href = "http://localhost/simrs/auth/";
-// 		}
-// 	});
-// } else if (loginGagal) {
-// 	Swal.fire({
-// 		title: "Login Gagal",
-// 		text: loginGagal,
-// 		icon: "error",
-// 	});
-// }
+const loginFlash = $("#loginflash");
+const loginBerhasil = loginFlash.data("login-success");
+const loginGagal = loginFlash.data("login-error");
+if (loginBerhasil) {
+	Swal.fire({
+		title: "Login Berhasil",
+		text: loginBerhasil,
+		icon: "success",
+	}).then((result) => {
+		if (result.isConfirmed) {
+			document.location.href = "http://localhost/new-simrs/user";
+		}
+	});
+} else if (loginGagal) {
+	Swal.fire({
+		title: "Login Gagal",
+		text: loginGagal,
+		icon: "error",
+	});
+}
 
 
 $(document).ready(function () {

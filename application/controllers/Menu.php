@@ -9,7 +9,7 @@ class Menu extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Menu_model');
         $this->load->model('User_model');
-        // check_login();
+        check_login();
     }
    
 
@@ -68,7 +68,10 @@ class Menu extends CI_Controller
     }
     public function submenu()
     {
-        $data['user'] = $this->User_model->getUser();
+        $data['user'] = $this->db->get_where(
+            'dokter',
+            ['no_dokter' => $this->session->userdata['no_dokter']]
+        )->row_array();
         $data['sub_menu'] = $this->Menu_model->getAllSubmenu();
         $data['menu'] = $this->Menu_model->getMenu();
         $data['judul'] = 'Submenu Management';

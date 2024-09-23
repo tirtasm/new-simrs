@@ -14,8 +14,8 @@ class User_model extends CI_Model
     public function getUser()
     {
         return $this->db->get_where(
-            'dokter',
-            ['no_dokter' => $this->session->userdata['no_dokter']]
+            'pasien',
+            ['no_medis' => $this->session->userdata['no_medis']]
         )->row_array();
     }
 
@@ -77,26 +77,6 @@ class User_model extends CI_Model
         }
     }
 
-    public function _login(){
-        $no_medis = $this->input->post('no_medis');
-        $tanggal_lahir = $this->input->post('tanggal_lahir');
-        $pasien = $this->db->get_where('pasien', ['no_medis' => $no_medis])->row_array();
-        // var_ dump($pasien['tanggal_lahir']);
-        if($pasien){
-            if($pasien['tanggal_lahir'] == $tanggal_lahir && $pasien['no_medis'] == $no_medis){
-                $this->session->set_flashdata('login_success', 'Silahkan aktivasi akun pasien Anda ke petugas kami!');
-                redirect('user/login');
-            }else{
-                $this->session->set_flashdata('login_error', 'Pastikan No. Registrasi Medis dan Tanggal Lahir benar!');
-                redirect('user/login');
-            }
-        }
-        else{
-            $this->session->set_flashdata('no_medis', '<div class="alert alert-danger" role="alert">No. Registrasi Medis tidak ditemukan!</div>');
-            redirect('user/login');
-        }
-
-    }
 
 
 }

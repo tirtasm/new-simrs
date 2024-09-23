@@ -15,6 +15,7 @@
                                     <h5 class="text-center mt-2 mb-4 text-dark font-weight-bold">LOGIN</h5>
 
                                     <?= $this->session->flashdata('no_medis') ?>
+                                    <?= $this->session->flashdata('logout_message') ?>
                                     <div id="loginflash"
                                         data-login-success="<?= $this->session->flashdata('login_success'); ?>"
                                         data-login-error="<?= $this->session->flashdata('login_error'); ?>"></div>
@@ -41,9 +42,6 @@
 
                                     </form>
                                     <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="<?= base_url() ?>auth/forgotpassword">Lupa Kata Sandi?</a>
-                                    </div>
                                     <div class="text-center">
                                         <a class="small" href="<?= base_url() ?>auth/registrasi">Daftar Akun
                                             Pasien!</a>

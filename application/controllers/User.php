@@ -8,7 +8,7 @@ class User extends CI_Controller
         $this->load->model('User_model');
         $this->load->model('Auth_model');
         $this->load->library('form_validation');
-        // check_login();
+        check_login();
     }
     public function error_404()
     {
@@ -22,14 +22,14 @@ class User extends CI_Controller
 
     public function index()
     {
-        $data['user'] = $this->User_model->getUser();
+        // $data['user'] = $this->User_model->getUser();
 
         $data['judul'] = 'My Profile';
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
+        // $this->load->view('templates/header', $data);
+        // $this->load->view('templates/sidebar', $data);
+        // $this->load->view('templates/topbar', $data);
         $this->load->view('user/index', $data);
-        $this->load->view('templates/footer');
+        // $this->load->view('templates/footer');
     }
     public function edit()
     {

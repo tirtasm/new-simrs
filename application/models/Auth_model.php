@@ -30,6 +30,33 @@
             redirect('auth/registrasi');
             
         }
+        //login pasien
+    public function login(){
+        $no_medis = $this->input->post('no_medis');
+        $tanggal_lahir = $this->input->post('tanggal_lahir');
+        $pasien = $this->db->get_where('pasien', ['no_medis' => $no_medis])->row_array();
+        // var_ dump($pasien['tanggal_lahir']);
+        if($pasien){
+            if($pasien['tanggal_lahir'] == $tanggal_lahir && $pasien['no_medis'] == $no_medis){
+                $data=[
+                    'no_medis' => $pasien['no_medis'],
+                    'id_role' => $pasien['id_role']
+                ];
+                $this->session->set_userdata($data);
+                var_dump($data);
+                $this->session->set_flashdata('login_success', 'Silahkan aktivasi akun pasien Anda ke petugas kami!');
+                // redirect('user/');
+            }else{
+                $this->session->set_flashdata('login_error', 'Pastikan No. Registrasi Medis dan Tanggal Lahir benar!');
+                redirect('user/login');
+            }
+        }
+        else{
+            $this->session->set_flashdata('no_medis', '<div class="alert alert-danger" role="alert">No. Registrasi Medis tidak ditemukan!</div>');
+            redirect('user/login');
+        }
+
+    }
         public function login_dokter(){
             $no_dokter = htmlspecialchars($this->input->post('no_dokter'));
             $password = htmlspecialchars($this->input->post('password'));
@@ -45,6 +72,7 @@
                             'id_role' => $dokter['id_role']
                         ];
                         $this->session->set_userdata($data);
+                        var_dump($data);
                         $this->session->set_flashdata('login_success', 'ok');
                         redirect('admin/dashboard');
                     }
@@ -77,6 +105,7 @@
                 $this->session->set_flashdata('no_medis', '<div class="alert alert-danger" role="alert">No. Registrasi Medis tidak ditemukan!</div>');
                 redirect('auth/login');
             }
+            echo 'ok';
 
         }
 

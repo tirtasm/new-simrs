@@ -7,9 +7,15 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Auth_model');
-
+        
     }
-    
+    public function index()
+    {
+        $data['judul'] = 'Login | User';
+        $this->load->view('templates/home_header', $data);
+        $this->load->view('home/index');
+        $this->load->view('templates/home_footer');
+    }
     public function login()
     {
         
@@ -28,21 +34,22 @@ class Auth extends CI_Controller
             $this->load->view('templates/home_footer');
         } else {
             // echo base_url('user/registration');
-            $this->Auth_model->_login();
+            $this->Auth_model->login();
         }
     }
     public function blocked()
     {
         $data['judul'] = 'Access Forbidden';
-        $this->load->view('templates/auth_header', $data);
+        $this->load->view('templates/header', $data);
         $this->load->view('auth/denied');
-        $this->load->view('templates/auth_footer');
+        $this->load->view('templates/footer');
     }
     public function logout()
     {
-        $this->session->unset_userdata('email');
-        $this->session->unset_userdata('role_id');
-        $this->session->set_flashdata('email_message', '<div class="alert alert-success" role="alert">You have been logged out! </div>');
+        $this->session->unset_userdata('no_dokter');
+        $this->session->unset_userdata('no_medis');
+        $this->session->unset_userdata('id_role');
+        $this->session->set_flashdata('logout_message', '<div class="alert alert-success" role="alert">You have been logged out! </div>');
         redirect('auth/login');
     }
 
@@ -70,7 +77,7 @@ class Auth extends CI_Controller
     public function registrasi()
     {
         if ($this->session->userdata('no_medis')) {
-            redirect('user/regis');
+            redirect('auth/regis');
         }
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
             'required' => 'Nama lengkap harus diisi!'

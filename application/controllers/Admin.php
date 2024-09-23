@@ -11,7 +11,8 @@ class Admin extends CI_Controller
         $this->load->model('Menu_model');
         $this->load->model('Dokter_model');
         $this->load->model('User_model');
-        // check_login();
+        check_login();
+       
     }
     public function dashboard()
     {
