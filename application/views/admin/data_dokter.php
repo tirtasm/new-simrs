@@ -73,7 +73,7 @@
                                         <tr>
                                             <td class="text-center"><?= $no ?></td>
                                             <td><?= $d['no_dokter'] ?></td>
-                                            <td><?= $d['nama'] ?></td>
+                                            <td><?= $d['nama_dokter'] ?></td>
                                             <td><?= $d['spesialisasi'] ?></td>
                                             <td>0<?= $d['no_telp'] ?></td>
 

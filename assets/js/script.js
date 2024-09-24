@@ -1,3 +1,5 @@
+console.log('adsda');
+
 const loginFlash = $("#loginflash");
 const loginBerhasil = loginFlash.data("login-success");
 const loginGagal = loginFlash.data("login-error");
@@ -82,6 +84,7 @@ if (menuFlash) {
 		timer: 2500,
 	});
 }
+
 if (menuAdded) {
 	Swal.fire({
 		title: "Menu",
@@ -191,6 +194,37 @@ $(document).ready(function(){
 			}
 		});
 	});
+	$(".keluar").on("click", function (e) {
+		e.preventDefault();
+		const href = $(this).attr("href");
+		const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+		const tanggal = new Date().toLocaleDateString('id-ID', options);
+
+		Swal.fire({
+			title: "Yakin?",
+			html: "Anda tidak akan dapat mengembalikan ini! <br>Pasien Keluar Rawat Inap pada <br><strong>" + tanggal + "</strong>",
+			icon: "question",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Ya",
+			cancelButtonText: "Batal",
+		}).then((result) => {	
+			if (result.value) {
+				document.location.href = href;
+			}
+		});
+	});
+	
+const pasienFlash =$(".pasienflash").data("pasien-flash")
+if (pasienFlash) {
+	Swal.fire({
+		title: "Pasien",
+		text: pasienFlash,
+		icon: "success",
+		timer: 2500,
+	});
+}
 	$(document).ready(function () {
 		const flashdataElement = document.getElementById("flashdata");
 		const loginSuccess = flashdataElement.getAttribute("data-login-success");
@@ -405,7 +439,7 @@ $(function () {
 			method: "post",
 			dataType: "json",
 			success: function (data) {
-				// console.log(data);
+				console.log(data);
 
 				if (data) {
 					$("#id_role").val(data.id_role);

@@ -18,7 +18,8 @@ class Dokter_model extends CI_Model
         $this->db->join('ruang', 'ruang.id_ruang = rawat_inap.id_ruang');
         $this->db->order_by('rawat_inap.tanggal_masuk', 'DESC');
         $this->db->limit($limit, $start);
-        $this->db->where('rawat_inap.id_ruang IS NOT NULL');
+        $this->db->where('pasien.is_active', 1);
+        $this->db->where('rawat_inap.tanggal_keluar', NULL);
         return $this->db->get()->result_array();
     
     }
