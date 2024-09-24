@@ -63,9 +63,9 @@
                                     <th>Nama</th>
                                     <th>No. Telp</th>
                                     <th>Tanggal Lahir</th>
-                                    <th>Alamat</th>
-                                    <th class="text-center">Aktif?</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th>Ruang</th>
+                                    <th>Dirawat</th>
+                                    
                                 </tr>
                             </thead>
                             <?php
@@ -79,21 +79,17 @@
                                         <td><?= $p['nama'] ?></td>
                                         <td><?= $p['no_telp'] ?></td>
                                         <td><?= $p['tanggal_lahir'] ?></td>
-                                        <td><?= $p['alamat'] ?></td>
-
-
-
-                                        <td class="text-center">
-                                            <button class="status_pasien bg-transparent border-0"
-                                            data-id="<?= $p['no_medis']; ?>"
-                                                data-is-active="<?= $p['is_active'] == 1 ? 'true' : 'false'; ?>">
-                                                <?= $p['is_active'] == 1 ? '<i class="fas fa-xl text-success fa-thin fa-check"></i>' : '<i class="fas fa-xl text-danger fa-thin fa-xmark"></i>'; ?>
-                                            </button>
+                                        <td><?= $p['nama_ruang'] ?></td>
+                                        <?php ?>
+                                        <td>
+                                            <?php
+                                            $tanggal_masuk = new DateTime($p['tanggal_masuk']);
+                                            $tanggal_keluar = new DateTime();
+                                            $lama_rawat = $tanggal_keluar->diff($tanggal_masuk)->days;
+                                            echo $lama_rawat . ' hari';
+                                            ?>
                                         </td>
-                                        <td class="text-center">
-                                            <a href="<?= base_url('admin/deleteUser/') . $p['no_medis'] ?>"
-                                                class="badge badge-danger delete">Delete</a>
-                                        </td>
+                                        
                                     </tr>
                                 </tbody>
                                 <?php

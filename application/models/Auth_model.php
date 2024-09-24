@@ -83,7 +83,14 @@
                     }
                     //dokter
                     else if($dokter['id_role'] == 2){
-                        echo 'dokter';
+                        $data = [
+                            'no_dokter' => $dokter['no_dokter'],
+                            'id_role' => $dokter['id_role']
+                        ];
+                        $this->session->set_userdata($data);
+                        var_dump($data);
+                        $this->session->set_flashdata('login_success', 'ok');
+                        redirect('dokter/profil');
                     }
                 }else{
                     $this->session->set_flashdata('login_error', 'Pastikan No. Dokter dan Password benar!');

@@ -60,12 +60,12 @@
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th>No. Medis</th>
-                                    <th>Nama</th>
-                                    <th>No. Telp</th>
-                                    <th>Tanggal Lahir</th>
-                                    <th>Alamat</th>
-                                    <th class="text-center">Aktif?</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th>Nama Pasien</th>
+                                    <th>Nama Ruang</th>
+                                    <th>Nama Dokter</th>
+                                    <th>Tanggal Visite</th>
+                                    <th>Catatan</th>
+                                    
                                 </tr>
                             </thead>
                             <?php
@@ -77,23 +77,15 @@
                                         <td class="text-center"><?= $no ?></td>
                                         <td><?= $p['no_medis'] ?></td>
                                         <td><?= $p['nama'] ?></td>
-                                        <td><?= $p['no_telp'] ?></td>
-                                        <td><?= $p['tanggal_lahir'] ?></td>
-                                        <td><?= $p['alamat'] ?></td>
-
-
-
-                                        <td class="text-center">
-                                            <button class="status_pasien bg-transparent border-0"
-                                            data-id="<?= $p['no_medis']; ?>"
-                                                data-is-active="<?= $p['is_active'] == 1 ? 'true' : 'false'; ?>">
-                                                <?= $p['is_active'] == 1 ? '<i class="fas fa-xl text-success fa-thin fa-check"></i>' : '<i class="fas fa-xl text-danger fa-thin fa-xmark"></i>'; ?>
-                                            </button>
+                                        <td><?= $p['nama_ruang'] ?></td>
+                                        <td><?= $p['nama_dokter'] ?></td>
+                                        <td ><?= $p['tanggal_visite'] ?></td>
+                                        <td style="max-width:300px;">
+                                            <?=$p['catatan']?>
                                         </td>
-                                        <td class="text-center">
-                                            <a href="<?= base_url('admin/deleteUser/') . $p['no_medis'] ?>"
-                                                class="badge badge-danger delete">Delete</a>
-                                        </td>
+                                        
+                                
+                                        
                                     </tr>
                                 </tbody>
                                 <?php
@@ -102,7 +94,7 @@
                             <?php else: ?>
                             <tbody>
                                 <tr>
-                                    <td colspan="7" class="text-center">Data Tidak Ditemukan</td>
+                                    <td colspan="7" class="text-center"> Tidak Ada Catatan</td>
                                 </tr>
                             </tbody>
                             <?php endif; ?>

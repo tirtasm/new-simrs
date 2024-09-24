@@ -7,6 +7,7 @@
             $this->load->library('form_validation');
             $this->load->model('Auth_model');
             $this->load->model('Dokter_model');
+            $this->load->model('Admin_model');
         }
       
         public function login()
@@ -43,6 +44,57 @@
                 $this->Dokter_model->update();
                 $this->session->set_flashdata('message_profil', ' edited!');
                 redirect('dokter/profil');
+        }
+        
+        public function data_pasien(){
+            $data['judul'] = 'Data Pasien';
+            $data['user'] = $this->Dokter_model->getDokterByNo();
+            
+            $data['total_pasien'] = $this->Dokter_model->total_pasien();
+    
+            $this->load->library('pagination');
+            $config['base_url'] = base_url('dokter/data_pasien');
+            $config['total_rows'] = $data['total_pasien'];
+            $config['per_page'] = 10;
+            $config['num_links'] = 5;
+    
+            $this->pagination->initialize($config);
+    
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $data['pasien'] = $this->Dokter_model->get_pasien($config['per_page'], $page);
+            $data['pagination'] = $this->pagination->create_links();
+    
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('dokter/data_pasien', $data);
+            $this->load->view('templates/footer');
+        }
+    
+        public function visite()
+        {
+            $data['judul'] = 'Visite';
+            $data['user'] = $this->Dokter_model->getDokterByNo();
+             
+            $data['total_pasien'] = $this->Dokter_model->total_pasien();
+    
+            $this->load->library('pagination');
+            $config['base_url'] = base_url('dokter/data_pasien');
+            $config['total_rows'] = $data['total_pasien'];
+            $config['per_page'] = 10;
+            $config['num_links'] = 5;
+    
+            $this->pagination->initialize($config);
+    
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $data['pasien'] = $this->Dokter_model->visite_pasien($config['per_page'], $page);
+            $data['pagination'] = $this->pagination->create_links();
+
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('dokter/visite');
+            $this->load->view('templates/footer');
         }
         
         public function tindakan()
