@@ -91,7 +91,7 @@
                                             </button>
                                         </td>
                                         <td class="text-center">
-                                            <a href="<?= base_url('user/delete/') . $p['no_medis'] ?>"
+                                            <a href="<?= base_url('admin/deleteUser/') . $p['no_medis'] ?>"
                                                 class="badge badge-danger delete">Delete</a>
                                         </td>
                                     </tr>

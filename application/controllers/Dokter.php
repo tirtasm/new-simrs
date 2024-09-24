@@ -8,6 +8,7 @@
             $this->load->model('Auth_model');
             $this->load->model('Dokter_model');
         }
+      
         public function login()
         {
             $this->form_validation->set_rules('no_dokter', 'No. Dokter', 'required|trim', [
@@ -25,33 +26,36 @@
                 $this->Auth_model->login_dokter();
             }
         }
-        public function dashboard()
+        public function profil()
         {
             // echo 'dashboard';
-            $data['user'] = $this->Auth_model->getUser();
-            var_dump($data['user']);
-            $data['judul'] = 'Dashboard | Dokter';
+            $data['user'] = $this->Dokter_model->getDokterByNo();
+            
+            $data['judul'] = 'Profil';
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('dokter/index');
+            $this->load->view('dokter/profil');
             $this->load->view('templates/footer');
         }
-        public function role()
+        public function edit(){
+         
+                $this->Dokter_model->update();
+                $this->session->set_flashdata('message_profil', ' edited!');
+                redirect('dokter/profil');
+        }
+        
+        public function tindakan()
         {
-            $data['user'] = $this->Dokter_model->getUser();
-            $data['judul'] = 'Dashboard | Dokter';
-            $data['role'] = $this->Dokter_model->getRole();
+            $data['user'] = $this->Dokter_model->getDokterByNo();
+            
+            $data['judul'] = 'Tindakan';
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('dokter/role', $data);
+            $this->load->view('dokter/tindakan');
             $this->load->view('templates/footer');
         }
-        //crud role
-        public function delete($id)
-        {
-            $this->Dokter_model->delete($id);
-        }
+        
     }
 ?>

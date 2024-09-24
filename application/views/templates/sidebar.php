@@ -47,7 +47,7 @@
 
         </div>
         <?php foreach ($subMenu as $sm): ?>
-            <?php if ($judul == $sm['judul']): ?>
+        <?php if ($judul == $sm['judul']): ?>
                 <li class="nav-item active">
                 <?php else: ?>
                 <li class="nav-item">

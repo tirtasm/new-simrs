@@ -17,7 +17,7 @@ class Admin extends CI_Controller
     public function dashboard()
     {
         
-        $data['user'] = $this->Admin_model->getDokterByNo();
+        $data['user'] = $this->Dokter_model->getDokterByNo();
         $data['judul'] = 'Dashboard';
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -28,7 +28,7 @@ class Admin extends CI_Controller
     public function role()
     {
         $data['judul'] = 'Role';
-        $data['user'] = $this->Admin_model->getDokterByNo();
+        $data['user'] = $this->Dokter_model->getDokterByNo();
         $data['role'] = $this->Admin_model->getRole();
     
         $this->load->view('templates/header', $data);
@@ -40,7 +40,7 @@ class Admin extends CI_Controller
     public function roleaccess($role_id)
     {
         $data['judul'] = 'Role Access';
-        $data['user'] = $this->Admin_model->getDokterByNo();
+        $data['user'] = $this->Dokter_model->getDokterByNo();
         $data['role'] = $this->Admin_model->getRoleById($role_id);
         $this->db->where('id_menu !=', 1);
 
@@ -60,7 +60,7 @@ class Admin extends CI_Controller
 
     public function data_dokter(){
         $data['judul'] = 'Data Dokter';
-        $data['user'] = $this->Admin_model->getDokterByNo();
+        $data['user'] = $this->Dokter_model->getDokterByNo();
         // $data['dokter'] = $this->Dokter_model->getAllDokter(); udah diambil sama yang bawah get_dokter
         $data['total_dokter'] = $this->Admin_model->total_dokter();
 
@@ -84,7 +84,7 @@ class Admin extends CI_Controller
     }
     public function data_pasien(){
         $data['judul'] = 'Data Pasien';
-        $data['user'] = $this->Admin_model->getDokterByNo();
+        $data['user'] = $this->Dokter_model->getDokterByNo();
         
         $data['total_pasien'] = $this->Admin_model->total_pasien();
 
@@ -137,7 +137,9 @@ class Admin extends CI_Controller
             redirect('admin/role');
         }
     }
-
+    public function deleteUser($id){
+        $this->User_model->deleteUser($id);
+    }
     public function delete($id)
     {
         $this->Admin_model->deleteRole($id);
@@ -157,9 +159,9 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('role_failed', ' already exists!');
             redirect('admin/role');
         } else {
-            $this->session->set_flashdata('role_flash', ' updated!');
             $this->Admin_model->updateRole();
-            redirect('admin/role');
+            // $this->session->set_flashdata('role_flash', ' updated!');
+            // redirect('admin/role');
         }
 
     }

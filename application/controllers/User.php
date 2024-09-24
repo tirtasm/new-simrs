@@ -89,8 +89,5 @@ class User extends CI_Controller
 
     }
 
-    public function delete($id){
-        $this->User_model->deleteUser($id);
-        
-    }
+   
 }

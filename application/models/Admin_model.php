@@ -34,6 +34,8 @@ class Admin_model extends CI_Model
         ];
         $this->db->where('id_role', htmlspecialchars($this->input->post('id_role')));
         $this->db->update('role', $data);
+
+        var_dump($data);
     }
 
     public function total_dokter()
@@ -44,7 +46,7 @@ class Admin_model extends CI_Model
     {
         return $this->db->count_all('pasien'); //total pasien
     }
-
+//pagination
     public function get_dokter($limit, $start)
     {
         $this->db->order_by('is_active', 'ASC');
@@ -59,13 +61,6 @@ class Admin_model extends CI_Model
         return $this->db->get('pasien')->result_array();
     }
         
-    public function getDokterByNo()
-    {
-        return $this->db->get_where(
-            'dokter',
-            ['no_dokter' => $this->session->userdata['no_dokter']], 
-        )->row_array();
-    }
     public function getPasien(){
         return $this->db->get('pasien')->result_array();
     }

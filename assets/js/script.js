@@ -142,6 +142,15 @@ if (roleAdd) {
 		timer: 2500,
 	});
 }
+const profilFlash = $(".profil-flash").data("profilflash");
+if (profilFlash) {
+	Swal.fire({
+		title: "Profil",
+		text: "Successfully" + profilFlash,
+		icon: "success",
+		timer: 2500,
+	});
+}
 
 // input check
 
@@ -227,66 +236,6 @@ $(document).ready(function(){
 
 
 
-// addMenu = () => {
-// 	var menuInput = document.getElementById("menu");
-// 	var menuError = document.getElementById("menu-error");
-
-// 	if (menuInput.value.trim() === "") {
-// 		menuError.textContent = "Menu name is required.";
-// 	} else {
-// 		menuError.textContent = ""; // Clear the error message
-
-// 	}
-// };
-// toogleMenu = (button) => {
-// 	var add = document.getElementById("addButton");
-// 	var edit = document.getElementById("editButton");
-
-// 	if (button === "add") {
-// 		add.hidden = false;
-// 		edit.hidden = true;
-// 	} else {
-// 		add.hidden = true;
-// 		edit.hidden = false;
-
-// 	}
-// };
-
-//menu modal
-$(function () {
-	$(".btnAdd").on("click", function () {
-		$("#menuModalLabel").html("Add Menu");
-		$(".modal-footer button[type=submit]").html("Add");
-	});
-	$(".menuModalEdit").on("click", function () {
-		$("#menuModalLabel").html("Edit Menu");
-		$(".modal-footer button[type=submit]").html("Edit");
-		$(".modal-body form").attr(
-			"action",
-			"http://localhost/new-simrs/menu/editmenu/"
-		);
-
-		const id = $(this).data("id");
-
-		$.ajax({
-			url: "http://localhost/new-simrs/menu/getEditMenu/",
-			data: { id_menu: id },
-			method: "post",
-			dataType: "json",
-			success: function (data) {
-				// console.log(data);
-
-				if (data) {
-					$("#id_menu").val(data.id_menu);
-					$("#menu").val(data.menu);
-				} else {
-					console.error("Data is null or undefined");
-				}
-			},
-		});
-	});
-});
-
 
 
 // UPDATE STATUS CHECK DOKTER
@@ -352,6 +301,40 @@ $(document).ready(function () {
 
 
 
+//menu modal
+$(function () {
+	$(".btnAdd").on("click", function () {
+		$("#menuModalLabel").html("Add Menu");
+		$(".modal-footer button[type=submit]").html("Add");
+	});
+	$(".menuModalEdit").on("click", function () {
+		$("#menuModalLabel").html("Edit Menu");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/new-simrs/menu/editmenu/"
+		);
+
+		const id = $(this).data("id");
+
+		$.ajax({
+			url: "http://localhost/new-simrs/menu/getEditMenu/",
+			data: { id_menu: id },
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				console.log(data);
+
+				if (data) {
+					$("#id_menu").val(data.id_menu);
+					$("#menu").val(data.menu);
+				} else {
+					console.error("Data is null or undefined");
+				}
+			},
+		});
+	});
+});
 
 //submenu modal
 $(function () {
@@ -417,7 +400,7 @@ $(function () {
 		const id = $(this).data("id");
 
 		$.ajax({
-			url: "http://localhost/new-simrs/admin/geteditrole/",
+			url: "http://localhost/new-simrs/admin/getEditRole/",
 			data: { id_role: id },
 			method: "post",
 			dataType: "json",

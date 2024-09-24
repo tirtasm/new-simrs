@@ -5,6 +5,11 @@
             return $this->db->get('pasien');
             
         }
+        public function getDokter(){
+            return $this->db->get('dokter');
+            
+            
+        }
         public function getNoMedis(){
             $this->db->select('no_medis');
             $this->db->order_by('id_pasien', 'DESC');
@@ -65,7 +70,7 @@
             if($dokter){
                 if($dokter['no_dokter'] == $no_dokter && $dokter['password'] == $password){
                 
-
+                    //admin
                     if($dokter['id_role'] == 1){
                         $data = [
                             'no_dokter' => $dokter['no_dokter'],
@@ -76,6 +81,7 @@
                         $this->session->set_flashdata('login_success', 'ok');
                         redirect('admin/dashboard');
                     }
+                    //dokter
                     else if($dokter['id_role'] == 2){
                         echo 'dokter';
                     }
