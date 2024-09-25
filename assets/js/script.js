@@ -451,3 +451,43 @@ $(function () {
 		});
 	});
 });
+
+const selectRuang = document.getElementById('ruang');
+const kapasitasInfo = document.getElementById('kapasitas-info');
+
+// Event listener untuk update kapasitas saat ruang dipilih
+selectRuang.addEventListener('change', function () {
+    const selectedOption = selectRuang.options[selectRuang.selectedIndex];
+    const kapasitas = selectedOption.getAttribute('data-kapasitas');
+    kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : 'Kapasitas';
+});
+
+$(function () {
+    $(".pasienModal").on("click", function () {
+        $("#pasienModalLabel").html("Edit Ruang");
+        $(".modal-footer button[type=submit]").html("Edit");
+		$("#pasien").attr("disabled", true);
+        $("#tanggal_masuk").attr("readonly", true);
+        $(".modal-body form").attr("action", "http://localhost/new-simrs/menuadmin/edit/ ");
+
+        const id = $(this).data("id");
+
+        $.ajax({
+            url: "http://localhost/new-simrs/menuadmin/getPasienInap/",
+            data: { id_pasien: id },
+            method: "post",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#id_pasien").val(data.id_pasien);
+                $("#pasien").val(data.id_pasien);
+                $("#no_telp").val(data.no_telp);
+                $("#ruang").val(data.id_ruang);
+                $("#tanggal_masuk").val(data.tanggal_masuk);
+                const selectedOption = selectRuang.querySelector(`option[value="${data.id_ruang}"]`);
+                const kapasitas = selectedOption ? selectedOption.getAttribute('data-kapasitas') : null;
+                kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : 'Kapasitas';
+            }
+        });
+    });
+});
