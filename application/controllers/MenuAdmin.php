@@ -24,6 +24,7 @@ class MenuAdmin extends CI_Controller
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         $data['pasien'] = $this->MenuAdmin_model->get_pasien($config['per_page'], $page);
+        var_dump($data['pasien'])
         $data['pasien_not_inap'] = $this->MenuAdmin_model->pasien_not_inap();
         $data['ruang'] = $this->MenuAdmin_model->get_ruang();
         $data['pagination'] = $this->pagination->create_links();
