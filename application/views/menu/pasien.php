@@ -26,6 +26,7 @@
         border-radius: 10px;
     }
 </style>
+
 <div id="content-wrapper" class="p-flex flex-column">
 
     <!-- Main Content -->
@@ -48,7 +49,7 @@
 
             <div class="btn btn-primary mb-3 btnEdit" data-toggle="modal" data-target="#pasienModal">Tambah Pasien Masuk
             </div>
-            <div class="pasienflash" data-pasien-flash="<?= $this->session->flashdata('pasienflash'); ?>"></div>
+            <div class="pasienflash" data-pasien-flash="<?= $this->session->flashdata('pasienflash'); ?>" data-error-flash="<?= $this->session->flashdata('errorflash'); ?>"></div>
 
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
@@ -144,54 +145,69 @@
                         <div class="col-lg-10 align-items-center ">
 
                             <div class="mb-3">
-                                <input type="hidden" id="id_pasien" name="id_pasien" >
+                                <input type="hidden" id="id_pasien" name="id_pasien">
                                 <label for="pasien" class="form-label">Nama Pasien</label>
                                 <div class="d-flex">
-                                    <select name="pasien" id="pasien" class="form-control " 
-                                        required>
-                                        <option value="" >---Pilih Nama Pasien---</option>
-                                        <?php foreach ($pasien as $p ): ?>
+                                    <select name="pasien" id="pasien" class="form-control " required>
+                                        <option >---Pilih Nama Pasien---</option>
+                                        <?php foreach ($pasien_not_inap as $p): ?>
+
                                             <option value="<?= $p['id_pasien'] ?>" data-nomor="<?= $p['no_telp'] ?>">
                                                 <?= $p['nama'] ?>
                                             </option>
+
                                         <?php endforeach; ?>
+
+                                    </select>
+                                    <select name="v_pasien" id="v_pasien" class="form-control ">
+                                        <option >---Pilih Nama Pasien---</option>
+                                        <?php foreach ($pasien as $p): ?>
+
+                                            <option value="<?= $p['id_pasien'] ?>" data-nomor="<?= $p['no_telp'] ?>">
+                                                <?= $p['nama'] ?>
+                                            </option>
+
+                                        <?php endforeach; ?>
+
                                     </select>
                                 </div>
                             </div>
+                            <script>
+                             
+                                 </script>
+                               
+                            <div class="mb-3">
+                                <label for="no_telp" class="form-label">No Telp Pasien</label>
+                                <input type="text" id="no_telp" name="no_telp" class="form-control" readonly>
+                            </div>
 
-                                <div class="mb-3">
-                                    <label for="no_telp" class="form-label">No Telp Pasien</label>
-                                    <input type="text" id="no_telp" name="no_telp" class="form-control" readonly>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Nama Ruang</label>
-                                    <div class="d-flex">
-                                        <select name="ruang" id="ruang"
-                                            class="form-control d-flex justify-content-between" required>
-                                            <option value="">---Pilih Ruang---</option>
-                                            <?php foreach ($ruang as $r): ?>
-                                                <option value="<?= $r['id_ruang'] ?>"
-                                                    data-kapasitas="<?= $r['kapasitas'] ?>">
-                                                    <?= $r['nama_ruang'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <div id="kapasitas-info" class="btn badge-success px-3 ml-2">Kapasitas</div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="tanggal_masuk" class="form-label">Tanggal Masuk</label>
-                                    <input type="date" name="tanggal_masuk" id="tanggal_masuk" class="form-control"
-                                        value="<?= date('Y-m-d'); ?>">
-
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Nama Ruang</label>
+                                <div class="d-flex">
+                                    <select name="ruang" id="ruang" class="form-control d-flex justify-content-between"
+                                        required>
+                                        <option value="">---Pilih Ruang---</option>
+                                        <?php foreach ($ruang as $r): ?>
+                                            <option value="<?= $r['id_ruang'] ?>" data-kapasitas="<?= $r['kapasitas'] ?>">
+                                                <?= $r['nama_ruang'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div id="kapasitas-info" class="btn badge-success px-3 ml-2">Kapasitas</div>
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="tanggal_masuk" class="form-label">Tanggal Masuk</label>
+                                <input type="date" name="tanggal_masuk" id="tanggal_masuk" class="form-control"
+                                    value="<?= date('Y-m-d'); ?>">
+
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -199,20 +215,20 @@
 </div>
 <script>
 
-const selectPasien = document.getElementById('pasien');
-const nomorTelp = document.getElementById('no_telp');
-selectPasien.addEventListener('change', function () {
-	const selectedOption = selectPasien.options[selectPasien.selectedIndex];
-	const nomor = selectedOption.getAttribute('data-nomor');
-    console.log(nomor);
-    
+    const selectPasien = document.getElementById('pasien');
+    const nomorTelp = document.getElementById('no_telp');
+    selectPasien.addEventListener('change', function () {
+        const selectedOption = selectPasien.options[selectPasien.selectedIndex];
+        const nomor = selectedOption.getAttribute('data-nomor');
+        console.log(nomor);
 
-	if (nomor) {
-		nomorTelp.value = nomor;
-	} else {
-		nomorTelp.value = '';
-	}
-});
+
+        if (nomor) {
+            nomorTelp.value = nomor;
+        } else {
+            nomorTelp.value = '';
+        }
+    });
 
 
 </script>

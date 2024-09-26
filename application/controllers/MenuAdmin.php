@@ -24,7 +24,7 @@ class MenuAdmin extends CI_Controller
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         $data['pasien'] = $this->MenuAdmin_model->get_pasien($config['per_page'], $page);
-        $data['pasien_active'] = $this->MenuAdmin_model->get_pasien_active();
+        $data['pasien_not_inap'] = $this->MenuAdmin_model->pasien_not_inap();
         $data['ruang'] = $this->MenuAdmin_model->get_ruang();
         $data['pagination'] = $this->pagination->create_links();
         $this->load->view('templates/header', $data);
@@ -49,6 +49,8 @@ class MenuAdmin extends CI_Controller
     public function edit()
     {
         $this->MenuAdmin_model->editRuangPasien();
+        
+        redirect('menuadmin/pasien');   
     }
     public function keluar($no_medis)
     {

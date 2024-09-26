@@ -217,11 +217,20 @@ $(document).ready(function(){
 	});
 	
 const pasienFlash =$(".pasienflash").data("pasien-flash")
+const errorFlash =$(".pasienflash").data("error-flash")
 if (pasienFlash) {
 	Swal.fire({
 		title: "Pasien",
 		text: pasienFlash,
 		icon: "success",
+		timer: 2500,
+	});
+}
+if (errorFlash) {
+	Swal.fire({
+		title: "Pasien",
+		text: errorFlash,
+		icon: "error",
 		timer: 2500,
 	});
 }
@@ -462,32 +471,46 @@ selectRuang.addEventListener('change', function () {
     kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : 'Kapasitas';
 });
 
+
 $(function () {
-    $(".pasienModal").on("click", function () {
-        $("#pasienModalLabel").html("Edit Ruang");
-        $(".modal-footer button[type=submit]").html("Edit");
-		$("#pasien").attr("disabled", true);
-        $("#tanggal_masuk").attr("readonly", true);
-        $(".modal-body form").attr("action", "http://localhost/new-simrs/menuadmin/edit/ ");
+	$(".btnEdit").on("click", function () {
+		$("#pasien").show();
+		$("#v_pasien").hide();
+	});
 
-        const id = $(this).data("id");
-
-        $.ajax({
-            url: "http://localhost/new-simrs/menuadmin/getPasienInap/",
-            data: { id_pasien: id },
-            method: "post",
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-                $("#id_pasien").val(data.id_pasien);
-                $("#pasien").val(data.id_pasien);
-                $("#no_telp").val(data.no_telp);
-                $("#ruang").val(data.id_ruang);
-                $("#tanggal_masuk").val(data.tanggal_masuk);
-                const selectedOption = selectRuang.querySelector(`option[value="${data.id_ruang}"]`);
-                const kapasitas = selectedOption ? selectedOption.getAttribute('data-kapasitas') : null;
-                kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : 'Kapasitas';
-            }
-        });
-    });
+	$(".pasienModal").on("click", function () {
+		$("#pasien").hide();
+		$("#v_pasien").show();
+	});
 });
+
+$(function () {
+	$(".pasienModal").on("click", function () {
+		$("#pasienModalLabel").html("Edit Ruang");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$("#tanggal_masuk").attr("readonly", true);
+		$("#v_pasien").attr("disabled", true);
+		$(".modal-body form").attr("action", "http://localhost/new-simrs/menuadmin/edit/");
+
+		const id = $(this).data("id");
+
+		$.ajax({
+			url: "http://localhost/new-simrs/menuadmin/getPasienInap/",
+			data: { id_pasien: id },
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				console.log(data);
+				$("#id_pasien").val(data.id_pasien);
+				$("#v_pasien").val(data.id_pasien);
+				$("#no_telp").val(data.no_telp);
+				$("#ruang").val(data.id_ruang);
+				$("#tanggal_masuk").val(data.tanggal_masuk);
+				const selectedOption = selectRuang.querySelector(`option[value="${data.id_ruang}"]`);
+				const kapasitas = selectedOption ? selectedOption.getAttribute('data-kapasitas') : null;
+				kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : 'Kapasitas';
+			}
+		});
+	});
+});         
+		   
