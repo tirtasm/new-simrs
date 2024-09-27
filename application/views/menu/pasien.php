@@ -49,7 +49,8 @@
 
             <div class="btn btn-primary mb-3 btnEdit" data-toggle="modal" data-target="#pasienModal">Tambah Pasien Masuk
             </div>
-            <div class="pasienflash" data-pasien-flash="<?= $this->session->flashdata('pasienflash'); ?>" data-error-flash="<?= $this->session->flashdata('errorflash'); ?>"></div>
+            <div class="pasienflash" data-pasien-flash="<?= $this->session->flashdata('pasienflash'); ?>"
+                data-error-flash="<?= $this->session->flashdata('errorflash'); ?>"></div>
 
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
@@ -148,19 +149,24 @@
                                 <input type="hidden" id="id_pasien" name="id_pasien">
                                 <label for="pasien" class="form-label">Nama Pasien</label>
                                 <div class="d-flex">
-                                    <select name="pasien" id="pasien" class="form-control " required>
-                                        <option >---Pilih Nama Pasien---</option>
-                                        <?php foreach ($pasien_not_inap as $p): ?>
+                                    <select name="pasien" id="pasien" class="form-control ">
+                                        <option>---Pilih Nama Pasien---</option>
+                                        <?php if (!empty($pasien_not_inap)): ?>
+                                            <?php foreach ($pasien_not_inap as $p): ?>
 
-                                            <option value="<?= $p['id_pasien'] ?>" data-nomor="<?= $p['no_telp'] ?>">
-                                                <?= $p['nama'] ?>
-                                            </option>
+                                                <option value="<?= $p['id_pasien'] ?>" data-nomor="<?= $p['no_telp'] ?>">
+                                                    <?= $p['nama'] ?>
+                                                </option>
 
-                                        <?php endforeach; ?>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <option disabled>Data Pasien Kosong</option>
+                                        <?php endif; ?>
 
                                     </select>
-                                    <select name="v_pasien" id="v_pasien" class="form-control ">
-                                        <option >---Pilih Nama Pasien---</option>
+
+                                    <select name="v_pasien" id="v_pasien" class="form-control " required>
+                                        <option>---Pilih Nama Pasien---</option>
                                         <?php foreach ($pasien as $p): ?>
 
                                             <option value="<?= $p['id_pasien'] ?>" data-nomor="<?= $p['no_telp'] ?>">
@@ -173,9 +179,9 @@
                                 </div>
                             </div>
                             <script>
-                             
-                                 </script>
-                               
+
+                            </script>
+
                             <div class="mb-3">
                                 <label for="no_telp" class="form-label">No Telp Pasien</label>
                                 <input type="text" id="no_telp" name="no_telp" class="form-control" readonly>
@@ -184,14 +190,21 @@
                             <div class="mb-3">
                                 <label for="role" class="form-label">Nama Ruang</label>
                                 <div class="d-flex">
+
                                     <select name="ruang" id="ruang" class="form-control d-flex justify-content-between"
                                         required>
-                                        <option value="">---Pilih Ruang---</option>
-                                        <?php foreach ($ruang as $r): ?>
-                                            <option value="<?= $r['id_ruang'] ?>" data-kapasitas="<?= $r['kapasitas'] ?>">
-                                                <?= $r['nama_ruang'] ?>
-                                            </option>
-                                        <?php endforeach; ?>
+                                        <?php if (empty($ruang) || array_sum(array_column($ruang, 'kapasitas')) == 0): ?>
+                                            <option value="">---Tidak Ada Ruang Tersedia---</option>
+                                        <?php else: ?>
+                                            <option value="">---Pilih Ruang---</option>
+                                            <?php foreach ($ruang as $r): ?>
+                                                <?php if ($r['kapasitas'] > 0): ?>
+                                                    <option value="<?= $r['id_ruang'] ?>" data-kapasitas="<?= $r['kapasitas'] ?>">
+                                                        <?= $r['nama_ruang'] ?>
+                                                    </option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </select>
                                     <div id="kapasitas-info" class="btn badge-success px-3 ml-2">Kapasitas</div>
                                 </div>

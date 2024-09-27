@@ -1,4 +1,4 @@
-console.log('adsda');
+console.log("adsda");
 
 const loginFlash = $("#loginflash");
 const loginBerhasil = loginFlash.data("login-success");
@@ -20,15 +20,50 @@ if (loginBerhasil) {
 		icon: "error",
 	});
 }
+const ruangflash =$(".ruangflash").data("ruang-flash")
+const error =$(".ruangflash").data("error-flash")
+if (ruangflash) {
+	Swal.fire({
+		title: "Ruang",
+		text: ruangflash,
+		icon: "success",
+		timer: 2500,
+	});
+}
+if (error) {
+	Swal.fire({
+		title: "Ruang",
+		text: error,
+		icon: "error",
+		timer: 2500,
+	});
+}
 
-
+const pasienFlash =$(".pasienflash").data("pasien-flash")
+const errorFlash =$(".pasienflash").data("error-flash")
+if (pasienFlash) {
+	Swal.fire({
+		title: "Pasien",
+		text: pasienFlash,
+		icon: "success",
+		timer: 2500,
+	});
+}
+if (errorFlash) {
+	Swal.fire({
+		title: "Pasien",
+		text: errorFlash,
+		icon: "error",
+		timer: 2500,
+	});
+}
 $(document).ready(function () {
 	const pasienFlash = document.getElementById("pasienflash");
 	const regisPasien = pasienFlash.getAttribute("data-pasien-success");
 	const noMedis = document
 		.getElementById("no_medis")
 		.getAttribute("data-nomedis");
-
+	
 	if (regisPasien) {
 		Swal.fire({
 			title: regisPasien + " Daftar Akun Pasien",
@@ -60,7 +95,7 @@ function myFunction() {
 		navigator.clipboard
 			.writeText(copyText.value)
 			.then(() => {
-			const copyButton = document.querySelector(".btn-primary");
+				const copyButton = document.querySelector(".btn-primary");
 				copyButton.classList.remove("btn-primary");
 				copyButton.classList.add("btn-secondary");
 			})
@@ -71,7 +106,6 @@ function myFunction() {
 		console.error('No input element found with ID "copyInput"');
 	}
 }
-
 
 const menuFlash = $(".menu-flash").data("menuflash");
 const menuFailed = $(".menu-flash").data("menufailed");
@@ -157,192 +191,169 @@ if (profilFlash) {
 
 // input check
 
-$(document).ready(function(){
-	$('.form-check-input').on('click', function(){
-		const menuId = $(this).data('menu');
-		const roleId = $(this).data('role');
-		const url = $(this).data('url');
+$(document).ready(function () {
+	$(".form-check-input").on("click", function () {
+		const menuId = $(this).data("menu");
+		const roleId = $(this).data("role");
+		const url = $(this).data("url");
 		$.ajax({
-			url: url + 'admin/changeaccess',
-			type: 'post',
+			url: url + "admin/changeaccess",
+			type: "post",
 			data: {
 				menuId: menuId,
-				roleId: roleId
+				roleId: roleId,
 			},
-			success: function(){
-				document.location.href = url + 'admin/roleaccess/' + roleId;
-			}
+			success: function () {
+				document.location.href = url + "admin/roleaccess/" + roleId;
+			},
 		});
 	});
 });
 
-	$(".delete").on("click", function (e) {
-		e.preventDefault();
-		const href = $(this).attr("href");
+$(".delete").on("click", function (e) {
+	e.preventDefault();
+	const href = $(this).attr("href");
 
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You won't be able to revert this!",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, delete it!",
-		}).then((result) => {
-			if (result.value) {
-				document.location.href = href;
-			}
-		});
-	});
-	$(".keluar").on("click", function (e) {
-		e.preventDefault();
-		const href = $(this).attr("href");
-		const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-		const tanggal = new Date().toLocaleDateString('id-ID', options);
-
-		Swal.fire({
-			title: "Yakin?",
-			html: "Anda tidak akan dapat mengembalikan ini! <br>Pasien Keluar Rawat Inap pada <br><strong>" + tanggal + "</strong>",
-			icon: "question",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Ya",
-			cancelButtonText: "Batal",
-		}).then((result) => {	
-			if (result.value) {
-				document.location.href = href;
-			}
-		});
-	});
-	
-const pasienFlash =$(".pasienflash").data("pasien-flash")
-const errorFlash =$(".pasienflash").data("error-flash")
-if (pasienFlash) {
 	Swal.fire({
-		title: "Pasien",
-		text: pasienFlash,
-		icon: "success",
-		timer: 2500,
-	});
-}
-if (errorFlash) {
-	Swal.fire({
-		title: "Pasien",
-		text: errorFlash,
-		icon: "error",
-		timer: 2500,
-	});
-}
-	$(document).ready(function () {
-		const flashdataElement = document.getElementById("flashdata");
-		const loginSuccess = flashdataElement.getAttribute("data-login-success");
-		const loginError = flashdataElement.getAttribute("data-login-error");
-	
-		if (loginSuccess) {
-			const Toast = Swal.mixin({
-				toast: true,
-				position: "top-end",
-				showConfirmButton: false,
-				timer: 2000,
-				timerProgressBar: false,
-				didOpen: (toast) => {
-					toast.onmouseenter = Swal.stopTimer;
-					toast.onmouseleave = Swal.resumeTimer;
-				},
-			});
-			Toast.fire({
-				icon: "success",
-				title: "Signed in successfully",
-			}).then((result) => {
-				if (result) {
-				}
-			});
-		} else if (loginError) {
-			Swal.fire({
-				title: "Error",
-				text: loginError,
-				icon: "error",
-			});
+		title: "Are you sure?",
+		text: "You won't be able to revert this!",
+		icon: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#3085d6",
+		cancelButtonColor: "#d33",
+		confirmButtonText: "Yes, delete it!",
+	}).then((result) => {
+		if (result.value) {
+			document.location.href = href;
 		}
 	});
+});
+$(".keluar").on("click", function (e) {
+	e.preventDefault();
+	const href = $(this).attr("href");
+	const options = {
+		weekday: "long",
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	};
+	const tanggal = new Date().toLocaleDateString("id-ID", options);
+
+	Swal.fire({
+		title: "Yakin?",
+		html:
+			"Anda tidak akan dapat mengembalikan ini! <br>Pasien Keluar Rawat Inap pada <br><strong>" +
+			tanggal +
+			"</strong>",
+		icon: "question",
+		showCancelButton: true,
+		confirmButtonColor: "#3085d6",
+		cancelButtonColor: "#d33",
+		confirmButtonText: "Ya",
+		cancelButtonText: "Batal",
+	}).then((result) => {
+		if (result.value) {
+			document.location.href = href;
+		}
+	});
+});
+
+$(document).ready(function () {
+	const flashdataElement = document.getElementById("flashdata");
+	const loginSuccess = flashdataElement.getAttribute("data-login-success");
+	const loginError = flashdataElement.getAttribute("data-login-error");
+
+	if (loginSuccess) {
+		const Toast = Swal.mixin({
+			toast: true,
+			position: "top-end",
+			showConfirmButton: false,
+			timer: 2000,
+			timerProgressBar: false,
+			didOpen: (toast) => {
+				toast.onmouseenter = Swal.stopTimer;
+				toast.onmouseleave = Swal.resumeTimer;
+			},
+		});
+		Toast.fire({
+			icon: "success",
+			title: "Signed in successfully",
+		}).then((result) => {
+			if (result) {
+			}
+		});
+	} else if (loginError) {
+		Swal.fire({
+			title: "Error",
+			text: loginError,
+			icon: "error",
+		});
+	}
+});
 
 //image
 
-    $('.custom-file-input').on('change', function() {
-      let fileName = $(this).val().split('\\').pop();
-      $(this).next('.custom-file-label').addClass("selected").html(fileName);
-      
-    });
-
-
-
-
-
-
+$(".custom-file-input").on("change", function () {
+	let fileName = $(this).val().split("\\").pop();
+	$(this).next(".custom-file-label").addClass("selected").html(fileName);
+});
 
 // UPDATE STATUS CHECK DOKTER
 $(document).ready(function () {
-    $('.status_dokter').click(function () {
-        var button = $(this);
-        var isActive = button.attr('data-is-active') === 'true';
-        var no_dokter = button.attr('data-id'); 
+	$(".status_dokter").click(function () {
+		var button = $(this);
+		var isActive = button.attr("data-is-active") === "true";
+		var no_dokter = button.attr("data-id");
 
-       
-        if (isActive) {
-            button.html('<i class="fas fa-xl text-danger fa-thin fa-xmark"></i>'); 
-            button.attr('data-is-active', 'false'); 
-        } else {
-            button.html('<i class="fas fa-xl text-success fa-thin fa-check"></i>'); 
-            button.attr('data-is-active', 'true'); 
-        }
+		if (isActive) {
+			button.html('<i class="fas fa-xl text-danger fa-thin fa-xmark"></i>');
+			button.attr("data-is-active", "false");
+		} else {
+			button.html('<i class="fas fa-xl text-success fa-thin fa-check"></i>');
+			button.attr("data-is-active", "true");
+		}
 
-        
-        var newStatus = button.attr('data-is-active') === 'true' ? 1 : 0;
+		var newStatus = button.attr("data-is-active") === "true" ? 1 : 0;
 		console.log(newStatus);
 
-        $.ajax({
-            url: 'http://localhost/new-simrs/admin/status_dokter', 
-            type: 'POST',
-            data: {
-                no_dokter: no_dokter,
-                is_active: newStatus
-            }
-        });
-    });
+		$.ajax({
+			url: "http://localhost/new-simrs/admin/status_dokter",
+			type: "POST",
+			data: {
+				no_dokter: no_dokter,
+				is_active: newStatus,
+			},
+		});
+	});
 });
 // UPDATE STATUS CHECK PASIEN
 $(document).ready(function () {
-    $('.status_pasien').click(function () {
-        var button = $(this);
-        var isActive = button.attr('data-is-active') === 'true';
-        var no_medis = button.attr('data-id'); 
+	$(".status_pasien").click(function () {
+		var button = $(this);
+		var isActive = button.attr("data-is-active") === "true";
+		var no_medis = button.attr("data-id");
 
-       
-        if (isActive) {
-            button.html('<i class="fas fa-xl text-danger fa-thin fa-xmark"></i>'); 
-            button.attr('data-is-active', 'false'); 
-        } else {
-            button.html('<i class="fas fa-xl text-success fa-thin fa-check"></i>'); 
-            button.attr('data-is-active', 'true'); 
-        }
+		if (isActive) {
+			button.html('<i class="fas fa-xl text-danger fa-thin fa-xmark"></i>');
+			button.attr("data-is-active", "false");
+		} else {
+			button.html('<i class="fas fa-xl text-success fa-thin fa-check"></i>');
+			button.attr("data-is-active", "true");
+		}
 
-        
-        var newStatus = button.attr('data-is-active') === 'true' ? 1 : 0;
+		var newStatus = button.attr("data-is-active") === "true" ? 1 : 0;
 		console.log(newStatus);
 
-        $.ajax({
-            url: 'http://localhost/new-simrs/admin/status_pasien', 
-            type: 'POST',
-            data: {
-                no_medis: no_medis,
-                is_active: newStatus
-            }
-        });
-    });
+		$.ajax({
+			url: "http://localhost/new-simrs/admin/status_pasien",
+			type: "POST",
+			data: {
+				no_medis: no_medis,
+				is_active: newStatus,
+			},
+		});
+	});
 });
-
-
 
 //menu modal
 $(function () {
@@ -417,7 +428,6 @@ $(function () {
 					} else {
 						$("#active").removeAttr("checked", "");
 					}
-					
 				} else {
 					console.error("Data is null or undefined");
 				}
@@ -461,16 +471,15 @@ $(function () {
 	});
 });
 
-const selectRuang = document.getElementById('ruang');
-const kapasitasInfo = document.getElementById('kapasitas-info');
+const selectRuang = document.getElementById("ruang");
+const kapasitasInfo = document.getElementById("kapasitas-info");
 
 // Event listener untuk update kapasitas saat ruang dipilih
-selectRuang.addEventListener('change', function () {
-    const selectedOption = selectRuang.options[selectRuang.selectedIndex];
-    const kapasitas = selectedOption.getAttribute('data-kapasitas');
-    kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : 'Kapasitas';
+selectRuang.addEventListener("change", function () {
+	const selectedOption = selectRuang.options[selectRuang.selectedIndex];
+	const kapasitas = selectedOption.getAttribute("data-kapasitas");
+	kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : "Kapasitas";
 });
-
 
 $(function () {
 	$(".btnEdit").on("click", function () {
@@ -490,7 +499,10 @@ $(function () {
 		$(".modal-footer button[type=submit]").html("Edit");
 		$("#tanggal_masuk").attr("readonly", true);
 		$("#v_pasien").attr("disabled", true);
-		$(".modal-body form").attr("action", "http://localhost/new-simrs/menuadmin/edit/");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/new-simrs/menuadmin/edit/"
+		);
 
 		const id = $(this).data("id");
 
@@ -505,12 +517,52 @@ $(function () {
 				$("#v_pasien").val(data.id_pasien);
 				$("#no_telp").val(data.no_telp);
 				$("#ruang").val(data.id_ruang);
+				$("#v_ruang").val(data.id_ruang);
 				$("#tanggal_masuk").val(data.tanggal_masuk);
-				const selectedOption = selectRuang.querySelector(`option[value="${data.id_ruang}"]`);
-				const kapasitas = selectedOption ? selectedOption.getAttribute('data-kapasitas') : null;
-				kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : 'Kapasitas';
-			}
+				const selectedOption = selectRuang.querySelector(
+					`option[value="${data.id_ruang}"]`
+				);
+				const kapasitas = selectedOption
+					? selectedOption.getAttribute("data-kapasitas")
+					: null;
+				kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : 0;
+			},
 		});
 	});
-});         
-		   
+});
+
+//role modal
+$(function () {
+	$(".btnAddRuang").on("click", function () {
+		$("#ruangModalLabel").html("Tambah Ruang");
+		$(".modal-footer button[type=submit]").html("Tambah");
+	});
+	$(".ruangModal").on("click", function () {
+		$("#ruangModalLabel").html("Edit Ruang");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/new-simrs/menuadmin/update/"
+		);
+
+		const id = $(this).data("id");
+
+		$.ajax({
+			url: "http://localhost/new-simrs/menuadmin/getEditRuang/",
+			data: { id_ruang: id },
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				console.log(data);
+
+				if (data) {
+					$("#id_ruang").val(data.id_ruang);
+					$("#ruang").val(data.nama_ruang);
+					$("#kapasitas").val(data.kapasitas);
+				} else {
+					console.error("Data is null or undefined");
+				}
+			},
+		});
+	});
+});

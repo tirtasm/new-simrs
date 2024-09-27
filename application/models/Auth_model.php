@@ -33,7 +33,9 @@ class Auth_model extends CI_Model
             'tanggal_lahir' => htmlspecialchars($this->input->post('tanggal_lahir', true)),
             'gambar' => 'default.jpg',
             'id_role' => 3,
-            'is_active' => 0
+            'is_active' => 0, 
+            'is_inap' => 0,
+            'date_created' => time()
         ];
         $this->db->insert('pasien', $data);
         $this->session->set_flashdata('daftar_pasien', 'Berhasil');

@@ -32,7 +32,8 @@ class MenuAdmin_model extends CI_Model
         $this->db->order_by('rawat_inap.tanggal_keluar', 'ASC');
         $this->db->limit($limit, $start);
         $this->db->where('pasien.is_active', 1);
-        // $this->db->where('rawat_inap.tanggal_keluar IS NULL');
+        $this->db->where('pasien.is_inap', 1);
+        $this->db->where('rawat_inap.tanggal_keluar IS NULL');
         return $this->db->get()->result_array();
 
     }
@@ -44,13 +45,26 @@ class MenuAdmin_model extends CI_Model
         $this->db->from('pasien');
         $this->db->where('is_active', 1);
         $this->db->where('is_inap', 0); //$this->db->where('pasien.id_pasien NOT IN (SELECT id_pasien FROM rawat_inap WHERE tanggal_keluar IS NULL)'); pakai ini bisa  
-        $this->db->limit(5);
+        $this->db->limit(10);
         return $this->db->get()->result_array();
+    }
+    //for data ruang != 0
+    public function get_ruang_all($limit, $start)
+    {
+        $this->db->limit($limit, $start);
+        return $this->db->get('ruang')->result_array();
     }
     public function get_ruang()
     {
         $this->db->limit(5);
+        $this->db->where('kapasitas >', 0);
         return $this->db->get('ruang')->result_array();
+    }
+    
+
+    public function total_ruang()
+    {
+        return $this->db->count_all('ruang');
     }
     public function total_pasien()
     {
@@ -106,10 +120,10 @@ class MenuAdmin_model extends CI_Model
             $ruang_lama = $ruang_sebelumnya['id_ruang'];
 
             if ($ruang_lama === $ruang_baru) {
-                $this->session->set_flashdata('errorflash', 'error');
+                $this->session->set_flashdata('errorflash', 'Pasien sudah berada di ruang yang dipilih.');
                 return;
-            }else{
-                $this->session->set_flashdata('pasienflash', 'success');
+            } else {
+                $this->session->set_flashdata('pasienflash', 'Pasien berhasil dipindahkan ke ruang lain.');
             }
 
             $this->db->select('kapasitas');
@@ -145,11 +159,42 @@ class MenuAdmin_model extends CI_Model
     }
     public function keluar($no_medis)
     {
+        $this->db->set('is_inap', 0);
+        $this->db->where('id_pasien', $no_medis);
+        $this->db->update('pasien');
         $this->db->set('tanggal_keluar', date('Y-m-d'));
         $this->db->where('id_pasien', $no_medis);
         $this->db->update('rawat_inap');
     }
-
-
+    public function addRuang()
+    {
+        $nama_ruang = htmlspecialchars($this->input->post('ruang', true));
+        $kapasitas = htmlspecialchars($this->input->post('kapasitas', true));
+        $data = [
+            'nama_ruang' => $nama_ruang,
+            'kapasitas' => $kapasitas
+        ];
+        $this->db->insert('ruang', $data);
+    }
+    public function hapus($id){
+        $id = $this->uri->segment(3);
+        $this->db->where('id_ruang', $id);
+        $this->db->delete('ruang');
+    }
+    public function getRuangById($id)
+    {
+        return $this->db->get_where('ruang', ['id_ruang' => $id])->row_array();
+    }
+    public function editRuang(){
+        $id = $this->input->post('id_ruang');
+        $nama_ruang = $this->input->post('ruang');
+        $kapasitas = $this->input->post('kapasitas');
+        $data = [
+            'nama_ruang' => $nama_ruang,
+            'kapasitas' => $kapasitas
+        ];
+        $this->db->where('id_ruang', $id);
+        $this->db->update('ruang', $data);
+    }
 }
 ?>
