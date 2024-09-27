@@ -43,48 +43,49 @@
 
     </div>
 
-<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Profil</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="<?= base_url('dokter/edit') ?>" method="post">
-                    <div class="row justify-content-center">
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Profil</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="<?= base_url('dokter/edit') ?>" method="post">
+                        <div class="row justify-content-center">
 
-                        <div class="col-lg-10 align-items-center ">
-                            <div class="mb-3">
-                                <label for="no_dokter" class="form-label">No. Dokter</label>
-                                <input type="text" class="form-control" value="<?= $user['no_dokter'] ?>" id="no_dokter"
-                                    name="no_dokter" readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="nama" class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control" value="<?= $user['nama'] ?>" id="nama"
-                                    name="nama">
-                            </div>
-                            <div class="mb-3">
-                                <label for="no_telp" class="form-label">No. Telp</label>
-                                <input type="text" class="form-control" value="0<?= $user['no_telp'] ?>" id="no_telp"
-                                    name="no_telp">
-                            </div>
-                            <div class="mb-3">
-                                <label for="spesialisasi" class="form-label">Spesialisasi</label>
-                                <input type="text" class="form-control" value="<?= $user['spesialisasi'] ?>"
-                                    id="spesialisasi" name="spesialisasi">
+                            <div class="col-lg-10 align-items-center ">
+                                <div class="mb-3">
+                                    <label for="no_dokter" class="form-label">No. Dokter</label>
+                                    <input type="text" class="form-control" value="<?= $user['no_dokter'] ?>"
+                                        id="no_dokter" name="no_dokter" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" value="<?= $user['nama_dokter'] ?>"
+                                        id="nama" name="nama">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="no_telp" class="form-label">No. Telp</label>
+                                    <input type="text" class="form-control" value="0<?= $user['no_telp'] ?>"
+                                        id="no_telp" name="no_telp">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="spesialisasi" class="form-label">Spesialisasi</label>
+                                    <input type="text" class="form-control" value="<?= $user['spesialisasi'] ?>"
+                                        id="spesialisasi" name="spesialisasi">
+                                </div>
                             </div>
                         </div>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="badge py-2 px-4 btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="badge mr-2 px-4 py-2  btn-primary">Edit</button>
+                </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="badge py-2 px-4 btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="badge mr-2 px-4 py-2  btn-primary">Edit</button>
-            </div>
-            </form>
         </div>
     </div>
 </div>

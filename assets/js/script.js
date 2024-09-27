@@ -21,7 +21,7 @@ if (loginBerhasil) {
 	});
 }
 const ruangflash =$(".ruangflash").data("ruang-flash")
-const error =$(".ruangflash").data("error-flash")
+const errorRuang =$(".ruangflash").data("error-flash")
 if (ruangflash) {
 	Swal.fire({
 		title: "Ruang",
@@ -30,16 +30,16 @@ if (ruangflash) {
 		timer: 2500,
 	});
 }
-if (error) {
+if (errorRuang) {
 	Swal.fire({
 		title: "Ruang",
-		text: error,
+		text: errorRuang,
 		icon: "error",
 		timer: 2500,
 	});
 }
 const tindakanflash =$(".tindakanflash").data("tindakan-flash")
-const eror =$(".tindakanflash").data("error-flash")
+const errorTindakan =$(".tindakanflash").data("error-flash")
 if (tindakanflash) {
 	Swal.fire({
 		title: "Tindakan",
@@ -48,14 +48,33 @@ if (tindakanflash) {
 		timer: 2500,
 	});
 }
-if (error) {
+if (errorTindakan) {
 	Swal.fire({
 		title: "Tindakan",
-		text: error,
+		text: errorTindakan,
 		icon: "error",
 		timer: 2500,
 	});
 }
+const visiteAdded =$(".visiteflash").data("visite-added")
+const visiteFailed =$(".visiteflash").data("visite-failed")
+if (visiteAdded) {
+	Swal.fire({
+		title: "Visite",
+		text: visiteAdded,
+		icon: "success",
+		timer: 2500,
+	});
+}
+if (visiteFailed) {
+	Swal.fire({
+		title: "Visite",
+		text: visiteFailed,
+		icon: "error",
+		timer: 2500,
+	});
+}
+
 
 const pasienFlash =$(".pasienflash").data("pasien-flash")
 const errorFlash =$(".pasienflash").data("error-flash")
@@ -499,6 +518,7 @@ selectRuang.addEventListener("change", function () {
 	kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : "Kapasitas";
 });
 
+
 $(function () {
 	$(".btnEdit").on("click", function () {
 		$("#pasien").show();
@@ -632,3 +652,46 @@ $(function () {
 	});
 });
 
+
+
+
+//dokter modal
+$(function () {
+	$(".btnVisite").on("click", function () {
+		$("#visiteModalLabel").html("Visite Dokter");
+		$(".modal-footer button[type=submit]").html("Tambah");
+	});
+	$(".visiteModal").on("click", function () {
+		$("#visiteModalLabel").html("Visite Dokter");
+		$(".modal-footer button[type=submit]").html("Edit");
+		
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/new-simrs/dokter/editvisite/"
+		);
+		
+
+		const id = $(this).data("id");
+
+		$.ajax({
+			url: "http://localhost/new-simrs/dokter/getEditVisite/",
+			data: { id_visite: id },
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				console.log(data);
+
+				if (data) {
+					$("#id_visite").val(data.id_visite);
+					$("#nama_pasien").val(data.id_pasien);
+					$("#no_telp").val(data.no_telp);
+					$("#ruang").val(data.nama_ruang);
+					$("#tanggal_visite").val(data.tanggal_visite);
+					$("#catatan").val(data.catatan);
+				} else {
+					console.error("Data is null or undefined");
+				}
+			},
+		});
+	});
+});

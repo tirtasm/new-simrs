@@ -47,8 +47,7 @@
             </form>
 
 
-            <div class="btn btn-primary mb-3 btnEdit" data-toggle="modal" data-target="#pasienModal">Tambah Pasien Masuk
-            </div>
+            <div class="btn btn-primary mb-3 btnEdit" data-toggle="modal" data-target="#pasienModal">Tambah Pasien Masuk</div>
             <div class="pasienflash" data-pasien-flash="<?= $this->session->flashdata('pasienflash'); ?>"
                 data-error-flash="<?= $this->session->flashdata('errorflash'); ?>"></div>
 
@@ -182,10 +181,10 @@
 
                             </script>
 
-                            <div class="mb-3">
-                                <label for="no_telp" class="form-label">No Telp Pasien</label>
-                                <input type="text" id="no_telp" name="no_telp" class="form-control" readonly>
-                            </div>
+                        <div class="mb-3">
+                            <label for="no_telp" class="form-label">No Telp Pasien</label>
+                            <input type="text" id="no_telp" name="no_telp" class="form-control" readonly>
+                        </div>
 
                             <div class="mb-3">
                                 <label for="role" class="form-label">Nama Ruang</label>

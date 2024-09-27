@@ -8,6 +8,7 @@
             $this->load->model('Auth_model');
             $this->load->model('Dokter_model');
             $this->load->model('Admin_model');
+            $this->load->model('MenuAdmin_model');
         }
       
         public function login()
@@ -75,9 +76,7 @@
         {
             $data['judul'] = 'Visite';
             $data['user'] = $this->Dokter_model->getDokterByNo();
-             
             $data['total_pasien'] = $this->Dokter_model->total_pasien();
-    
             $this->load->library('pagination');
             $config['base_url'] = base_url('dokter/data_pasien');
             $config['total_rows'] = $data['total_pasien'];
@@ -87,7 +86,9 @@
             $this->pagination->initialize($config);
     
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $data['pasien'] = $this->Dokter_model->visite_pasien($config['per_page'], $page);
+            $data['pasien'] = $this->MenuAdmin_model->get_pasien($config['per_page'], $page);
+            $data['ruang'] = $this->MenuAdmin_model->get_ruang();
+            $data['v_pasien'] = $this->Dokter_model->visite_pasien($config['per_page'], $page);
             $data['pagination'] = $this->pagination->create_links();
 
             $this->load->view('templates/header', $data);
@@ -96,7 +97,47 @@
             $this->load->view('dokter/visite');
             $this->load->view('templates/footer');
         }
+
+        public function addvisite(){
+            $this->form_validation->set_rules('catatan', 'Catatan', 'required|trim', [
+                'required' => 'Catatan harus diisi!'
+            ]);
+            if ($this->form_validation->run() == false) {
+                $this->session->set_flashdata('visite_failed', ' Catatan harus diisi!');
+                redirect('dokter/visite');
+            } else {
+                $this->Dokter_model->addVisite();
+                $this->session->set_flashdata('visite_added', 'berhasil ditambahkan!');
+                redirect('dokter/visite');
+            }
+        }
+        public function getEditVisite()
+        {
+            echo json_encode($this->Dokter_model->getVisiteById($this->input->post('id_visite')));
+        }
+        public function editVisite()
+        {
+            $this->form_validation->set_rules('catatan', 'Catatan', 'required|trim', [
+                'required' => 'Catatan harus diisi!'
+            ]);
+            if ($this->form_validation->run() == false) {
+                $this->session->set_flashdata('visite_failed', ' Catatan harus diisi!');
+                redirect('dokter/visite');
+            } else {
+                $this->Dokter_model->editVisite();
+                $this->session->set_flashdata('visite_edited', 'berhasil diedit!');
+                redirect('dokter/visite');
+            }
+        }
         
+        public function deleteVisite($id)
+        {
+            $id = $this->uri->segment(3);
+            $this->Dokter_model->deleteVisite($id);
+            $this->session->set_flashdata('visite_added', ' berhasil dihapus');
+            redirect('dokter/visite');
+        }
+
         public function tindakan()
         {
             $data['user'] = $this->Dokter_model->getDokterByNo();

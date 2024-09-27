@@ -64,6 +64,7 @@
                                     <th>No. Telp</th>
                                     <th>Tanggal Lahir</th>
                                     <th>Ruang</th>
+                                    <th>Tanggal Masuk</th>
                                     <th>Dirawat</th>
                                     
                                 </tr>
@@ -80,6 +81,7 @@
                                         <td><?= $p['no_telp'] ?></td>
                                         <td><?= $p['tanggal_lahir'] ?></td>
                                         <td><?= $p['nama_ruang'] ?></td>
+                                        <td><?= $p['tanggal_masuk'] ?></td>
                                         <?php ?>
                                         <td>
                                             <?php
