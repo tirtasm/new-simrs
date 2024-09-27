@@ -76,7 +76,7 @@
                                         <tr>
                                             <td class="text-center"><?= $no ?></td>
                                             <td><?= $r['nama_ruang'] ?></td>
-                                            <td class="text-center"><?= $r['kapasitas'] ?></td>
+                                            <td class="text-center"><?= $r['kapasitas'] == 0 ? '<span class="text-danger">Tidak Tersedia</span>' : $r['kapasitas'] ?></td>
                                             <td class="text-center">
                                                 <a href="<?= base_url('menuadmin/edit/') . $r['id_ruang'] ?>"
                                                     class="badge badge-warning ruangModal" data-toggle="modal"

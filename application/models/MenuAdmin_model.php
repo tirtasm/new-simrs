@@ -38,6 +38,20 @@ class MenuAdmin_model extends CI_Model
 
     }
 
+    public function get_pasien_keluar($limit, $start)
+    {
+        $this->db->select('pasien.*, rawat_inap.*, ruang.*');
+        $this->db->from('pasien');
+        $this->db->join('rawat_inap', 'pasien.id_pasien = rawat_inap.id_pasien');
+        $this->db->join('ruang', 'ruang.id_ruang = rawat_inap.id_ruang');
+        $this->db->order_by('rawat_inap.tanggal_keluar', 'ASC');
+        $this->db->limit($limit, $start);
+        $this->db->where('pasien.is_active', 1);
+        $this->db->where('rawat_inap.tanggal_keluar IS NOT NULL');
+        return $this->db->get()->result_array();
+
+    }
+
     //for data pasien active and not in rawat inap or for modal add pasien 
     public function pasien_not_inap()
     {
@@ -75,6 +89,13 @@ class MenuAdmin_model extends CI_Model
     {
         $this->db->from('rawat_inap');
         $this->db->join('pasien', 'pasien.id_pasien = rawat_inap.id_pasien');
+        return $this->db->count_all_results();
+    }
+    public function total_pasien_keluar()
+    {
+        $this->db->from('rawat_inap');
+        $this->db->join('pasien', 'pasien.id_pasien = rawat_inap.id_pasien');
+        $this->db->where('rawat_inap.tanggal_keluar IS NOT NULL');
         return $this->db->count_all_results();
     }
     public function total_tindakan()

@@ -11,6 +11,7 @@ class MenuAdmin extends CI_Controller
         $this->load->model('MenuAdmin_model');
         check_login();
     }
+    //pasien
     public function pasien()
     {
 
@@ -72,7 +73,7 @@ class MenuAdmin extends CI_Controller
     public function getEditTindakan(){
         echo json_encode($this->MenuAdmin_model->getTindakanById($this->input->post('id_tindakan')));
     }
-    
+    //ruang
     public function ruang(){
         $data['judul'] = 'Ruang';
         $data['user'] = $this->MenuAdmin_model->getDokterByNo();
@@ -123,6 +124,7 @@ class MenuAdmin extends CI_Controller
         }
     }
 
+    //tindakan
     public function tindakan(){
         $data['judul'] = 'Tindakan';
         $data['user'] = $this->MenuAdmin_model->getDokterByNo();
@@ -170,6 +172,24 @@ class MenuAdmin extends CI_Controller
         $this->MenuAdmin_model->hapusTindakan($id);
         $this->session->set_flashdata('tindakanflash', 'Tindakan berhasil dihapus');
         redirect('menuadmin/tindakan');
+    }
+    public function riwayat_pasien() {
+        $data['judul'] = 'Riwayat';
+        $data['user'] = $this->MenuAdmin_model->getDokterByNo();
+        $data['total_pasien_keluar'] = $this->MenuAdmin_model->total_pasien_keluar();
+        $config['base_url'] = base_url('menuadmin/riwayat_pasien');
+        $config['total_rows'] = $data['total_pasien_keluar'];
+        $config['per_page'] = 10;
+        $config['num_links'] = 5;
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['pasien_keluar'] = $this->MenuAdmin_model->get_pasien_keluar($config['per_page'], $page);
+        $data['pagination'] = $this->pagination->create_links();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('menu/riwayat', $data);
+        $this->load->view('templates/footer');
     }
 
 
