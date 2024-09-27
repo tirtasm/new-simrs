@@ -88,9 +88,7 @@ class Menu extends CI_Controller
     }
     public function addsubmenu()
     {
-        $this->form_validation->set_rules('title', 'Title', 'required|trim|is_unique[sub_menu.judul]', [
-            'is_unique' => 'This title has already registered!'
-        ]);
+        $this->form_validation->set_rules('title', 'Title', 'required|trim');
         $this->form_validation->set_rules('menu_name', 'Menu Name', 'required|trim');
         $this->form_validation->set_rules('url', 'URL', 'required|trim|is_unique[sub_menu.url]', [
             'is_unique' => 'This URL has already registered!'

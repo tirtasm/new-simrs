@@ -54,6 +54,11 @@ class MenuAdmin_model extends CI_Model
         $this->db->limit($limit, $start);
         return $this->db->get('ruang')->result_array();
     }
+    public function get_tindakan_all($limit, $start)
+    {
+        $this->db->limit($limit, $start);
+        return $this->db->get('jenis_tindakan')->result_array();
+    }
     public function get_ruang()
     {
         $this->db->limit(5);
@@ -71,6 +76,10 @@ class MenuAdmin_model extends CI_Model
         $this->db->from('rawat_inap');
         $this->db->join('pasien', 'pasien.id_pasien = rawat_inap.id_pasien');
         return $this->db->count_all_results();
+    }
+    public function total_tindakan()
+    {
+        return $this->db->count_all('jenis_tindakan');
     }
 
     public function addPasien()
@@ -185,6 +194,10 @@ class MenuAdmin_model extends CI_Model
     {
         return $this->db->get_where('ruang', ['id_ruang' => $id])->row_array();
     }
+    public function getTindakanById($id)
+    {
+        return $this->db->get_where('jenis_tindakan', ['id_tindakan' => $id])->row_array();
+    }
     public function editRuang(){
         $id = $this->input->post('id_ruang');
         $nama_ruang = $this->input->post('ruang');
@@ -195,6 +208,32 @@ class MenuAdmin_model extends CI_Model
         ];
         $this->db->where('id_ruang', $id);
         $this->db->update('ruang', $data);
+    }
+
+    public function addTindakan(){
+        $nama_tindakan = htmlspecialchars($this->input->post('tindakan', true));
+        $biaya = htmlspecialchars($this->input->post('biaya', true));
+        $data = [
+            'nama_tindakan' => $nama_tindakan,
+            'biaya' => $biaya
+        ];
+        $this->db->insert('jenis_tindakan', $data);
+    }
+    public function hapusTindakan($id){
+        $id = $this->uri->segment(3);
+        $this->db->where('id_tindakan', $id);
+        $this->db->delete('jenis_tindakan');
+    }
+    public function editTindakan(){
+        $id = $this->input->post('id_tindakan');
+        $nama_tindakan = htmlspecialchars($this->input->post('tindakan'));
+        $biaya = $this->input->post('biaya');
+        $data = [
+            'nama_tindakan' => $nama_tindakan,
+            'biaya' => $biaya
+        ];
+        $this->db->where('id_tindakan', $id);
+        $this->db->update('jenis_tindakan', $data);
     }
 }
 ?>

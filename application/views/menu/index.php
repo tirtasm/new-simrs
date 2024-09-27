@@ -11,8 +11,7 @@
 
 
 
-    <div class="btn btn-primary mb-3 btnAdd" data-toggle="modal" data-target="#formModal"
-        >Add New Menu</div>
+    <div class="btn btn-primary mb-3 btnAdd" data-toggle="modal" data-target="#formModal">Add New Menu</div>
     <div class="row">
         <div class="col-lg-6">
             <table class="table table-hover mx-3">

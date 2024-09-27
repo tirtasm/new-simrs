@@ -38,6 +38,24 @@ if (error) {
 		timer: 2500,
 	});
 }
+const tindakanflash =$(".tindakanflash").data("tindakan-flash")
+const eror =$(".tindakanflash").data("error-flash")
+if (tindakanflash) {
+	Swal.fire({
+		title: "Tindakan",
+		text: tindakanflash,
+		icon: "success",
+		timer: 2500,
+	});
+}
+if (error) {
+	Swal.fire({
+		title: "Tindakan",
+		text: error,
+		icon: "error",
+		timer: 2500,
+	});
+}
 
 const pasienFlash =$(".pasienflash").data("pasien-flash")
 const errorFlash =$(".pasienflash").data("error-flash")
@@ -506,6 +524,8 @@ $(function () {
 
 		const id = $(this).data("id");
 
+		
+
 		$.ajax({
 			url: "http://localhost/new-simrs/menuadmin/getPasienInap/",
 			data: { id_pasien: id },
@@ -531,12 +551,14 @@ $(function () {
 	});
 });
 
-//role modal
+//ruang modal
 $(function () {
 	$(".btnAddRuang").on("click", function () {
 		$("#ruangModalLabel").html("Tambah Ruang");
 		$(".modal-footer button[type=submit]").html("Tambah");
 	});
+
+	// edit ruang
 	$(".ruangModal").on("click", function () {
 		$("#ruangModalLabel").html("Edit Ruang");
 		$(".modal-footer button[type=submit]").html("Edit");
@@ -565,4 +587,48 @@ $(function () {
 			},
 		});
 	});
+
+
+	// end edit 
 });
+
+
+//tindakan modal
+$(function () {
+	$(".btnTindakan").on("click", function () {
+		console.log("asdkasbdkakj");
+		
+		$("#tindakanModalLabel").html("Tambah Tindakan");
+		$(".modal-footer button[type=submit]").html("Tambah");
+	});
+
+
+	$(".tindakanModal").on("click", function () {
+		$("#tindakanModalLabel").html("Edit Tindakan");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/new-simrs/menuadmin/updateTindakan/"
+		);
+		const id = $(this).data("id");
+		$.ajax({
+			url: "http://localhost/new-simrs/menuadmin/geteditTindakan/",
+			data: { id_tindakan: id },
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				console.log(data);
+
+				if (data) {
+					
+					$("#id_tindakan").val(data.id_tindakan);
+					$("#tindakan").val(data.nama_tindakan);
+					$("#biaya").val(data.biaya);
+				} else {
+					console.error("Data is null or undefined");
+				}
+			},
+		});
+	});
+});
+
