@@ -108,7 +108,36 @@ class Dokter_model extends CI_Model
         $this->db->delete('visite', ['id_visite' => $id]);
     }
 
-
+    public function v_tindakan($limit, $start)
+    {
+        $this->db->select('t.*, dokter.nama_dokter, pasien.nama, ri.id_ruang, r.nama_ruang, jt.nama_tindakan');
+        $this->db->from('tindakan_pasien t');
+        $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
+        $this->db->join('rawat_inap ri', 'ri.id_rawat = t.id_rawat');
+        $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
+        $this->db->join('dokter', 'dokter.no_dokter = t.no_dokter');
+        $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
+        $this->db->order_by('t.tanggal_tindakan', 'DESC');
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result_array();
+    }
+    
+    public function addTindakan()
+    {
+        $data = [
+            'id_pasien' => htmlspecialchars($this->input->post('nama_pasien')),
+            'no_dokter' => htmlspecialchars($this->input->post('no_dokter')),
+            'id_rawat' => htmlspecialchars($this->input->post('id_rawat')),
+            'id_tindakan' => htmlspecialchars($this->input->post('id_tindakan')),
+            'tanggal_tindakan' => htmlspecialchars($this->input->post('tanggal_tindakan')),
+            'catatan' => htmlspecialchars($this->input->post('catatan'))
+        ];
+        $this->db->insert('tindakan_pasien', $data);
+    }
+    public function deleteTindakan($id)
+    {
+        $this->db->delete('tindakan_pasien', ['id_tindakan_pasien' => $id]);
+    }
 
 }
 ?>

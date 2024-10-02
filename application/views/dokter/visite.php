@@ -184,7 +184,7 @@
 
                             <div class="mb-3">
                                 <label for="ruang" class="form-label">Nama Ruang</label>
-                                <input type="text" id="id_ruang" name="id_ruang" class="form-control" readonly>
+                                <input type="hidden" id="id_ruang" name="id_ruang" class="form-control" readonly>
                                 <input type="text" id="ruang" name="ruang" class="form-control" readonly>
                             </div>
                             <div class="mb-3">
