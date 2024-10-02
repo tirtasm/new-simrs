@@ -94,7 +94,7 @@
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
-            $this->load->view('dokter/visite');
+            $this->load->view('dokter/visite', $data);
             $this->load->view('templates/footer');
         }
 
@@ -107,7 +107,7 @@
                 redirect('dokter/visite');
             } else {
                 $this->Dokter_model->addVisite();
-                $this->session->set_flashdata('visite_added', 'berhasil ditambahkan!');
+                $this->session->set_flashdata('visite_success', 'berhasil ditambahkan!');
                 redirect('dokter/visite');
             }
         }
@@ -125,7 +125,7 @@
                 redirect('dokter/visite');
             } else {
                 $this->Dokter_model->editVisite();
-                $this->session->set_flashdata('visite_edited', 'berhasil diedit!');
+                $this->session->set_flashdata('visite_success', 'berhasil diedit!');
                 redirect('dokter/visite');
             }
         }
@@ -134,7 +134,7 @@
         {
             $id = $this->uri->segment(3);
             $this->Dokter_model->deleteVisite($id);
-            $this->session->set_flashdata('visite_added', ' berhasil dihapus');
+            $this->session->set_flashdata('visite_success', ' berhasil dihapus');
             redirect('dokter/visite');
         }
 

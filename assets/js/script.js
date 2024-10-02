@@ -58,6 +58,7 @@ if (errorTindakan) {
 }
 const visiteAdded =$(".visiteflash").data("visite-added")
 const visiteFailed =$(".visiteflash").data("visite-failed")
+
 if (visiteAdded) {
 	Swal.fire({
 		title: "Visite",
@@ -683,6 +684,7 @@ $(function () {
 
 				if (data) {
 					$("#id_visite").val(data.id_visite);
+					$("#id_ruang").val(data.id_ruang);
 					$("#nama_pasien").val(data.id_pasien);
 					$("#no_telp").val(data.no_telp);
 					$("#ruang").val(data.nama_ruang);

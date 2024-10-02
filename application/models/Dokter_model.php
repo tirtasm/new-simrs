@@ -92,12 +92,13 @@ class Dokter_model extends CI_Model
     public function editVisite()
     {
         $data = [
-            'id_pasien' => htmlspecialchars($this->input->post('id_pasien')),
+            'id_pasien' => htmlspecialchars($this->input->post('nama_pasien')),
             'no_dokter' => htmlspecialchars($this->input->post('no_dokter')),
             'id_ruang' => htmlspecialchars($this->input->post('id_ruang')),
             'tanggal_visite' => htmlspecialchars($this->input->post('tanggal_visite')),
             'catatan' => htmlspecialchars($this->input->post('catatan'))
         ];
+        var_dump($data);
         $this->db->where('id_visite', $this->input->post('id_visite'));
         $this->db->update('visite', $data);
     }

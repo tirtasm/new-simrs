@@ -52,7 +52,7 @@
             </form>
             <div class="btn btn-primary mb-3 btnVisite" data-toggle="modal" data-target="#visiteModal">Visite</div>
 
-            <div class="visiteflash" data-visite-added="<?= $this->session->flashdata('visite_added'); ?>"
+            <div class="visiteflash" data-visite-added="<?= $this->session->flashdata('visite_success'); ?>"
                 data-visite-failed="<?= $this->session->flashdata('visite_failed'); ?>"></div>
 
             <!-- DataTales Example -->
@@ -109,7 +109,7 @@
                             <?php else: ?>
                                 <tbody>
                                     <tr>
-                                        <td colspan="7" class="text-center"> Tidak Ada Catatan</td>
+                                        <td colspan="8" class="text-center"> Tidak Ada Catatan</td>
                                     </tr>
                                 </tbody>
                             <?php endif; ?>
@@ -170,6 +170,7 @@
                                             <option disabled>Data Pasien Kosong</option>
                                         <?php endif; ?>
                                     </select>
+
                                 </div>
                             </div>
                             <script>
@@ -183,7 +184,7 @@
 
                             <div class="mb-3">
                                 <label for="ruang" class="form-label">Nama Ruang</label>
-                                <input type="hidden" id="id_ruang" name="id_ruang" class="form-control" readonly>
+                                <input type="text" id="id_ruang" name="id_ruang" class="form-control" readonly>
                                 <input type="text" id="ruang" name="ruang" class="form-control" readonly>
                             </div>
                             <div class="mb-3">
@@ -219,9 +220,8 @@
         const selectedOption = selectPasien.options[selectPasien.selectedIndex];
         const nomor = selectedOption.getAttribute('data-nomor');
         const ruangValue = selectedOption.getAttribute('data-ruang');
-        const ruangValueId = selectedOption.getAttribute('data-id_ruang');
-        console.log(ruangValueId);
-
+        const ruangValueId = selectedOption.getAttribute('data-id_ruang');       
+        
 
         if (ruang && nomor) {
             nomorTelp.value = nomor;
@@ -232,6 +232,7 @@
             ruang.value = '';
         }
     });
+    
 
 
 </script>
