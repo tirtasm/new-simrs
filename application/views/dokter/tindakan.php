@@ -46,8 +46,8 @@
             </form>
 
 
-            <!-- <div class="dokter-flash" data-dokterflash="<?= $this->session->flashdata('menu_flash'); ?>" data-submenu_added="<?= $this->session->flashdata('submenu_added'); ?>" data-submenu_failed="<?= $this->session->flashdata('submenu_failed'); ?>"></div> -->
-            <div class="btn btn-primary mb-3 btnVisite" data-toggle="modal" data-target="#tindakanModal">Tindakan Pasien
+            <div class="tindakanflash" data-tindakan-success="<?= $this->session->flashdata('tindakan_success'); ?>" data-tindakan-failed="<?= $this->session->flashdata('tindakan_failed'); ?>"></div>
+            <div class="btn btn-primary mb-3 btnTindakanDokter" data-toggle="modal" data-target="#tindakanDokterModal">Tindakan Pasien
             </div>
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
@@ -85,8 +85,10 @@
                                                 <?= $td['catatan'] ?>
                                             </td>
                                             <td class="text-center">
-                                                <a href="<?= base_url('dokter/editTindakan/') . $td['id_tindakan_pasien'] ?>"
-                                                    class="badge badge-warning">Edit</a>
+                                            <a href="<?= base_url('dokter/editTindakan/') . $td['id_tindakan_pasien'] ?>"
+                                                 data-toggle="modal" data-target="#tindakanDokterModal"        
+                                            class="badge badge-warning tindakanDokterModal" 
+                                                     data-id="<?= $td['id_tindakan_pasien'] ?>">Edit</a>
                                                 <a href="<?= base_url('dokter/deleteTindakan/') . $td['id_tindakan_pasien'] ?>"
                                                     class="badge badge-danger delete">Delete</a>
                                             </td>
@@ -118,11 +120,11 @@
 
 </div>
 <!-- Modal -->
-<div class="modal fade" id="tindakanModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
+<div class="modal fade" id="tindakanDokterModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="tindakanModalLabel">Tindakan Dokter</h5>
+                <h5 class="modal-title" id="tindakanDokterModalLabel">Tindakan Dokter</h5>
 
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -137,6 +139,7 @@
                             <div class="mb-3">
                                 <label for="nama_dokter" class="form-label">Nama Dokter</label>
                                 <input type="hidden" id="id_visite" name="id_visite">
+                                <input type="hidden" id="id_tindakan_pasien" name="id_tindakan_pasien">
                                 <input type="hidden" id="no_dokter" name="no_dokter" value="<?= $user['no_dokter'] ?>">
                                 <input type="text" id="nama_dokter" name="nama_dokter" class="form-control"
                                     value="<?= $user['nama_dokter'] ?>" readonly>
@@ -224,5 +227,7 @@
         ruang.value = ruangValue;
         ruangId.value = ruangValueId;
     });
+
+  
     
 </script>

@@ -67,6 +67,8 @@ class Dokter_model extends CI_Model
     }
     public function getVisiteById($id)
     {
+      
+
         $this->db->select('visite.*, pasien.*, ruang.*, dokter.nama_dokter');
         $this->db->from('visite');
         $this->db->join('pasien', 'pasien.id_pasien = visite.id_pasien');
@@ -76,6 +78,19 @@ class Dokter_model extends CI_Model
         $this->db->order_by('visite.tanggal_visite', 'DESC');
 
         return $this->db->get()->row_array();
+    }
+    public function getTindakanPasienById($id)
+    {
+        $this->db->select('t.*, dokter.*, pasien.*, ri.*, r.*, jt.*');
+        $this->db->from('tindakan_pasien t');
+        $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
+        $this->db->join('rawat_inap ri', 'ri.id_rawat = t.id_rawat');
+        $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
+        $this->db->join('dokter', 'dokter.no_dokter = t.no_dokter');
+        $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
+        $this->db->order_by('t.tanggal_tindakan', 'DESC');
+        $this->db->where('t.id_tindakan_pasien', $id);
+        return $this->db->get()->result_array();
     }
     public function addVisite()
     {
@@ -137,6 +152,19 @@ class Dokter_model extends CI_Model
     public function deleteTindakan($id)
     {
         $this->db->delete('tindakan_pasien', ['id_tindakan_pasien' => $id]);
+    }
+    public function editTindakanDokter(){
+        $data = [
+            'id_pasien' => htmlspecialchars($this->input->post('nama_pasien')),
+            'no_dokter' => htmlspecialchars($this->input->post('no_dokter')),
+            'id_rawat' => htmlspecialchars($this->input->post('id_rawat')),
+            'id_tindakan' => htmlspecialchars($this->input->post('id_tindakan')),
+            'tanggal_tindakan' => htmlspecialchars($this->input->post('tanggal_tindakan')),
+            'catatan' => htmlspecialchars($this->input->post('catatan'))
+        ];
+        $this->db->where('id_tindakan_pasien', $this->input->post('id_tindakan_pasien'));
+        $this->db->update('tindakan_pasien', $data);
+        // var_dump($data);
     }
 
 }

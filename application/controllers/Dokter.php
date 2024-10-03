@@ -115,6 +115,10 @@
         {
             echo json_encode($this->Dokter_model->getVisiteById($this->input->post('id_visite')));
         }
+        public function getEditTindakanDokter()
+        {
+            echo json_encode($this->Dokter_model->getTindakanPasienById($this->input->post('id_tindakan_pasien')));
+        }
         public function editVisite()
         {
             $this->form_validation->set_rules('catatan', 'Catatan', 'required|trim', [
@@ -183,6 +187,21 @@
             $this->Dokter_model->deleteTindakan($id);
             $this->session->set_flashdata('tindakan_success', ' berhasil dihapus');
             redirect('dokter/tindakan');
+        }
+        public function editTindakan()
+        {
+            // $this->Dokter_model->editTindakanDokter();
+            $this->form_validation->set_rules('catatan', 'Catatan', 'required|trim', [
+                'required' => 'Catatan harus diisi!'
+            ]);
+            if ($this->form_validation->run() == false) {
+                $this->session->set_flashdata('tindakan_failed', ' Catatan harus diisi!');
+                redirect('dokter/tindakan');
+            } else {
+                $this->Dokter_model->editTindakanDokter();
+                $this->session->set_flashdata('tindakan_success', 'berhasil diedit!');
+                redirect('dokter/tindakan');
+            }
         }
         
     }

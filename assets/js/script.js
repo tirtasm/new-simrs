@@ -75,6 +75,25 @@ if (visiteFailed) {
 		timer: 2500,
 	});
 }
+const tindakanDokterFlash =$(".tindakanflash").data("tindakan-success")
+const tindakanDokterFailed =$(".tindakanflash").data("tindakan-failed")
+
+if (tindakanDokterFlash) {
+	Swal.fire({
+		title: "Tindakan",
+		text: tindakanDokterFlash,
+		icon: "success",
+		timer: 2500,
+	});
+}
+if (tindakanDokterFailed) {
+	Swal.fire({
+		title: "Tindakan",
+		text: tindakanDokterFailed,
+		icon: "error",
+		timer: 2500,
+	});
+}
 
 
 const pasienFlash =$(".pasienflash").data("pasien-flash")
@@ -352,7 +371,6 @@ $(document).ready(function () {
 		}
 
 		var newStatus = button.attr("data-is-active") === "true" ? 1 : 0;
-		console.log(newStatus);
 
 		$.ajax({
 			url: "http://localhost/new-simrs/admin/status_dokter",
@@ -380,7 +398,6 @@ $(document).ready(function () {
 		}
 
 		var newStatus = button.attr("data-is-active") === "true" ? 1 : 0;
-		console.log(newStatus);
 
 		$.ajax({
 			url: "http://localhost/new-simrs/admin/status_pasien",
@@ -415,8 +432,6 @@ $(function () {
 			method: "post",
 			dataType: "json",
 			success: function (data) {
-				console.log(data);
-
 				if (data) {
 					$("#id_menu").val(data.id_menu);
 					$("#menu").val(data.menu);
@@ -496,8 +511,6 @@ $(function () {
 			method: "post",
 			dataType: "json",
 			success: function (data) {
-				console.log(data);
-
 				if (data) {
 					$("#id_role").val(data.id_role);
 					$("#role").val(data.role);
@@ -553,7 +566,7 @@ $(function () {
 			method: "post",
 			dataType: "json",
 			success: function (data) {
-				console.log(data);
+	
 				$("#id_pasien").val(data.id_pasien);
 				$("#v_pasien").val(data.id_pasien);
 				$("#no_telp").val(data.no_telp);
@@ -596,8 +609,6 @@ $(function () {
 			method: "post",
 			dataType: "json",
 			success: function (data) {
-				console.log(data);
-
 				if (data) {
 					$("#id_ruang").val(data.id_ruang);
 					$("#ruang").val(data.nama_ruang);
@@ -616,15 +627,13 @@ $(function () {
 
 //tindakan modal
 $(function () {
-	$(".btnTindakan").on("click", function () {
-		console.log("asdkasbdkakj");
-		
+	$(".btnTindakan").on("click", function () {		
 		$("#tindakanModalLabel").html("Tambah Tindakan");
 		$(".modal-footer button[type=submit]").html("Tambah");
 	});
 
 
-	$(".tindakanModal").on("click", function () {
+	$(".tindakanModalDokter").on("click", function () {
 		$("#tindakanModalLabel").html("Edit Tindakan");
 		$(".modal-footer button[type=submit]").html("Edit");
 		$(".modal-body form").attr(
@@ -638,7 +647,6 @@ $(function () {
 			method: "post",
 			dataType: "json",
 			success: function (data) {
-				console.log(data);
 
 				if (data) {
 					
@@ -653,10 +661,65 @@ $(function () {
 	});
 });
 
+// tindakan dokter Modal
+$(function () {
+	$(".btnTindakanDokter").on("click", function () {
+		
+		
+		$("#tindakanDokterModalLabel").html("Tambah Tindakan");
+		$(".modal-footer button[type=submit]").html("Tambah");
+	});
 
 
+	$(".tindakanDokterModal").on("click", function () {
+		$("#tindakanDokterModalLabel").html("Edit Tindakan");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/new-simrs/dokter/editTindakan/"
+		);
+		const id = $(this).data("id");
+		
+		
+		$.ajax({
+			url: "http://localhost/new-simrs/dokter/getEditTindakanDokter/",
+			data: { id_tindakan_pasien: id },
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				if (data) {
+					$("#id_tindakan_pasien").val(data[0].id_tindakan_pasien);
+					$("#id_visite").val(data[0].id_visite);
+					// $("#nama_dokter").val(data[0].nama_dokter);
+					$("#nama_pasien").val(data[0].id_pasien);
+					$("#ruang").val(data[0].nama_ruang);
+					$("#id_tindakan").val(data[0].id_tindakan);
+					$("#id_rawat").val(data[0].id_rawat);
+					$("#id_ruang").val(data[0].id_ruang);
+					$("#tanggal_tindakan").val(data[0].tanggal_tindakan);
+					$("#catatan").val(data[0].catatan);
+					
+				} else {
+					console.error("Data is null or undefined");
+				}
+			},
+		});
+	});
+});
 
-//dokter modal
+
+                                // $("#id_tindakan_pasien").val(data[0].id_tindakan_pasien);
+                                // $("#id_visite").val(data[0].id_visite);
+                                // $("#nama_dokter").val(data[0].nama_dokter);
+                                // $("#nama_pasien").val(data[0].id_pasien);
+                                // $("#ruang").val(data[0].nama_ruang);
+                                // $("#id_rawat").val(data[0].id_rawat);
+                                // $("#id_ruang").val(data[0].id_ruang);
+                                // $("#id_tindakan").val(data[0].id_tindakan);
+                                // $("#tanggal_tindakan").val(data[0].tanggal_tindakan);
+                                // $("#catatan").val(data[0].catatan);
+
+//dokter visite modal
 $(function () {
 	$(".btnVisite").on("click", function () {
 		$("#visiteModalLabel").html("Visite Dokter");
@@ -680,7 +743,7 @@ $(function () {
 			method: "post",
 			dataType: "json",
 			success: function (data) {
-				console.log(data);
+				
 
 				if (data) {
 					$("#id_visite").val(data.id_visite);
