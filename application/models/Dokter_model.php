@@ -12,8 +12,7 @@ class Dokter_model extends CI_Model
             ['no_dokter' => $this->session->userdata['no_dokter']],
         )->row_array();
     }
-    public function get_pasien($limit, $start)
-    {
+    public function get_pasien($limit, $start, $search = null) {
         $this->db->select('pasien.*, rawat_inap.*, ruang.*');
         $this->db->from('pasien');
         $this->db->join('rawat_inap', 'pasien.id_pasien = rawat_inap.id_pasien');
@@ -22,15 +21,33 @@ class Dokter_model extends CI_Model
         $this->db->limit($limit, $start);
         $this->db->where('pasien.is_active', 1);
         $this->db->where('rawat_inap.tanggal_keluar', NULL);
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('pasien.nama', $search);
+            $this->db->or_like('pasien.no_medis', $search);
+            $this->db->or_like('ruang.nama_ruang', $search);
+            $this->db->or_like('pasien.no_telp', $search);
+            $this->db->group_end();
+        }
+    
         return $this->db->get()->result_array();
-
     }
-
-    public function total_pasien()
-    {
-        $this->db->from('rawat_inap');
-        $this->db->join('pasien', 'pasien.id_pasien = rawat_inap.id_pasien');
-        $this->db->where('rawat_inap.id_ruang IS NOT NULL');
+    
+    public function total_pasien($search = null) {
+        $this->db->from('pasien');
+        $this->db->join('rawat_inap', 'pasien.id_pasien = rawat_inap.id_pasien');
+        $this->db->join('ruang', 'ruang.id_ruang = rawat_inap.id_ruang');
+        $this->db->where('pasien.is_active', 1);
+        $this->db->where('rawat_inap.tanggal_keluar', NULL);
+        if (!empty($search)) {
+            $this->db->group_start();
+            $this->db->like('pasien.nama', $search);
+            $this->db->or_like('pasien.no_medis', $search);
+            $this->db->or_like('ruang.nama_ruang', $search);
+            $this->db->or_like('pasien.no_telp', $search);
+            $this->db->group_end();
+        }
+    
         return $this->db->count_all_results();
     }
     public function update()
@@ -54,15 +71,26 @@ class Dokter_model extends CI_Model
         redirect('admin/data_dokter');
     }
 
-    public function visite_pasien($limit, $start)
+    public function visite_pasien($limit, $start, $search = null)
     {
+        $no_dokter = $this->session->userdata('no_dokter');
         $this->db->select('visite.*, pasien.*, dokter.nama_dokter, ruang.nama_ruang');
         $this->db->from('visite');
         $this->db->join('pasien', 'pasien.id_pasien = visite.id_pasien');
         $this->db->join('dokter', 'dokter.no_dokter = visite.no_dokter');
         $this->db->join('ruang', 'ruang.id_ruang = visite.id_ruang');
         $this->db->order_by('visite.tanggal_visite', 'DESC');
+        $this->db->where('visite.no_dokter', $no_dokter);
         $this->db->limit($limit, $start);
+        
+        if(!empty($search)){
+            $this->db->group_start();
+            $this->db->like('pasien.nama', $search);
+            $this->db->or_like('pasien.no_medis', $search);
+            $this->db->or_like('ruang.nama_ruang', $search);
+            $this->db->or_like('visite.tanggal_visite', $search);
+            $this->db->group_end();
+        }
         return $this->db->get()->result_array();
     }
     public function getVisiteById($id)
@@ -123,19 +151,30 @@ class Dokter_model extends CI_Model
         $this->db->delete('visite', ['id_visite' => $id]);
     }
 
-    public function v_tindakan($limit, $start)
-    {
-        $this->db->select('t.*, dokter.nama_dokter, pasien.nama, ri.id_ruang, r.nama_ruang, jt.nama_tindakan');
-        $this->db->from('tindakan_pasien t');
-        $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
-        $this->db->join('rawat_inap ri', 'ri.id_rawat = t.id_rawat');
-        $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
-        $this->db->join('dokter', 'dokter.no_dokter = t.no_dokter');
-        $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
-        $this->db->order_by('t.tanggal_tindakan', 'DESC');
-        $this->db->limit($limit, $start);
-        return $this->db->get()->result_array();
+   public function v_tindakan($limit, $start, $search = null)
+{
+    $no_dokter = $this->session->userdata('no_dokter'); 
+    $this->db->select('t.*, dokter.nama_dokter, pasien.nama, ri.id_ruang, r.nama_ruang, jt.nama_tindakan');
+    $this->db->from('tindakan_pasien t');
+    $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
+    $this->db->join('rawat_inap ri', 'ri.id_rawat = t.id_rawat');
+    $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
+    $this->db->join('dokter', 'dokter.no_dokter = t.no_dokter');
+    $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
+    $this->db->where('t.no_dokter', $no_dokter); 
+    $this->db->order_by('t.tanggal_tindakan', 'DESC');
+    $this->db->limit($limit, $start);
+    if(!empty($search)){
+        $this->db->group_start();
+        $this->db->like('pasien.nama', $search);
+        $this->db->or_like('r.nama_ruang', $search);
+        $this->db->or_like('t.tanggal_tindakan', $search);
+        $this->db->or_like('jt.nama_tindakan', $search);
+        $this->db->group_end();
     }
+    return $this->db->get()->result_array();
+}
+
     
     public function addTindakan()
     {

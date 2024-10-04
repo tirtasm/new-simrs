@@ -760,3 +760,13 @@ $(function () {
 		});
 	});
 });
+
+//search2 tindakan
+$(document).ready(function() {
+	console.log("Inisialisasi Select2 dimulai...");
+	$('#id_tindakan').select2({
+		placeholder: "---Pilih Nama Tindakan---",
+		allowClear: true
+	});
+	console.log("Inisialisasi Select2 selesai.");
+});

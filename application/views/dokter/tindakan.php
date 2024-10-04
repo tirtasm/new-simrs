@@ -34,16 +34,16 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-            <form action="<?= base_url('admin/data_dokter'); ?>" method="POST">
-                <div class="mb-4">
-                    <h1 class="text-gray-800"><?= $judul ?></h1>
-                    <div class="form">
-                        <i class="fa fa-search"></i>
-                        <input type="text" class="form-control form-input" placeholder="Cari Pasien...">
-                        <button class="btn btn-primary" type="submit">Search</button>
-                    </div>
-                </div>
-            </form>
+        <form action="<?= base_url('dokter/tindakan'); ?>" method="POST">
+    <div class="mb-4">
+        <h1 class="text-gray-800"><?= $judul ?></h1>
+        <div class="form">
+            <i class="fa fa-search"></i>
+            <input type="text" name="search" class="form-control form-input" placeholder="Cari Tindakan Pasien..." value="<?= isset($search) ? $search : '' ?>">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </div>
+</form>
 
 
             <div class="tindakanflash" data-tindakan-success="<?= $this->session->flashdata('tindakan_success'); ?>" data-tindakan-failed="<?= $this->session->flashdata('tindakan_failed'); ?>"></div>
@@ -60,8 +60,8 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th>Nama Dokter</th>
                                     <th>Nama Pasien</th>
+                                    <th>Nama Dokter</th>
                                     <th>Ruang</th>
                                     <th>Tindakan</th>
                                     <th>Tanggal Tindakan</th>
@@ -100,7 +100,7 @@
                             <?php else: ?>
                                 <tbody>
                                     <tr>
-                                        <td colspan="7" class="text-center">Data Tidak Ditemukan</td>
+                                        <td colspan="8" class="text-center">Data Tidak Ditemukan</td>
                                     </tr>
                                 </tbody>
                             <?php endif; ?>

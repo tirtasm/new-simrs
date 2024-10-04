@@ -37,12 +37,13 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-            <form action="<?= base_url('menuadmin/adjkabsdkasbjd'); ?>" method="POST">
+            <form action="<?= base_url('menuadmin/tindakan'); ?>" method="POST">
                 <div class="mb-4">
                     <h1 class="text-gray-800"><?= $judul ?></h1>
                     <div class="form">
                         <i class="fa fa-search"></i>
-                        <input type="text" class="form-control form-input" placeholder="Cari Pasien...">
+                        <input type="text" name="search" class="form-control form-input"
+                            placeholder="Cari Nama Tindakan..." value="<?= isset($search) ? $search : '' ?>">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </div>
@@ -59,7 +60,7 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Table Jenis Tindakan</h6>
                 </div>
-                
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -79,12 +80,15 @@
                                         <tr>
                                             <td class="text-center"><?= $no ?></td>
                                             <td><?= $td['nama_tindakan'] ?></td>
-                                            <td class="text-center"><?= $td['biaya'] == 0 ? 'Gratis' : 'Rp.' . number_format($td['biaya'], 0 , ',', '.') ?></td>
+                                            <td class="text-center">
+                                                <?= $td['biaya'] == 0 ? 'Gratis' : 'Rp.' . number_format($td['biaya'], 0, ',', '.') ?>
+                                            </td>
                                             <td class="text-center">
                                                 <a href="<?= base_url('menuadmin/edit/') . $td['id_tindakan'] ?>"
                                                     class="badge badge-warning tindakanModal" data-toggle="modal"
                                                     data-target="#tindakanModal" data-id="<?= $td['id_tindakan'] ?>">Edit</a>
-                                                <a href="<?= base_url('menuadmin/deletetindakan/') . $td['id_tindakan'] ?>" class="badge badge-danger delete">Hapus</a>
+                                                <a href="<?= base_url('menuadmin/deletetindakan/') . $td['id_tindakan'] ?>"
+                                                    class="badge badge-danger delete">Hapus</a>
                                             </td>
                                         </tr>
                                     </tbody>

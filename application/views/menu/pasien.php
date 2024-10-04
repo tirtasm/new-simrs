@@ -35,12 +35,13 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-            <form action="<?= base_url('menuadmin/getpasieninap'); ?>" method="POST">
+        <form action="<?= base_url('menuadmin/pasien'); ?>" method="POST">
                 <div class="mb-4">
                     <h1 class="text-gray-800"><?= $judul ?></h1>
                     <div class="form">
                         <i class="fa fa-search"></i>
-                        <input type="text" class="form-control form-input" placeholder="Cari Pasien...">
+                        <input type="text" name="search" class="form-control form-input"
+                            placeholder="Cari Pasien..." value="<?= isset($search) ? $search : '' ?>">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </div>

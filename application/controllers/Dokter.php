@@ -47,38 +47,39 @@
                 redirect('dokter/profil');
         }
         
-        public function data_pasien(){
+        public function data_pasien() {
             $data['judul'] = 'Data Pasien';
             $data['user'] = $this->Dokter_model->getDokterByNo();
-            
-            $data['total_pasien'] = $this->Dokter_model->total_pasien();
-    
+            $search = $this->input->post('search', true); 
+            $data['search'] = $search; 
+            $data['total_pasien'] = $this->Dokter_model->total_pasien($search);
             $this->load->library('pagination');
             $config['base_url'] = base_url('dokter/data_pasien');
             $config['total_rows'] = $data['total_pasien'];
             $config['per_page'] = 10;
             $config['num_links'] = 5;
-    
             $this->pagination->initialize($config);
-    
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $data['pasien'] = $this->Dokter_model->get_pasien($config['per_page'], $page);
+            $data['pasien'] = $this->Dokter_model->get_pasien($config['per_page'], $page, $search);
             $data['pagination'] = $this->pagination->create_links();
-    
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
             $this->load->view('dokter/data_pasien', $data);
             $this->load->view('templates/footer');
         }
+        
+
     
         public function visite()
         {
             $data['judul'] = 'Visite';
             $data['user'] = $this->Dokter_model->getDokterByNo();
-            $data['total_pasien'] = $this->Dokter_model->total_pasien();
+            $search = $this->input->post('search', true); 
+            $data['search'] = $search; 
+            $data['total_pasien'] = $this->Dokter_model->total_pasien($search);
             $this->load->library('pagination');
-            $config['base_url'] = base_url('dokter/data_pasien');
+            $config['base_url'] = base_url('dokter/visite');
             $config['total_rows'] = $data['total_pasien'];
             $config['per_page'] = 10;
             $config['num_links'] = 5;
@@ -86,9 +87,9 @@
             $this->pagination->initialize($config);
     
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $data['pasien'] = $this->MenuAdmin_model->get_pasien($config['per_page'], $page);
+            $data['pasien'] = $this->Dokter_model->get_pasien($config['per_page'], $page, $search);
             $data['ruang'] = $this->MenuAdmin_model->get_ruang();
-            $data['v_pasien'] = $this->Dokter_model->visite_pasien($config['per_page'], $page);
+            $data['v_pasien'] = $this->Dokter_model->visite_pasien($config['per_page'], $page, $search);
             $data['pagination'] = $this->pagination->create_links();
 
             $this->load->view('templates/header', $data);
@@ -155,9 +156,12 @@
     
             $this->pagination->initialize($config);
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $data['pasien'] = $this->MenuAdmin_model->get_pasien($config['per_page'], $page);
+            $search = $this->input->post('search', true); 
+            $data['search'] = $search;
+
+            $data['pasien'] = $this->MenuAdmin_model->get_pasien($config['per_page'], $page, $search);
             $data['tindakan'] = $this->MenuAdmin_model->get_tindakan_all($config['per_page'], $page);
-            $data['v_tindakan'] = $this->Dokter_model->v_tindakan($config['per_page'], $page);
+            $data['v_tindakan'] = $this->Dokter_model->v_tindakan($config['per_page'], $page, $search);
             $data['ruang'] = $this->MenuAdmin_model->get_ruang();
             // $data['v_pasien'] = $this->Dokter_model->visite_pasien($config['per_page'], $page);
             $data['pagination'] = $this->pagination->create_links();

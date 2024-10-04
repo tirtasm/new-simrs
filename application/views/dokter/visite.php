@@ -40,16 +40,16 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-            <form action="<?= base_url('admin/data_dokter'); ?>" method="POST">
-                <div class="mb-4">
-                    <h1 class="text-gray-800"><?= $judul ?></h1>
-                    <div class="form">
-                        <i class="fa fa-search"></i>
-                        <input type="text" class="form-control form-input" placeholder="Cari Pasien...">
-                        <button class="btn btn-primary" type="submit">Search</button>
-                    </div>
-                </div>
-            </form>
+        <form action="<?= base_url('dokter/visite'); ?>" method="POST">
+    <div class="mb-4">
+        <h1 class="text-gray-800"><?= $judul ?></h1>
+        <div class="form">
+            <i class="fa fa-search"></i>
+            <input type="text" name="search" class="form-control form-input" placeholder="Cari Visite Pasien..." value="<?= isset($search) ? $search : '' ?>">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </div>
+</form>
             <div class="btn btn-primary mb-3 btnVisite" data-toggle="modal" data-target="#visiteModal">Visite</div>
 
             <div class="visiteflash" data-visite-added="<?= $this->session->flashdata('visite_success'); ?>"
