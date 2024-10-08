@@ -9,6 +9,7 @@
             $this->load->model('Dokter_model');
             $this->load->model('Admin_model');
             $this->load->model('MenuAdmin_model');
+            // check_login();
         }
       
         public function login()
@@ -206,6 +207,28 @@
                 $this->session->set_flashdata('tindakan_success', 'berhasil diedit!');
                 redirect('dokter/tindakan');
             }
+        }
+
+        public function catatan(){
+            $data['judul'] = 'Catatan Dokter';
+            $data['user'] = $this->Dokter_model->getDokterByNo();
+            $search = $this->input->post('search', true); 
+            $data['search'] = $search; 
+            $data['total_pasien'] = $this->Dokter_model->total_pasien($search);
+            $this->load->library('pagination');
+            $config['base_url'] = base_url('dokter/catatan');
+            $config['total_rows'] = $data['total_pasien'];
+            $config['per_page'] = 10;
+            $config['num_links'] = 5;
+            $this->pagination->initialize($config);
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $data['catatan'] = $this->Dokter_model->catatan_dokter($config['per_page'], $page, $search);
+            $data['pagination'] = $this->pagination->create_links();
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('dokter/catatan_dokter', $data);
+            $this->load->view('templates/footer');
         }
         
     }

@@ -47,17 +47,27 @@ class Admin_model extends CI_Model
         return $this->db->count_all('pasien'); //total pasien
     }
 //pagination
-    public function get_dokter($limit, $start)
+    public function get_dokter($limit, $start, $search)
     {
         $this->db->order_by('is_active', 'ASC');
         $this->db->limit($limit, $start);
         $this->db->where('id_role', 2);
+        if(!empty($search)){
+            $this->db->like('nama_dokter', $search);
+            $this->db->or_like('no_telp', $search);
+            $this->db->or_like('spesialisasi', $search);
+        }
         return $this->db->get('dokter')->result_array();
     }
-    public function get_pasien($limit, $start)
+    public function get_pasien($limit, $start, $search)
     {
         $this->db->order_by('is_active', 'ASC');
         $this->db->limit($limit, $start);
+        if(!empty($search)){
+            $this->db->like('nama', $search);
+            $this->db->or_like('no_medis', $search);
+            $this->db->or_like('no_telp', $search);
+        }
         return $this->db->get('pasien')->result_array();
     }
         

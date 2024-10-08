@@ -72,8 +72,10 @@ class Admin extends CI_Controller
 
         $this->pagination->initialize($config);
 
+        $search = $this->input->post('search', true);
+        $data['search'] = $search;
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $data['dokter'] = $this->Admin_model->get_dokter($config['per_page'], $page);
+        $data['dokter'] = $this->Admin_model->get_dokter($config['per_page'], $page, $search);
         $data['pagination'] = $this->pagination->create_links();
 
         $this->load->view('templates/header', $data);
@@ -96,8 +98,10 @@ class Admin extends CI_Controller
 
         $this->pagination->initialize($config);
 
+        $search = $this->input->post('search', true);
+        $data['search'] = $search;
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $data['pasien'] = $this->Admin_model->get_pasien($config['per_page'], $page);
+        $data['pasien'] = $this->Admin_model->get_pasien($config['per_page'], $page, $search);
         $data['pagination'] = $this->pagination->create_links();
 
         $this->load->view('templates/header', $data);

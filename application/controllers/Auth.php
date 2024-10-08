@@ -7,7 +7,7 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Auth_model');
-        // check_login();
+        check_login();
         
     }
     public function index()
@@ -29,7 +29,7 @@ class Auth extends CI_Controller
 
 
         if ($this->form_validation->run() == false) {
-            $data['judul'] = 'Login | User';
+            $data['judul'] = 'Login | Pasien';
             $this->load->view('templates/home_header', $data);
             $this->load->view('auth/login');
             $this->load->view('templates/home_footer');

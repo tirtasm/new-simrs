@@ -206,5 +206,26 @@ class Dokter_model extends CI_Model
         // var_dump($data);
     }
 
+
+    public function catatan_dokter($limit,$start,$search = null){
+        $this->db->select('t.*, dokter.nama_dokter, pasien.nama, ri.id_ruang, r.nama_ruang, jt.nama_tindakan');
+        $this->db->from('tindakan_pasien t');
+        $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
+        $this->db->join('rawat_inap ri', 'ri.id_rawat = t.id_rawat');
+        $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
+        $this->db->join('dokter', 'dokter.no_dokter = t.no_dokter');
+        $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
+        $this->db->order_by('t.tanggal_tindakan', 'DESC');
+        $this->db->limit($limit, $start);
+        if(!empty($search)){
+            $this->db->group_start();
+            $this->db->like('dokter.nama_dokter', $search);
+            $this->db->or_like('pasien.nama', $search);
+            $this->db->or_like('r.nama_ruang', $search);
+            $this->db->or_like('jt.nama_tindakan', $search);
+            $this->db->group_end();
+        }
+        return $this->db->get()->result_array();
+    }
 }
 ?>

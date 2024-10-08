@@ -44,31 +44,42 @@ class Auth_model extends CI_Model
     }
     //login pasien
     public function login()
-    {
-        $no_medis = $this->input->post('no_medis');
-        $tanggal_lahir = $this->input->post('tanggal_lahir');
-        $pasien = $this->db->get_where('pasien', ['no_medis' => $no_medis])->row_array();
-        // var_ dump($pasien['tanggal_lahir']);
-        if ($pasien) {
-            if ($pasien['tanggal_lahir'] == $tanggal_lahir && $pasien['no_medis'] == $no_medis) {
-                $data = [
-                    'no_medis' => $pasien['no_medis'],
-                    'id_role' => $pasien['id_role']
-                ];
-                $this->session->set_userdata($data);
-                var_dump($data);
-                $this->session->set_flashdata('login_success', 'Silahkan aktivasi akun pasien Anda ke petugas kami!');
-                // redirect('user/');
-            } else {
-                $this->session->set_flashdata('login_error', 'Pastikan No. Registrasi Medis dan Tanggal Lahir benar!');
-                redirect('user/login');
-            }
-        } else {
-            $this->session->set_flashdata('no_medis', '<div class="alert alert-danger" role="alert">No. Registrasi Medis tidak ditemukan!</div>');
-            redirect('user/login');
-        }
+{
+    $no_medis = $this->input->post('no_medis');
+    $tanggal_lahir = $this->input->post('tanggal_lahir');
+    $pasien = $this->db->get_where('pasien', ['no_medis' => $no_medis])->row_array();
+    
+    if ($pasien) {
+        // Periksa apakah tanggal lahir dan no_medis cocok
+        if ($pasien['tanggal_lahir'] == $tanggal_lahir && $pasien['no_medis'] == $no_medis) {
+            
+            // Set sesi untuk pengguna yang berhasil login
+            $data = [
+                'no_medis' => $pasien['no_medis'],
+                'id_role' => $pasien['id_role']
+            ];
+            $this->session->set_userdata($data);
 
+            // Debugging: Tampilkan data yang diset di sesi
+            var_dump($data); // Atau gunakan log_message('debug', 'Login success, session data: ' . json_encode($data));
+            
+            // Tampilkan pesan sukses
+            $this->session->set_flashdata('login_success', 'Silahkan aktivasi akun pasien Anda ke petugas kami!');
+            
+            // Redirect ke halaman pasien/index setelah login berhasil
+            redirect('pasien/index');
+        } else {
+            // Jika tanggal lahir atau no_medis salah
+            $this->session->set_flashdata('login_error', 'Pastikan No. Registrasi Medis dan Tanggal Lahir benar!');
+            redirect('pasien/login');
+        }
+    } else {
+        // Jika No. Medis tidak ditemukan di database
+        $this->session->set_flashdata('no_medis', '<div class="alert alert-danger" role="alert">No. Registrasi Medis tidak ditemukan!</div>');
+        redirect('pasien/login');
     }
+}
+
     public function login_dokter()
     {
         $no_dokter = htmlspecialchars($this->input->post('no_dokter'));

@@ -15,7 +15,7 @@
     .form-input {
         height: 55px;
         text-indent: 33px;
-        border-radius:  10px;
+        border-radius: 10px;
         flex-grow: 1;
     }
 
@@ -26,31 +26,29 @@
         border-radius: 10px;
     }
 </style>
-<div id="content-wrapper" class="d-flex flex-column">
+<div id="content-wrapper" class="td-flex flex-column">
 
     <!-- Main Content -->
     <div id="content">
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-        <form action="<?= base_url('admin/data_dokter'); ?>" method="POST">
+
+            <form action="<?= base_url('dokter/catatan'); ?>" method="POST">
                 <div class="mb-4">
                     <h1 class="text-gray-800"><?= $judul ?></h1>
                     <div class="form">
                         <i class="fa fa-search"></i>
-                        <input type="text" name="search" class="form-control form-input"
-                            placeholder="Cari Dokter..." value="<?= isset($search) ? $search : '' ?>">
+                        <input type="text" name="search" class="form-control form-input" placeholder="Cari Catatan..."
+                            value="<?= isset($search) ? $search : '' ?>">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </div>
             </form>
 
-            <!-- <div class="dokter-flash" data-dokterflash="<?= $this->session->flashdata('menu_flash'); ?>" data-submenu_added="<?= $this->session->flashdata('submenu_added'); ?>" data-submenu_failed="<?= $this->session->flashdata('submenu_failed'); ?>"></div> -->
-
-            <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Table Dokter</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Table Tindakan Pasien</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -58,38 +56,28 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th>No. Dokter</th>
-                                    <th>Nama</th>
-                                    <th>Spesialisasi</th>
-                                    <th>No. Telp</th>
-                                    <th class="text-center">Aktif?</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th>Nama Dokter</th>
+                                    <th>Nama Pasien</th>
+                                    <th>Ruang</th>
+                                    <th>Tindakan</th>
+                                    <th>Tanggal Tindakan</th>
+                                    <th>Catatan</th>
                                 </tr>
                             </thead>
                             <?php
                             $no = $this->uri->segment(3) ? $this->uri->segment(3) + 1 : 1;
-                            if (!empty($dokter)):
-                                foreach ($dokter as $d): ?>
+                            if (!empty($catatan)):
+                                foreach ($catatan as $td): ?>
                                     <tbody>
                                         <tr>
                                             <td class="text-center"><?= $no ?></td>
-                                            <td><?= $d['no_dokter'] ?></td>
-                                            <td><?= $d['nama_dokter'] ?></td>
-                                            <td><?= $d['spesialisasi'] ?></td>
-                                            <td>0<?= $d['no_telp'] ?></td>
-
-
-
-                                            <td class="text-center">
-                                                <button class="status_dokter bg-transparent border-0"
-                                                    data-id="<?= $d['no_dokter']; ?>"
-                                                    data-is-active="<?= $d['is_active'] == 1 ? 'true' : 'false'; ?>">
-                                                    <?= $d['is_active'] == 1 ? '<i class="fas fa-xl text-success fa-thin fa-check"></i>' : '<i class="fas fa-xl text-danger fa-thin fa-xmark"></i>'; ?>
-                                                </button>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="<?= base_url('dokter/delete/') . $d['no_dokter'] ?>"
-                                                    class="badge badge-danger delete">Delete</a>
+                                            <td><?= $td['nama_dokter'] ?></td>
+                                            <td><?= $td['nama'] ?></td>
+                                            <td><?= $td['nama_ruang'] ?></td>
+                                            <td><?= $td['nama_tindakan'] ?></td>
+                                            <td><?= $td['tanggal_tindakan'] ?></td>
+                                            <td style="max-width:300px;">
+                                                <?= $td['catatan'] ?>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -99,7 +87,7 @@
                             <?php else: ?>
                                 <tbody>
                                     <tr>
-                                        <td colspan="7" class="text-center">Data Tidak Ditemukan</td>
+                                        <td colspan="8" class="text-center">Data Tidak Ditemukan</td>
                                     </tr>
                                 </tbody>
                             <?php endif; ?>

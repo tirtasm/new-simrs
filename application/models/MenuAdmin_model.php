@@ -23,7 +23,7 @@ class MenuAdmin_model extends CI_Model
 
     }
     //for all data active
-    public function get_pasien($limit, $start)
+    public function get_pasien($limit, $start, $search = null)
     {
         $this->db->select('pasien.*, rawat_inap.*, ruang.*');
         $this->db->from('pasien');
@@ -34,11 +34,20 @@ class MenuAdmin_model extends CI_Model
         $this->db->where('pasien.is_active', 1);
         $this->db->where('pasien.is_inap', 1);
         $this->db->where('rawat_inap.tanggal_keluar IS NULL');
+
+        if(!empty($search)){
+            $this->db->group_start();
+            $this->db->like('pasien.nama', $search);
+            $this->db->or_like('pasien.no_medis', $search);
+            $this->db->or_like('ruang.nama_ruang', $search);
+            $this->db->or_like('pasien.no_telp', $search);
+            $this->db->group_end();
+        }
         return $this->db->get()->result_array();
 
     }
 
-    public function get_pasien_keluar($limit, $start)
+    public function get_pasien_keluar($limit, $start, $search = null)
     {
         $this->db->select('pasien.*, rawat_inap.*, ruang.*');
         $this->db->from('pasien');
@@ -48,6 +57,15 @@ class MenuAdmin_model extends CI_Model
         $this->db->limit($limit, $start);
         $this->db->where('pasien.is_active', 1);
         $this->db->where('rawat_inap.tanggal_keluar IS NOT NULL');
+
+        if(!empty($search)){
+            $this->db->group_start();
+            $this->db->like('pasien.nama', $search);
+            $this->db->or_like('pasien.no_medis', $search);
+            $this->db->or_like('ruang.nama_ruang', $search);
+            $this->db->or_like('pasien.no_telp', $search);
+            $this->db->group_end();
+        }
         return $this->db->get()->result_array();
 
     }
@@ -63,14 +81,20 @@ class MenuAdmin_model extends CI_Model
         return $this->db->get()->result_array();
     }
     //for data ruang != 0
-    public function get_ruang_all($limit, $start)
+    public function get_ruang_all($limit, $start, $search = null)
     {
         $this->db->limit($limit, $start);
+        if(!empty($search)){
+            $this->db->like('nama_ruang', $search);
+        }
         return $this->db->get('ruang')->result_array();
     }
-    public function get_tindakan_all($limit, $start)
+    public function get_tindakan_all($limit, $start, $search = null)
     {
         $this->db->limit($limit, $start);
+        if(!empty($search)){
+            $this->db->like('nama_tindakan', $search);
+        }
         return $this->db->get('jenis_tindakan')->result_array();
     }
     public function get_ruang()
