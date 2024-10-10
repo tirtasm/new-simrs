@@ -10,7 +10,7 @@ class Admin extends CI_Controller
         $this->load->model('Admin_model');
         $this->load->model('Menu_model');
         $this->load->model('Dokter_model');
-        $this->load->model('User_model');
+        $this->load->model('Pasien_model');
         check_login();
        
     }
@@ -121,7 +121,7 @@ class Admin extends CI_Controller
     public function status_pasien() {
         $no_medis = $this->input->post('no_medis');
         $is_active = $this->input->post('is_active');
-        $this->User_model->update_status($no_medis, $is_active);
+        $this->Pasien_model->update_status($no_medis, $is_active);
         echo json_encode(['status' => 'success']);
     }
 
@@ -142,7 +142,7 @@ class Admin extends CI_Controller
         }
     }
     public function deleteUser($id){
-        $this->User_model->deleteUser($id);
+        $this->Pasien_model->deleteUser($id);
     }
     public function delete($id)
     {

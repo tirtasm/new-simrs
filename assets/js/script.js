@@ -10,7 +10,7 @@ if (loginBerhasil) {
 		icon: "success",
 	}).then((result) => {
 		if (result.isConfirmed) {
-			document.location.href = "http://localhost/new-simrs/user";
+			document.location.href = "http://localhost/new-simrs/pasien/index";
 		}
 	});
 } else if (loginGagal) {

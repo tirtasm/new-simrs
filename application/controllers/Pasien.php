@@ -5,7 +5,7 @@ class Pasien extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('User_model');
+        $this->load->model('Pasien_model');
         $this->load->model('Auth_model');
         $this->load->library('form_validation');
         check_login();
@@ -22,72 +22,82 @@ class Pasien extends CI_Controller
 
     public function index()
     {
-        // $data['user'] = $this->User_model->getUser();
-
+        $data['user'] = $this->Pasien_model->getUser();
         $data['judul'] = 'My Profile';
-        // $this->load->view('templates/header', $data);
-        // $this->load->view('templates/sidebar', $data);
-        // $this->load->view('templates/topbar', $data);
+        $this->load->view('templates/header', $data);
+
+        $this->load->view('templates/topbar_pasien', $data);
         $this->load->view('pasien/index', $data);
-        // $this->load->view('templates/footer');
+        $this->load->view('templates/footer');
+    }
+    public function profil()
+    {
+        $data['user'] = $this->Pasien_model->getUser();
+        $data['judul'] = 'My Profile';
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar_pasien', $data);
+        $this->load->view('pasien/profil', $data);
+        $this->load->view('templates/footer');
     }
     public function edit()
     {
-        $data['user'] = $this->User_model->getUser();
+        $data['user'] = $this->Pasien_model->getUser();
+        $this->form_validation->set_rules('nama', 'Full Name', 'required|trim', [
+            'required' => 'Nama harus diisi!'
+        ]);
+        $this->form_validation->set_rules('no_telp', 'Phone Number', 'required|trim|max_length[13]|min_length[10]', [
+            'required' => 'Nomor Telepon harus diisi!',
+            'max_length' => 'Nomor Telepon maksimal 13 karakter!',
+            'min_length' => 'Nomor Telepon minimal 10 karakter!'
 
-        $this->form_validation->set_rules('name', 'Name', 'required|min_length[4]', [
-            'required' => 'Name field is required!',
-            'min_length' => 'Name field must be at least 4 characters in length.'
+        ]);
+        $this->form_validation->set_rules('alamat', 'Address', 'required|trim', [
+            'required' => 'Alamat harus diisi!'
         ]);
         if ($this->form_validation->run() == false) {
-            $data['judul'] = 'Edit Profile';
+            // $data['judul'] = 'Edit Profile';
             $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('user/edit', $data);
+            $this->load->view('templates/topbar_pasien', $data);
+            $this->load->view('pasien/profil', $data);
             $this->load->view('templates/footer');
         } else {
-
-            $this->User_model->editUser();
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile has been updated!</div>');
-            redirect('user');
+            $this->Pasien_model->editProfil();
         }
     }
 
-    // public function tes(){
-    //     $this->load->view('templates/auth_header');
-    //     $this->load->view('user/tess');
-    //     $this->load->view('templates/auth_footer');
-    // }
-    public function changepassword()
+    public function rawat_inap()
     {
-        $data['user'] = $this->User_model->getUser();
-
-        $this->form_validation->set_rules('currentpassword', 'Current Password', 'required|trim|is_unique[pasien.password]', [
-            'required' => 'Current Password field is required!',
-            'is_unique' => 'Current Password field does not match!'
-        ]);
-        $this->form_validation->set_rules('newpass', 'New Password', 'required|trim|min_length[4]', [
-            'required' => 'Password field is required!',
-            'min_length' => 'Password field must be at least 4 characters in length.'
-        ]);
-        $this->form_validation->set_rules('repass', 'Repeat Password', 'trim|matches[newpass]', [
-            'required' => 'Repeat Password field is required!',
-            'matches' => 'Repeat Password field does not match!'
-        ]);
-
-        if ($this->form_validation->run() == false) {
-            $data['judul'] = 'Change Password';
-            $this->load->view('templates/header', $data);
-            $this->load->view('templates/sidebar', $data);
-            $this->load->view('templates/topbar', $data);
-            $this->load->view('user/changepassword', $data);
-            $this->load->view('templates/footer');
-        } else {
-            $this->User_model->changePassword();
-        }
-
+        $data['user'] = $this->Pasien_model->getUser();
+        $data['judul'] = 'Rawat Inap';
+        $data['pasien'] = $this->Pasien_model->get_rawat_inap_by_no();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar_pasien', $data);
+        $this->load->view('pasien/index', $data);
+        $this->load->view('pasien/rawat_inap', $data);
+        $this->load->view('templates/footer');
     }
 
-   
+    public function riwayat_kunjungan(){
+        $data['user'] = $this->Pasien_model->getUser();
+        $data['judul'] = 'Riwayat Kunjungan';
+        $data['kunjungan'] = $this->Pasien_model->get_kunjungan_by_no();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar_pasien', $data);
+        $this->load->view('pasien/index', $data);
+        $this->load->view('pasien/riwayat_kunjungan', $data);
+        $this->load->view('templates/footer');
+    }
+    public function tindakan_medis(){
+        $data['user'] = $this->Pasien_model->getUser();
+        $data['judul'] = 'Tindakan Medis';
+        $data['tindakan_medis'] = $this->Pasien_model->get_tindakan_by_no();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar_pasien', $data);
+        $this->load->view('pasien/index', $data);
+        $this->load->view('pasien/tindakan_medis', $data);
+        $this->load->view('templates/footer');
+    }
+
+
+
 }

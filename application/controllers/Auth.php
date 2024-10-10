@@ -7,16 +7,10 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Auth_model');
-        check_login();
+        // check_login();
         
     }
-    public function index()
-    {
-        $data['judul'] = 'Login | User';
-        $this->load->view('templates/home_header', $data);
-        $this->load->view('home/index');
-        $this->load->view('templates/home_footer');
-    }
+
     public function login()
     {
         
@@ -77,9 +71,6 @@ class Auth extends CI_Controller
     }
     public function registrasi()
     {
-        if ($this->session->userdata('no_medis')) {
-            redirect('auth/regis');
-        }
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [
             'required' => 'Nama lengkap harus diisi!'
         ]);

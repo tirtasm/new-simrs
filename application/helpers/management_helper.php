@@ -15,7 +15,7 @@
             
             if($userAccess->num_rows() < 1){
                 echo "Access Denied!";
-                // redirect('auth/blocked');
+                redirect('auth/blocked');
             }
         }
     }

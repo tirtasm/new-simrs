@@ -59,24 +59,17 @@ class Auth_model extends CI_Model
                 'id_role' => $pasien['id_role']
             ];
             $this->session->set_userdata($data);
-
-            // Debugging: Tampilkan data yang diset di sesi
-            var_dump($data); // Atau gunakan log_message('debug', 'Login success, session data: ' . json_encode($data));
-            
-            // Tampilkan pesan sukses
             $this->session->set_flashdata('login_success', 'Silahkan aktivasi akun pasien Anda ke petugas kami!');
-            
-            // Redirect ke halaman pasien/index setelah login berhasil
-            redirect('pasien/index');
+            redirect('auth/login');
         } else {
             // Jika tanggal lahir atau no_medis salah
             $this->session->set_flashdata('login_error', 'Pastikan No. Registrasi Medis dan Tanggal Lahir benar!');
-            redirect('pasien/login');
+            redirect('auth/login');
         }
     } else {
         // Jika No. Medis tidak ditemukan di database
         $this->session->set_flashdata('no_medis', '<div class="alert alert-danger" role="alert">No. Registrasi Medis tidak ditemukan!</div>');
-        redirect('pasien/login');
+        redirect('auth/login');
     }
 }
 
