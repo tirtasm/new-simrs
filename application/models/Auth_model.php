@@ -9,7 +9,7 @@ class Auth_model extends CI_Model
     }
     public function getDokter()
     {
-        return $this->db->get('dokter');
+        return $this->db->get('pegawai');
 
 
     }
@@ -75,44 +75,44 @@ class Auth_model extends CI_Model
 
     public function login_dokter()
     {
-        $no_dokter = htmlspecialchars($this->input->post('no_dokter'));
+        $no_pegawai = htmlspecialchars($this->input->post('no_pegawai'));
         $password = htmlspecialchars($this->input->post('password'));
-        $dokter = $this->db->get_where('dokter', ['no_dokter' => $no_dokter])->row_array();
+        $pegawai = $this->db->get_where('pegawai', ['no_pegawai' => $no_pegawai])->row_array();
 
-        if ($dokter) {
-            if ($dokter['no_dokter'] == $no_dokter && $dokter['password'] == $password) {
+        if ($pegawai) {
+            if ($pegawai['no_pegawai'] == $no_pegawai && $pegawai['password'] == $password) {
 
                 //admin
-                if ($dokter['id_role'] == 1) {
+                if ($pegawai['id_role'] == 1) {
                     $data = [
-                        'no_dokter' => $dokter['no_dokter'],
-                        'id_role' => $dokter['id_role']
+                        'no_pegawai' => $pegawai['no_pegawai'],
+                        'id_role' => $pegawai['id_role']
                     ];
                     $this->session->set_userdata($data);
                     var_dump($data);
                     $this->session->set_flashdata('login_success', 'ok');
                     redirect('admin/dashboard');
                 }
-                //dokter
-                else if ($dokter['id_role'] == 2) {
-                    if ($dokter['is_active'] == 0) {
+                //pegawai
+                else if ($pegawai['id_role'] == 2) {
+                    if ($pegawai['is_active'] == 0) {
                         $this->session->set_flashdata('login_error', 'Akun Anda belum diaktivasi oleh petugas!');
-                        redirect('dokter/login');
+                        redirect('pegawai/login');
                     } else {
 
                         $data = [
-                            'no_dokter' => $dokter['no_dokter'],
-                            'id_role' => $dokter['id_role']
+                            'no_pegawai' => $pegawai['no_pegawai'],
+                            'id_role' => $pegawai['id_role']
                         ];
                         $this->session->set_userdata($data);
                         var_dump($data);
                         $this->session->set_flashdata('login_success', 'ok');
-                        redirect('dokter/profil');
+                        redirect('pegawai/profil');
                     }
                 }
             } else {
                 $this->session->set_flashdata('login_error', 'Pastikan No. Dokter dan Password benar!');
-                redirect('dokter/login');
+                redirect('pegawai/login');
             }
         } else {
             echo 'gagal';

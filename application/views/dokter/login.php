@@ -12,7 +12,7 @@
 
                             <div class="col">
                                 <div class="px-5 py-4">
-                                    <h5 class="text-center mt-2 mb-4 text-dark font-weight-bold">Halo Dokter!</h5>
+                                    <h5 class="text-center mt-2 mb-4 text-dark font-weight-bold">Halo Pegawai!</h5>
 
                                     
                                     <div id="flashdata" data-login-success="<?= $this->session->flashdata('login_success'); ?>" data-login-error="<?= $this->session->flashdata('login_error'); ?>"></div>
@@ -21,11 +21,11 @@
                                         
 
                                     <form method="post">
-                                        <div class="col mb-2"> <label>No. Dokter<span
+                                        <div class="col mb-2"> <label>No. Pegawai<span
                                                     class="text-danger">*</span></label>
-                                            <input type="text" id="no_dokter" name="no_dokter" class="form-control"
-                                                value="<?= set_value('no_dokter') ?>">
-                                            <?= form_error('no_dokter', '<small class="text-danger pl-2">', '</small>'); ?>
+                                            <input type="text" id="no_pegawai" name="no_pegawai" class="form-control"
+                                                value="<?= set_value('no_pegawai') ?>">
+                                            <?= form_error('no_pegawai', '<small class="text-danger pl-2">', '</small>'); ?>
                                         </div>
                                         <div class="col mb-2"> <label>Password<span
                                                     class="text-danger">*</span></label>

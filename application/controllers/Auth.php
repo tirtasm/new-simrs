@@ -41,7 +41,7 @@ class Auth extends CI_Controller
     }
     public function logout()
     {
-        $this->session->unset_userdata('no_dokter');
+        $this->session->unset_userdata('no_pegawai');
         $this->session->unset_userdata('no_medis');
         $this->session->unset_userdata('id_role');
         $this->session->set_flashdata('logout_message', '<div class="alert alert-success" role="alert">You have been logged out! </div>');

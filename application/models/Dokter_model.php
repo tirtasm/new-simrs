@@ -8,8 +8,8 @@ class Dokter_model extends CI_Model
     public function getDokterByNo()
     {
         return $this->db->get_where(
-            'dokter',
-            ['no_dokter' => $this->session->userdata['no_dokter']],
+            'pegawai',
+            ['no_pegawai' => $this->session->userdata['no_pegawai']],
         )->row_array();
     }
     public function get_pasien($limit, $start, $search = null) {
@@ -57,30 +57,30 @@ class Dokter_model extends CI_Model
             'no_telp' => htmlspecialchars($this->input->post('no_telp')),
             'spesialisasi' => htmlspecialchars($this->input->post('spesialisasi'))
         ];
-        $this->db->where('no_dokter', $this->input->post('no_dokter'));
-        $this->db->update('dokter', $data);
+        $this->db->where('no_pegawai', $this->input->post('no_pegawai'));
+        $this->db->update('pegawai', $data);
     }
-    public function update_status($no_dokter, $is_active)
+    public function update_status($no_pegawai, $is_active)
     {
-        $this->db->where('no_dokter', $no_dokter);
-        $this->db->update('dokter', ['is_active' => $is_active]);
+        $this->db->where('no_pegawai', $no_pegawai);
+        $this->db->update('pegawai', ['is_active' => $is_active]);
     }
     public function delete($id)
     {
-        $this->db->delete('dokter', ['no_dokter' => $id]);
+        $this->db->delete('pegawai', ['no_pegawai' => $id]);
         redirect('admin/data_dokter');
     }
 
     public function visite_pasien($limit, $start, $search = null)
     {
-        $no_dokter = $this->session->userdata('no_dokter');
-        $this->db->select('visite.*, pasien.*, dokter.nama_dokter, ruang.nama_ruang');
+        $no_pegawai = $this->session->userdata('no_pegawai');
+        $this->db->select('visite.*, pasien.*, pegawai.nama_pegawai, ruang.nama_ruang');
         $this->db->from('visite');
         $this->db->join('pasien', 'pasien.id_pasien = visite.id_pasien');
-        $this->db->join('dokter', 'dokter.no_dokter = visite.no_dokter');
+        $this->db->join('pegawai', 'pegawai.no_pegawai = visite.no_pegawai');
         $this->db->join('ruang', 'ruang.id_ruang = visite.id_ruang');
         $this->db->order_by('visite.tanggal_visite', 'DESC');
-        $this->db->where('visite.no_dokter', $no_dokter);
+        $this->db->where('visite.no_pegawai', $no_pegawai);
         $this->db->limit($limit, $start);
         
         if(!empty($search)){
@@ -97,11 +97,11 @@ class Dokter_model extends CI_Model
     {
       
 
-        $this->db->select('visite.*, pasien.*, ruang.*, dokter.nama_dokter');
+        $this->db->select('visite.*, pasien.*, ruang.*, pegawai.nama_pegawai');
         $this->db->from('visite');
         $this->db->join('pasien', 'pasien.id_pasien = visite.id_pasien');
         $this->db->join('ruang', 'ruang.id_ruang = visite.id_ruang');
-        $this->db->join('dokter', 'dokter.no_dokter = visite.no_dokter');
+        $this->db->join('pegawai', 'pegawai.no_pegawai = visite.no_pegawai');
         $this->db->where('visite.id_visite', $id);
         $this->db->order_by('visite.tanggal_visite', 'DESC');
 
@@ -109,12 +109,12 @@ class Dokter_model extends CI_Model
     }
     public function getTindakanPasienById($id)
     {
-        $this->db->select('t.*, dokter.*, pasien.*, ri.*, r.*, jt.*');
+        $this->db->select('t.*, pegawai.*, pasien.*, ri.*, r.*, jt.*');
         $this->db->from('tindakan_pasien t');
         $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
         $this->db->join('rawat_inap ri', 'ri.id_rawat = t.id_rawat');
         $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
-        $this->db->join('dokter', 'dokter.no_dokter = t.no_dokter');
+        $this->db->join('pegawai', 'pegawai.no_pegawai = t.no_pegawai');
         $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
         $this->db->order_by('t.tanggal_tindakan', 'DESC');
         $this->db->where('t.id_tindakan_pasien', $id);
@@ -124,7 +124,7 @@ class Dokter_model extends CI_Model
     {
         $data = [
             'id_pasien' => htmlspecialchars($this->input->post('nama_pasien')),
-            'no_dokter' => htmlspecialchars($this->input->post('no_dokter')),
+            'no_pegawai' => htmlspecialchars($this->input->post('no_pegawai')),
             'id_ruang' => htmlspecialchars($this->input->post('id_ruang')),
             'tanggal_visite' => htmlspecialchars($this->input->post('tanggal_visite')),
             'catatan' => htmlspecialchars($this->input->post('catatan'))
@@ -136,7 +136,7 @@ class Dokter_model extends CI_Model
     {
         $data = [
             'id_pasien' => htmlspecialchars($this->input->post('nama_pasien')),
-            'no_dokter' => htmlspecialchars($this->input->post('no_dokter')),
+            'no_pegawai' => htmlspecialchars($this->input->post('no_pegawai')),
             'id_ruang' => htmlspecialchars($this->input->post('id_ruang')),
             'tanggal_visite' => htmlspecialchars($this->input->post('tanggal_visite')),
             'catatan' => htmlspecialchars($this->input->post('catatan'))
@@ -153,15 +153,15 @@ class Dokter_model extends CI_Model
 
    public function v_tindakan($limit, $start, $search = null)
 {
-    $no_dokter = $this->session->userdata('no_dokter'); 
-    $this->db->select('t.*, dokter.nama_dokter, pasien.nama, ri.id_ruang, r.nama_ruang, jt.nama_tindakan');
+    $no_pegawai = $this->session->userdata('no_pegawai'); 
+    $this->db->select('t.*, pegawai.nama_pegawai, pasien.nama, ri.id_ruang, r.nama_ruang, jt.nama_tindakan');
     $this->db->from('tindakan_pasien t');
     $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
     $this->db->join('rawat_inap ri', 'ri.id_rawat = t.id_rawat');
     $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
-    $this->db->join('dokter', 'dokter.no_dokter = t.no_dokter');
+    $this->db->join('pegawai', 'pegawai.no_pegawai = t.no_pegawai');
     $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
-    $this->db->where('t.no_dokter', $no_dokter); 
+    $this->db->where('t.no_pegawai', $no_pegawai); 
     $this->db->order_by('t.tanggal_tindakan', 'DESC');
     $this->db->limit($limit, $start);
     if(!empty($search)){
@@ -180,7 +180,7 @@ class Dokter_model extends CI_Model
     {
         $data = [
             'id_pasien' => htmlspecialchars($this->input->post('nama_pasien')),
-            'no_dokter' => htmlspecialchars($this->input->post('no_dokter')),
+            'no_pegawai' => htmlspecialchars($this->input->post('no_pegawai')),
             'id_rawat' => htmlspecialchars($this->input->post('id_rawat')),
             'id_tindakan' => htmlspecialchars($this->input->post('id_tindakan')),
             'tanggal_tindakan' => htmlspecialchars($this->input->post('tanggal_tindakan')),
@@ -195,7 +195,7 @@ class Dokter_model extends CI_Model
     public function editTindakanDokter(){
         $data = [
             'id_pasien' => htmlspecialchars($this->input->post('nama_pasien')),
-            'no_dokter' => htmlspecialchars($this->input->post('no_dokter')),
+            'no_pegawai' => htmlspecialchars($this->input->post('no_pegawai')),
             'id_rawat' => htmlspecialchars($this->input->post('id_rawat')),
             'id_tindakan' => htmlspecialchars($this->input->post('id_tindakan')),
             'tanggal_tindakan' => htmlspecialchars($this->input->post('tanggal_tindakan')),
@@ -208,18 +208,18 @@ class Dokter_model extends CI_Model
 
 
     public function catatan_dokter($limit,$start,$search = null){
-        $this->db->select('t.*, dokter.nama_dokter, pasien.nama, ri.id_ruang, r.nama_ruang, jt.nama_tindakan');
+        $this->db->select('t.*, pegawai.nama_pegawai, pasien.nama, ri.id_ruang, r.nama_ruang, jt.nama_tindakan');
         $this->db->from('tindakan_pasien t');
         $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
         $this->db->join('rawat_inap ri', 'ri.id_rawat = t.id_rawat');
         $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
-        $this->db->join('dokter', 'dokter.no_dokter = t.no_dokter');
+        $this->db->join('pegawai', 'pegawai.no_pegawai = t.no_pegawai');
         $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
         $this->db->order_by('t.tanggal_tindakan', 'DESC');
         $this->db->limit($limit, $start);
         if(!empty($search)){
             $this->db->group_start();
-            $this->db->like('dokter.nama_dokter', $search);
+            $this->db->like('pegawai.nama_pegawai', $search);
             $this->db->or_like('pasien.nama', $search);
             $this->db->or_like('r.nama_ruang', $search);
             $this->db->or_like('jt.nama_tindakan', $search);

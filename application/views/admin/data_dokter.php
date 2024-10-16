@@ -73,8 +73,8 @@
                                     <tbody>
                                         <tr>
                                             <td class="text-center"><?= $no ?></td>
-                                            <td><?= $d['no_dokter'] ?></td>
-                                            <td><?= $d['nama_dokter'] ?></td>
+                                            <td><?= $d['no_pegawai'] ?></td>
+                                            <td><?= $d['nama_pegawai'] ?></td>
                                             <td><?= $d['spesialisasi'] ?></td>
                                             <td>0<?= $d['no_telp'] ?></td>
 
@@ -82,13 +82,13 @@
 
                                             <td class="text-center">
                                                 <button class="status_dokter bg-transparent border-0"
-                                                    data-id="<?= $d['no_dokter']; ?>"
+                                                    data-id="<?= $d['no_pegawai']; ?>"
                                                     data-is-active="<?= $d['is_active'] == 1 ? 'true' : 'false'; ?>">
                                                     <?= $d['is_active'] == 1 ? '<i class="fas fa-xl text-success fa-thin fa-check"></i>' : '<i class="fas fa-xl text-danger fa-thin fa-xmark"></i>'; ?>
                                                 </button>
                                             </td>
                                             <td class="text-center">
-                                                <a href="<?= base_url('dokter/delete/') . $d['no_dokter'] ?>"
+                                                <a href="<?= base_url('dokter/delete/') . $d['no_pegawai'] ?>"
                                                     class="badge badge-danger delete">Delete</a>
                                             </td>
                                         </tr>

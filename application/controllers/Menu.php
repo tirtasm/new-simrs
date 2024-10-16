@@ -8,7 +8,7 @@ class Menu extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Menu_model');
-        $this->load->model('User_model');
+        $this->load->model('Pasien_model');
         check_login();
     }
 
@@ -19,8 +19,8 @@ class Menu extends CI_Controller
     {
 
         $data['user'] = $this->db->get_where(
-            'dokter',
-            ['no_dokter' => $this->session->userdata['no_dokter']]
+            'pegawai',
+            ['no_pegawai' => $this->session->userdata['no_pegawai']]
         )->row_array();
         $data['menu'] = $this->Menu_model->getMenu();
 
@@ -73,8 +73,8 @@ class Menu extends CI_Controller
     public function submenu()
     {
         $data['user'] = $this->db->get_where(
-            'dokter',
-            ['no_dokter' => $this->session->userdata['no_dokter']]
+            'pegawai',
+            ['no_pegawai' => $this->session->userdata['no_pegawai']]
         )->row_array();
         $data['sub_menu'] = $this->Menu_model->getAllSubmenu();
         $data['menu'] = $this->Menu_model->getMenu();

@@ -14,7 +14,7 @@
       
         public function login()
         {
-            $this->form_validation->set_rules('no_dokter', 'No. Dokter', 'required|trim', [
+            $this->form_validation->set_rules('no_pegawai', 'No. Dokter', 'required|trim', [
                 'required' => 'No. Dokter harus diisi!'
             ]);
             $this->form_validation->set_rules('password', 'Password', 'required|trim', [

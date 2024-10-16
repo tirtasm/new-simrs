@@ -40,7 +40,7 @@ class Admin_model extends CI_Model
 
     public function total_dokter()
     {
-        return $this->db->count_all('dokter'); //total dokter
+        return $this->db->count_all('pegawai'); //total pegawai
     }
     public function total_pasien()
     {
@@ -57,7 +57,7 @@ class Admin_model extends CI_Model
             $this->db->or_like('no_telp', $search);
             $this->db->or_like('spesialisasi', $search);
         }
-        return $this->db->get('dokter')->result_array();
+        return $this->db->get('pegawai')->result_array();
     }
     public function get_pasien($limit, $start, $search)
     {

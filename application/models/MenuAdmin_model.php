@@ -7,17 +7,17 @@ class MenuAdmin_model extends CI_Model
     public function getDokterByNo()
     {
         return $this->db->get_where(
-            'dokter',
-            ['no_dokter' => $this->session->userdata['no_dokter']],
+            'pegawai',
+            ['no_pegawai' => $this->session->userdata['no_pegawai']],
         )->row_array();
     }
 
     public function getPasienById($id)
     {
-        $this->db->select('pasien.*, rawat_inap.*, ruang.*');
+        $this->db->select('pasien.*, pelayanan.*, ruang.*');
         $this->db->from('pasien');
-        $this->db->join('rawat_inap', 'pasien.id_pasien = rawat_inap.id_pasien');
-        $this->db->join('ruang', 'ruang.id_ruang = rawat_inap.id_ruang');
+        $this->db->join('pelayanan', 'pasien.id_pasien = pelayanan.id_pasien');
+        $this->db->join('ruang', 'ruang.id_ruang = pelayanan.id_ruang');
         $this->db->where('pasien.id_pasien', $id);
         return $this->db->get()->row_array();
 
@@ -25,15 +25,15 @@ class MenuAdmin_model extends CI_Model
     //for all data active
     public function get_pasien($limit, $start, $search = null)
     {
-        $this->db->select('pasien.*, rawat_inap.*, ruang.*');
+        $this->db->select('pasien.*, pelayanan.*, ruang.*');
         $this->db->from('pasien');
-        $this->db->join('rawat_inap', 'pasien.id_pasien = rawat_inap.id_pasien');
-        $this->db->join('ruang', 'ruang.id_ruang = rawat_inap.id_ruang');
-        $this->db->order_by('rawat_inap.tanggal_keluar', 'ASC');
+        $this->db->join('pelayanan', 'pasien.id_pasien = pelayanan.id_pasien');
+        $this->db->join('ruang', 'ruang.id_ruang = pelayanan.id_ruang');
+        $this->db->order_by('pelayanan.tanggal_keluar', 'ASC');
         $this->db->limit($limit, $start);
         $this->db->where('pasien.is_active', 1);
         $this->db->where('pasien.is_inap', 1);
-        $this->db->where('rawat_inap.tanggal_keluar IS NULL');
+        $this->db->where('pelayanan.tanggal_keluar IS NULL');
 
         if(!empty($search)){
             $this->db->group_start();
@@ -49,14 +49,14 @@ class MenuAdmin_model extends CI_Model
 
     public function get_pasien_keluar($limit, $start, $search = null)
     {
-        $this->db->select('pasien.*, rawat_inap.*, ruang.*');
+        $this->db->select('pasien.*, pelayanan.*, ruang.*');
         $this->db->from('pasien');
-        $this->db->join('rawat_inap', 'pasien.id_pasien = rawat_inap.id_pasien');
-        $this->db->join('ruang', 'ruang.id_ruang = rawat_inap.id_ruang');
-        $this->db->order_by('rawat_inap.tanggal_keluar', 'ASC');
+        $this->db->join('pelayanan', 'pasien.id_pasien = pelayanan.id_pasien');
+        $this->db->join('ruang', 'ruang.id_ruang = pelayanan.id_ruang');
+        $this->db->order_by('pelayanan.tanggal_keluar', 'ASC');
         $this->db->limit($limit, $start);
         $this->db->where('pasien.is_active', 1);
-        $this->db->where('rawat_inap.tanggal_keluar IS NOT NULL');
+        $this->db->where('pelayanan.tanggal_keluar IS NOT NULL');
 
         if(!empty($search)){
             $this->db->group_start();
@@ -76,7 +76,7 @@ class MenuAdmin_model extends CI_Model
         $this->db->select('*');
         $this->db->from('pasien');
         $this->db->where('is_active', 1);
-        $this->db->where('is_inap', 0); //$this->db->where('pasien.id_pasien NOT IN (SELECT id_pasien FROM rawat_inap WHERE tanggal_keluar IS NULL)'); pakai ini bisa  
+        $this->db->where('is_inap', 0); //$this->db->where('pasien.id_pasien NOT IN (SELECT id_pasien FROM pelayanan WHERE tanggal_keluar IS NULL)'); pakai ini bisa  
         $this->db->limit(10);
         return $this->db->get()->result_array();
     }
@@ -111,15 +111,15 @@ class MenuAdmin_model extends CI_Model
     }
     public function total_pasien()
     {
-        $this->db->from('rawat_inap');
-        $this->db->join('pasien', 'pasien.id_pasien = rawat_inap.id_pasien');
+        $this->db->from('pelayanan');
+        $this->db->join('pasien', 'pasien.id_pasien = pelayanan.id_pasien');
         return $this->db->count_all_results();
     }
     public function total_pasien_keluar()
     {
-        $this->db->from('rawat_inap');
-        $this->db->join('pasien', 'pasien.id_pasien = rawat_inap.id_pasien');
-        $this->db->where('rawat_inap.tanggal_keluar IS NOT NULL');
+        $this->db->from('pelayanan');
+        $this->db->join('pasien', 'pasien.id_pasien = pelayanan.id_pasien');
+        $this->db->where('pelayanan.tanggal_keluar IS NOT NULL');
         return $this->db->count_all_results();
     }
     public function total_tindakan()
@@ -155,7 +155,7 @@ class MenuAdmin_model extends CI_Model
                 'tanggal_keluar' => null
             ];
             var_dump($data);
-            $this->db->insert('rawat_inap', $data);
+            $this->db->insert('pelayanan', $data);
         } else {
             echo 'Data kapasitas tidak ditemukan untuk ruang yang dipilih.';
         }
@@ -168,7 +168,7 @@ class MenuAdmin_model extends CI_Model
 
         $this->db->select('id_ruang');
         $this->db->where('id_pasien', $pasien);
-        $ruang_sebelumnya = $this->db->get('rawat_inap')->row_array();
+        $ruang_sebelumnya = $this->db->get('pelayanan')->row_array();
 
         if ($ruang_sebelumnya) {
             $ruang_lama = $ruang_sebelumnya['id_ruang'];
@@ -205,7 +205,7 @@ class MenuAdmin_model extends CI_Model
                 'tanggal_keluar' => null
             ];
             $this->db->where('id_pasien', $pasien);
-            $this->db->update('rawat_inap', $data);
+            $this->db->update('pelayanan', $data);
         } else {
             echo 'Data kapasitas tidak ditemukan untuk ruang yang dipilih.';
         }
@@ -218,7 +218,7 @@ class MenuAdmin_model extends CI_Model
         $this->db->update('pasien');
         $this->db->set('tanggal_keluar', date('Y-m-d'));
         $this->db->where('id_pasien', $no_medis);
-        $this->db->update('rawat_inap');
+        $this->db->update('pelayanan');
     }
     public function addRuang()
     {
