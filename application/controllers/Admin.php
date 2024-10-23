@@ -9,7 +9,7 @@ class Admin extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('Admin_model');
         $this->load->model('Menu_model');
-        $this->load->model('Dokter_model');
+        $this->load->model('Pegawai_model');
         $this->load->model('Pasien_model');
         check_login();
        
@@ -17,7 +17,7 @@ class Admin extends CI_Controller
     public function dashboard()
     {
         
-        $data['user'] = $this->Dokter_model->getDokterByNo();
+        $data['user'] = $this->Pegawai_model->getDokterByNo();
         $data['judul'] = 'Dashboard';
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -28,7 +28,7 @@ class Admin extends CI_Controller
     public function role()
     {
         $data['judul'] = 'Role';
-        $data['user'] = $this->Dokter_model->getDokterByNo();
+        $data['user'] = $this->Pegawai_model->getDokterByNo();
         $data['role'] = $this->Admin_model->getRole();
     
         $this->load->view('templates/header', $data);
@@ -40,7 +40,7 @@ class Admin extends CI_Controller
     public function roleaccess($role_id)
     {
         $data['judul'] = 'Role Access';
-        $data['user'] = $this->Dokter_model->getDokterByNo();
+        $data['user'] = $this->Pegawai_model->getDokterByNo();
         $data['role'] = $this->Admin_model->getRoleById($role_id);
         $this->db->where('id_menu !=', 1);
 
@@ -60,8 +60,8 @@ class Admin extends CI_Controller
 
     public function data_dokter(){
         $data['judul'] = 'Data Dokter';
-        $data['user'] = $this->Dokter_model->getDokterByNo();
-        // $data['dokter'] = $this->Dokter_model->getAllDokter(); udah diambil sama yang bawah get_dokter
+        $data['user'] = $this->Pegawai_model->getDokterByNo();
+        // $data['dokter'] = $this->Pegawai_model->getAllDokter(); udah diambil sama yang bawah get_dokter
         $data['total_dokter'] = $this->Admin_model->total_dokter();
 
         $this->load->library('pagination');
@@ -86,7 +86,7 @@ class Admin extends CI_Controller
     }
     public function data_pasien(){
         $data['judul'] = 'Data Pasien';
-        $data['user'] = $this->Dokter_model->getDokterByNo();
+        $data['user'] = $this->Pegawai_model->getDokterByNo();
         
         $data['total_pasien'] = $this->Admin_model->total_pasien();
 
@@ -115,7 +115,7 @@ class Admin extends CI_Controller
     public function status_dokter() {
         $no_dokter = $this->input->post('no_dokter');
         $is_active = $this->input->post('is_active');
-        $this->Dokter_model->update_status($no_dokter, $is_active);
+        $this->Pegawai_model->update_status($no_dokter, $is_active);
         echo json_encode(['status' => 'success']);
     }
     public function status_pasien() {

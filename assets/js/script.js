@@ -1,4 +1,4 @@
-console.log("adsda");
+console.log("tes");
 
 const loginFlash = $("#loginflash");
 const loginBerhasil = loginFlash.data("login-success");
@@ -299,7 +299,7 @@ $(".keluar").on("click", function (e) {
 	Swal.fire({
 		title: "Yakin?",
 		html:
-			"Anda tidak akan dapat mengembalikan ini! <br>Pasien Keluar Rawat Inap pada <br><strong>" +
+			"Anda tidak akan dapat mengembalikan ini! <br>Pasien Keluar Ruangan pada <br><strong>" +
 			tanggal +
 			"</strong>",
 		icon: "question",
@@ -413,8 +413,69 @@ $(document).ready(function () {
 //menu modal
 $(function () {
 	$(".btnAdd").on("click", function () {
-		$("#menuModalLabel").html("Add Menu");
-		$(".modal-footer button[type=submit]").html("Add");
+		$("#menuModalLabel").html("Tambah Menu");
+		$(".modal-footer button[type=submit]").html("Tambah");
+	});
+	$(".menuModalEdit").on("click", function () {
+		$("#menuModalLabel").html("Edit Menu");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/new-simrs/menu/editmenu/"
+		);
+
+		const id = $(this).data("id");
+
+		$.ajax({
+			url: "http://localhost/new-simrs/menu/getEditMenu/",
+			data: { id_menu: id },
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				if (data) {
+					$("#id_menu").val(data.id_menu);
+					$("#menu").val(data.menu);
+				} else {
+					console.error("Data is null or undefined");
+				}
+			},
+		});
+	});
+});
+
+
+$(function () {
+	$(".ruangIGDModal").on("click", function () {
+		$("#ruangIGDModalLabel").html("Edit Ruang IGD");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/new-simrs/menuadmin/update_ruang_igd/"
+		);
+
+		const id = $(this).data("id");
+
+		$.ajax({
+			url: "http://localhost/new-simrs/menuadmin/getEditRuangIGD/",
+			data: { id_ruang_igd: id },
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				if (data) {
+					$("#id_ruang_igd").val(data.id_ruang_igd);
+					$("#ruang_igd").val(data.nama_ruang_igd);
+					$("#kapasitas").val(data.kapasitas);
+				} else {
+					console.error("Data is null or undefined");
+				}
+			},
+		});
+	});
+});
+$(function () {
+	$(".btnAdd").on("click", function () {
+		$("#menuModalLabel").html("Tambah Menu");
+		$(".modal-footer button[type=submit]").html("Tambah");
 	});
 	$(".menuModalEdit").on("click", function () {
 		$("#menuModalLabel").html("Edit Menu");
@@ -446,8 +507,8 @@ $(function () {
 //submenu modal
 $(function () {
 	$(".btnEdit").on("click", function () {
-		$("#submenuModalLabel").html("Add Sub Menu");
-		$(".modal-footer button[type=submit]").html("Add");
+		$("#submenuModalLabel").html("Tambah Sub Menu");
+		$(".modal-footer button[type=submit]").html("Tambah");
 		$(".url_form input").removeAttr("disabled");
 	});
 	$(".subMenuModal").on("click", function () {
@@ -492,8 +553,8 @@ $(function () {
 //role modal
 $(function () {
 	$(".btnAddRole").on("click", function () {
-		$(".roleModalLabel").html("Add Role");
-		$(".modal-footer button[type=submit]").html("Add");
+		$(".roleModalLabel").html("Tambah Role");
+		$(".modal-footer button[type=submit]").html("Tambah");
 	});
 	$(".roleModalEdit").on("click", function () {
 		$("#roleModalLabel").html("Edit Role");
@@ -523,13 +584,20 @@ $(function () {
 });
 
 const selectRuang = document.getElementById("ruang");
+const selectRuangIGD = document.getElementById("ruang_igd");
 const kapasitasInfo = document.getElementById("kapasitas-info");
+const kapasitasInfoIGD = document.getElementById("kapasitas-info-igd");
 
 // Event listener untuk update kapasitas saat ruang dipilih
 selectRuang.addEventListener("change", function () {
 	const selectedOption = selectRuang.options[selectRuang.selectedIndex];
 	const kapasitas = selectedOption.getAttribute("data-kapasitas");
 	kapasitasInfo.textContent = kapasitas ? `${kapasitas}` : "Kapasitas";
+});
+selectRuangIGD.addEventListener("change", function () {
+	const selectedOption = selectRuangIGD.options[selectRuangIGD.selectedIndex];
+	const kapasitas = selectedOption.getAttribute("data-kapasitas-igd");
+	kapasitasInfoIGD.textContent = kapasitas ? `${kapasitas}` : "Kapasitas";
 });
 
 
@@ -590,6 +658,8 @@ $(function () {
 	$(".btnAddRuang").on("click", function () {
 		$("#ruangModalLabel").html("Tambah Ruang");
 		$(".modal-footer button[type=submit]").html("Tambah");
+
+		
 	});
 
 	// edit ruang
@@ -598,7 +668,7 @@ $(function () {
 		$(".modal-footer button[type=submit]").html("Edit");
 		$(".modal-body form").attr(
 			"action",
-			"http://localhost/new-simrs/menuadmin/update/"
+			"http://localhost/new-simrs/menuadmin/update_ruang/"
 		);
 
 		const id = $(this).data("id");
@@ -623,7 +693,6 @@ $(function () {
 
 	// end edit 
 });
-
 
 //tindakan modal
 $(function () {

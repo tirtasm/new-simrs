@@ -35,20 +35,21 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-        <form action="<?= base_url('menuadmin/pasien'); ?>" method="POST">
+            <form action="<?= base_url('menuadmin/pasien'); ?>" method="POST">
                 <div class="mb-4">
                     <h1 class="text-gray-800"><?= $judul ?></h1>
                     <div class="form">
                         <i class="fa fa-search"></i>
-                        <input type="text" name="search" class="form-control form-input"
-                            placeholder="Cari Pasien..." value="<?= isset($search) ? $search : '' ?>">
+                        <input type="text" name="search" class="form-control form-input" placeholder="Cari Pasien..."
+                            value="<?= isset($search) ? $search : '' ?>">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </div>
             </form>
 
 
-            <div class="btn btn-primary mb-3 btnEdit" data-toggle="modal" data-target="#pasienModal">Tambah Pasien Masuk</div>
+            <div class="btn btn-primary mb-3 btnEdit" data-toggle="modal" data-target="#pasienModal">Tambah Pasien Masuk
+            </div>
             <div class="pasienflash" data-pasien-flash="<?= $this->session->flashdata('pasienflash'); ?>"
                 data-error-flash="<?= $this->session->flashdata('errorflash'); ?>"></div>
 
@@ -84,7 +85,7 @@
                                             <td><?= $p['nama'] ?></td>
                                             <td><?= $p['no_telp'] ?></td>
                                             <td class="text-center"><?= $p['tanggal_lahir'] ?></td>
-                                            <td><?= $p['nama_ruang'] ?></td>
+                                            <td><?= !empty($p['nama_ruang_igd']) ? $p['nama_ruang_igd'] : $p['nama_ruang'] ?></td>
                                             <td class="text-center"><?= $p['tanggal_masuk'] ?></td>
 
                                             <!-- <td><?= $p['tanggal_keluar'] ?></td> -->
@@ -182,17 +183,55 @@
 
                             </script>
 
-                        <div class="mb-3">
-                            <label for="no_telp" class="form-label">No Telp Pasien</label>
-                            <input type="text" id="no_telp" name="no_telp" class="form-control" readonly>
-                        </div>
-
                             <div class="mb-3">
+                                <label for="no_telp" class="form-label">No Telp Pasien</label>
+                                <input type="text" id="no_telp" name="no_telp" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="jenis_pelayanan" class="form-label">Jenis Pelayanan</label>
+                                <select name="jenis_pelayanan" id="jenis_pelayanan"
+                                    class="form-control d-flex justify-content-between" required>
+
+                                    <option value="">---Pilih Jenis Pelayanan---</option>
+                                    <?php foreach ($jenis_pelayanan as $jp): ?>
+                                        <option value="<?= $jp['id_jenis_pelayanan'] ?>">
+                                            <?= $jp['nama_pelayanan'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="mb-3" id="igd" style="display:none;">
                                 <label for="role" class="form-label">Nama Ruang</label>
-                                <div class="d-flex">
+                                <div class="d-flex ">
+
+                                    <select name="ruang_igd" id="ruang_igd" class="form-control d-flex justify-content-between"
+                                        >
+                                        <?php if (empty($ruang_igd) || array_sum(array_column($ruang_igd, 'kapasitas')) == 0): ?>
+                                            <option value="">---Tidak Ada Ruang Tersedia---</option>
+                                        <?php else: ?>
+                                            <option value="">---Pilih Ruang IGD---</option>
+                                            <?php foreach ($ruang_igd as $r): ?>
+                                                <?php if ($r['kapasitas'] > 0): ?>
+                                                    <option value="<?= $r['id_ruang_igd'] ?>" data-kapasitas-igd="<?= $r['kapasitas'] ?>">
+                                                        <?= $r['nama_ruang_igd'] ?>
+                                                    </option>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </select>
+                                    <div id="kapasitas-info-igd" class="btn badge-success px-3 ml-2">Kapasitas</div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="mb-3" id="rawat_inap" style="display:none;">
+                                <label for="role" class="form-label">Nama Ruang</label>
+                                <div class="d-flex ">
 
                                     <select name="ruang" id="ruang" class="form-control d-flex justify-content-between"
-                                        required>
+                                        >
                                         <?php if (empty($ruang) || array_sum(array_column($ruang, 'kapasitas')) == 0): ?>
                                             <option value="">---Tidak Ada Ruang Tersedia---</option>
                                         <?php else: ?>
@@ -209,6 +248,27 @@
                                     <div id="kapasitas-info" class="btn badge-success px-3 ml-2">Kapasitas</div>
                                 </div>
                             </div>
+
+                            <script>
+
+                                const selectPelayanan = document.getElementById('jenis_pelayanan');
+                                selectPelayanan.addEventListener('change', function () {
+                                    const selectedOption = selectPelayanan.options[selectPelayanan.selectedIndex];
+                                    
+                                    if(selectedOption.value == 1){
+                                        document.getElementById('igd').style.display = 'block';
+                                    }else{
+                                        document.getElementById('igd').style.display = 'none';
+                                    }
+                                    if(selectedOption.value == 2){
+                                        document.getElementById('rawat_inap').style.display = 'block';                                        
+                                    }else{
+                                        document.getElementById('rawat_inap').style.display = 'none';
+                                    }
+                                });
+
+
+                            </script>
                             <div class="mb-3">
                                 <label for="tanggal_masuk" class="form-label">Tanggal Masuk</label>
                                 <input type="date" name="tanggal_masuk" id="tanggal_masuk" class="form-control"

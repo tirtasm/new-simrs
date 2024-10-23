@@ -1,7 +1,7 @@
 <?php  
     function check_login(){
         $ci = get_instance();        
-    if(!$ci->session->userdata('no_dokter') && !$ci->session->userdata('no_medis')){
+    if(!$ci->session->userdata('no_pegawai') && !$ci->session->userdata('no_medis')){
             redirect('auth/login');
         }else{
             $role_id = $ci->session->userdata('id_role');

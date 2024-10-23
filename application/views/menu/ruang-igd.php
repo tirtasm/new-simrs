@@ -35,7 +35,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-        <form action="<?= base_url('menuadmin/ruang'); ?>" method="POST">
+        <form action="<?= base_url('menuadmin/ruang_igd'); ?>" method="POST">
                 <div class="mb-4">
                     <h1 class="text-gray-800"><?= $judul ?></h1>
                     <div class="form">
@@ -48,15 +48,16 @@
             </form>
 
 
-            <div class="btn btn-primary mb-3 btnAddRuang" data-toggle="modal" data-target="#ruangModal" >Tambah Ruang
+            <div class="btn btn-primary mb-3" data-toggle="modal" data-target="#ruangIGDModal" >Tambah Ruang IGD
             </div>
             <div class="ruangflash" data-ruang-flash="<?= $this->session->flashdata('ruangflash'); ?>"
                 data-error-flash="<?= $this->session->flashdata('errorflash'); ?>"></div>
 
+                <!-- <script>console.log('wewew')</script> -->
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Tabel Ruang</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Tabel Ruang IGD</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -64,25 +65,25 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th>Nama Ruang</th>
+                                    <th>Nama Ruang IGD</th>
                                     <th class="text-center">Kapasitas</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <?php
                             $no = $this->uri->segment(3) ? $this->uri->segment(3) + 1 : 1;
-                            if (!empty($ruang)):
-                                foreach ($ruang as $r): ?>
+                            if (!empty($ruang_igd)):
+                                foreach ($ruang_igd as $r): ?>
                                     <tbody>
                                         <tr>
                                             <td class="text-center"><?= $no ?></td>
-                                            <td><?= $r['nama_ruang'] ?></td>
+                                            <td><?= $r['nama_ruang_igd'] ?></td>
                                             <td class="text-center"><?= $r['kapasitas'] == 0 ? '<span class="text-danger">Tidak Tersedia</span>' : $r['kapasitas'] ?></td>
                                             <td class="text-center">
-                                                <a href="<?= base_url('menuadmin/edit_ruang/') . $r['id_ruang'] ?>"
-                                                    class="badge badge-warning ruangModal" data-toggle="modal"
-                                                    data-target="#ruangModal" data-id="<?= $r['id_ruang'] ?>">Edit</a>
-                                                <a href="<?= base_url('menuadmin/delete_ruang/') . $r['id_ruang'] ?>"
+                                                <a href="<?= base_url('menuadmin/edit_ruang_igd/') . $r['id_ruang_igd'] ?>"
+                                                    class="badge badge-warning ruangIGDModal" data-toggle="modal"
+                                                    data-target="#ruangIGDModal" data-id="<?= $r['id_ruang_igd'] ?>">Edit</a>
+                                                <a href="<?= base_url('menuadmin/delete_ruang_igd/') . $r['id_ruang_igd'] ?>"
                                                     class="badge badge-danger delete">Hapus</a>
                                             </td>
                                         </tr>
@@ -114,26 +115,26 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="ruangModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
+<div class="modal fade" id="ruangIGDModal" tabindex="-1" role="dialog" aria-labelledby="judulModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ruangModalLabel">Tambah Ruang</h5>
+                <h5 class="modal-title" id="ruangIGDModalLabel">Tambah Ruang IGD</h5>
 
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="<?= base_url('menuadmin/add_ruang') ?>" method="post">
+                <form action="<?= base_url('menuadmin/add_ruang_igd') ?>" method="post">
                     <div class="row justify-content-center">
 
                         <div class="col-lg-10 align-items-center ">
 
                             <div class="mb-3">
-                                <input type="hidden" id="id_ruang" name="id_ruang">
-                                <label for="ruang" class="form-label">Nama Ruang</label>
-                                <input type="text" class="form-control" id="ruang" name="ruang" required>
+                                <input type="hidden" id="id_ruang_igd" name="id_ruang_igd">
+                                <label for="ruang_igd" class="form-label">Nama Ruang IGD</label>
+                                <input type="text" class="form-control" id="ruang_igd" name="ruang_igd" required>
                             </div>
                             <div class="mb-3">
                                 <label for="kapasitas" class="form-label">Kapasitas</label>

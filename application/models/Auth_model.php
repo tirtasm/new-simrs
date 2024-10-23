@@ -90,6 +90,7 @@ class Auth_model extends CI_Model
                     ];
                     $this->session->set_userdata($data);
                     var_dump($data);
+                    echo 'ok';
                     $this->session->set_flashdata('login_success', 'ok');
                     redirect('admin/dashboard');
                 }
@@ -113,6 +114,7 @@ class Auth_model extends CI_Model
             } else {
                 $this->session->set_flashdata('login_error', 'Pastikan No. Dokter dan Password benar!');
                 redirect('pegawai/login');
+                var_dump($pegawai);
             }
         } else {
             echo 'gagal';

@@ -81,7 +81,7 @@
                                             <td><?= $p['nama'] ?></td>
                                             <td><?= $p['no_telp'] ?></td>
                                             <td class="text-center"><?= $p['tanggal_lahir'] ?></td>
-                                            <td><?= $p['nama_ruang'] ?></td>
+                                            <td><?= !empty($p['nama_ruang']) ? $p['nama_ruang'] :$p['nama_ruang_igd'] ?></td>
                                             <td class="text-center"><?= $p['tanggal_masuk'] ?></td>
                                         </tr>
                                     </tbody>
