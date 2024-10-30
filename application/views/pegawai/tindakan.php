@@ -1,31 +1,4 @@
-<style>
-    .form {
-        position: relative;
-        display: flex;
-        align-items: center;
-        margin: 1% 50% 0 0%;
-    }
 
-    .form .fa-search {
-        position: absolute;
-        left: 10px;
-        color: #9ca3af;
-    }
-
-    .form-input {
-        height: 55px;
-        text-indent: 33px;
-        border-radius: 10px;
-        flex-grow: 1;
-    }
-
-    .form button {
-        height: 55px;
-        width: 95px;
-        margin-left: 30px;
-        border-radius: 10px;
-    }
-</style>
 <div id="content-wrapper" class="td-flex flex-column">
 
     <!-- Main Content -->
@@ -34,16 +7,22 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-        <form action="<?= base_url('dokter/tindakan'); ?>" method="POST">
-    <div class="mb-4">
-        <h1 class="text-gray-800"><?= $judul ?></h1>
-        <div class="form">
-            <i class="fa fa-search"></i>
-            <input type="text" name="search" class="form-control form-input" placeholder="Cari Tindakan Pasien..." value="<?= isset($search) ? $search : '' ?>">
-            <button class="btn btn-primary" type="submit">Search</button>
-        </div>
-    </div>
-</form>
+        <form action="<?= base_url('pegawai/tindakan'); ?>" method="POST">
+            <div class="mb-4">
+                <h1 class="text-gray-800"><?= $judul ?></h1>
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <i class="fa fa-search"></i>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="search" class="form-control form-input" placeholder="Cari Tindakan Pasien..." value="<?= isset($search) ? $search : '' ?>">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
 
 
             <div class="tindakanflash" data-tindakan-success="<?= $this->session->flashdata('tindakan_success'); ?>" data-tindakan-failed="<?= $this->session->flashdata('tindakan_failed'); ?>"></div>

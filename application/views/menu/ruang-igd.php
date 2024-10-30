@@ -1,32 +1,3 @@
-<style>
-    .form {
-        position: relative;
-        display: flex;
-        align-items: center;
-        margin: 1% 50% 0 0%;
-    }
-
-    .form .fa-search {
-        position: absolute;
-        left: 10px;
-        color: #9ca3af;
-    }
-
-    .form-input {
-        height: 45px;
-        text-indent: 33px;
-        border-radius: 10px;
-        flex-grow: 1;
-    }
-
-    .form button {
-        height: 45px;
-        width: 95px;
-        margin-left: 30px;
-        border-radius: 10px;
-    }
-</style>
-
 <div id="content-wrapper" class="r-flex flex-column">
 
     <!-- Main Content -->
@@ -36,16 +7,21 @@
         <div class="container-fluid">
 
         <form action="<?= base_url('menuadmin/ruang_igd'); ?>" method="POST">
-                <div class="mb-4">
-                    <h1 class="text-gray-800"><?= $judul ?></h1>
-                    <div class="form">
+            <div class="mb-4">
+                <h1 class="text-gray-800"><?= $judul ?></h1>
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
                         <i class="fa fa-search"></i>
-                        <input type="text" name="search" class="form-control form-input"
-                            placeholder="Cari Ruang..." value="<?= isset($search) ? $search : '' ?>">
+                    </div>
+                    <div class="col">
+                        <input type="text" name="search" class="form-control form-input" placeholder="Cari Nama Ruang IGD..." value="<?= isset($search) ? $search : '' ?>">
+                    </div>
+                    <div class="col-auto">
                         <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </div>
-            </form>
+            </div>
+        </form>
 
 
             <div class="btn btn-primary mb-3" data-toggle="modal" data-target="#ruangIGDModal" >Tambah Ruang IGD
