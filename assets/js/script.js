@@ -615,7 +615,7 @@ $(function () {
 
 $(function () {
 	$(".pasienModal").on("click", function () {
-		$("#pasienModalLabel").html("Edit Ruang");
+		$("#pasienModalLabel").html("Edit Pasien");
 		$(".modal-footer button[type=submit]").html("Edit");
 		$("#tanggal_masuk").attr("readonly", true);
 		$("#v_pasien").attr("disabled", true);
@@ -638,9 +638,8 @@ $(function () {
 				$("#id_pasien").val(data.id_pasien);
 				$("#v_pasien").val(data.id_pasien);
 				$("#no_telp").val(data.no_telp);
-				$("#ruang").val(data.id_ruang);
-				$("#v_ruang").val(data.id_ruang);
 				$("#tanggal_masuk").val(data.tanggal_masuk);
+				console.log(data);
 				const selectedOption = selectRuang.querySelector(
 					`option[value="${data.id_ruang}"]`
 				);

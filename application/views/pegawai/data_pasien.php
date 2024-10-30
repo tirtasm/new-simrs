@@ -34,7 +34,7 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-        <form action="<?= base_url('dokter/data_pasien'); ?>" method="POST">
+        <form action="<?= base_url('pegawai/data_pasien'); ?>" method="POST">
     <div class="mb-4">
         <h1 class="text-gray-800"><?= $judul ?></h1>
         <div class="form">
@@ -76,7 +76,12 @@
                                 <td><?= $p['nama'] ?></td>
                                 <td><?= $p['no_telp'] ?></td>
                                 <td><?= $p['tanggal_lahir'] ?></td>
-                                <td><?= $p['nama_ruang'] ?></td>
+                                <td>
+                                    <?php if ($p['nama_ruang_igd']): ?>
+                                        <?= $p['nama_ruang_igd'] ?>
+                                    <?php else: ?>
+                                        <?= $p['nama_ruang'] ?>
+                                    <?php endif; ?>
                                 <td><?= $p['tanggal_masuk'] ?></td>
                                 <td>
                                     <?php

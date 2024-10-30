@@ -47,10 +47,11 @@ class Pasien_model extends CI_Model
     public function get_rawat_inap_by_no()
     {
         $no_medis = $this->session->userdata('no_medis');
-        $this->db->select('pasien.*, pelayanan.*, ruang.*');
+        $this->db->select('pasien.*, pelayanan.*, ruang_igd.nama_ruang_igd, ruang.nama_ruang');
         $this->db->from('pasien');
         $this->db->join('pelayanan', 'pasien.id_pasien = pelayanan.id_pasien');
-        $this->db->join('ruang', 'ruang.id_ruang = pelayanan.id_ruang');
+        $this->db->join('ruang_igd', 'ruang_igd.id_ruang_igd = pelayanan.id_ruang_igd', 'left');
+        $this->db->join('ruang', 'ruang.id_ruang = pelayanan.id_ruang', 'left');
         $this->db->order_by('pelayanan.tanggal_masuk', 'DESC');
         $this->db->where('pasien.is_active', 1);
         $this->db->where('pasien.no_medis', $no_medis);
@@ -60,11 +61,12 @@ class Pasien_model extends CI_Model
     public function get_kunjungan_by_no()
     {
         $no_medis = $this->session->userdata('no_medis');
-        $this->db->select('visite.*, pasien.*, pegawai.nama_pegawai, ruang.nama_ruang');
+        $this->db->select('visite.*, pasien.*,  pegawai.nama_pegawai, ruang_igd.nama_ruang_igd, ruang.nama_ruang');
         $this->db->from('visite');
         $this->db->join('pasien', 'pasien.id_pasien = visite.id_pasien');
         $this->db->join('pegawai', 'pegawai.no_pegawai = visite.no_pegawai');
-        $this->db->join('ruang', 'ruang.id_ruang = visite.id_ruang');
+        $this->db->join('ruang_igd', 'ruang_igd.id_ruang_igd = visite.id_ruang_igd', 'left');
+        $this->db->join('ruang', 'ruang.id_ruang = visite.id_ruang' , 'left');
         $this->db->order_by('visite.tanggal_visite', 'DESC');
         $this->db->where('pasien.no_medis', $no_medis);
         return $this->db->get()->result_array();

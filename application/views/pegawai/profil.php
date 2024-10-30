@@ -9,16 +9,16 @@
         <div class="col-lg-8">
 
             <div class="form-group row">
-                <label for="no_dokter" class="col-sm-2 col-form-label" id="no_dokter">No. Dokter</label>
+                <label for="no_pegawai" class="col-sm-2 col-form-label" id="no_pegawai">No. Dokter</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" value="<?= $user['no_dokter']; ?>" name="no_dokter"
+                    <input type="text" class="form-control" value="<?= $user['no_pegawai']; ?>" name="no_pegawai"
                         readonly>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="nama" class="col-sm-2 col-form-label" id="nama">Nama Lengkap</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="nama" value="<?= $user['nama_dokter']; ?>" readonly>
+                    <input type="text" class="form-control" name="nama" value="<?= $user['nama_pegawai']; ?>" readonly>
                 </div>
             </div>
             <div class="form-group row">
@@ -35,9 +35,9 @@
                 </div>
             </div>
             <div class="form-group row justify-content-end">
-                <a href="<?= base_url('dokter/edit/') . $user['no_dokter'] ?>"
+                <a href="<?= base_url('dokter/edit/') . $user['no_pegawai'] ?>"
                     class="badge mr-2 px-3 py-2 btn-primary profilModal" data-toggle="modal" data-target="#formModal"
-                    data-id="<?= $user['no_dokter'] ?>">Edit</a>
+                    data-id="<?= $user['no_pegawai'] ?>">Edit</a>
             </div>
         </div>
 
@@ -58,13 +58,13 @@
 
                             <div class="col-lg-10 align-items-center ">
                                 <div class="mb-3">
-                                    <label for="no_dokter" class="form-label">No. Dokter</label>
-                                    <input type="text" class="form-control" value="<?= $user['no_dokter'] ?>"
-                                        id="no_dokter" name="no_dokter" readonly>
+                                    <label for="no_pegawai" class="form-label">No. Dokter</label>
+                                    <input type="text" class="form-control" value="<?= $user['no_pegawai'] ?>"
+                                        id="no_pegawai" name="no_pegawai" readonly>
                                 </div>
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama Lengkap</label>
-                                    <input type="text" class="form-control" value="<?= $user['nama_dokter'] ?>"
+                                    <input type="text" class="form-control" value="<?= $user['nama_pegawai'] ?>"
                                         id="nama" name="nama">
                                 </div>
                                 <div class="mb-3">

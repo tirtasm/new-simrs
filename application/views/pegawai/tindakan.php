@@ -77,7 +77,7 @@
                                         <tr>
                                             <td class="text-center"><?= $no ?></td>
                                             <td><?= $td['nama'] ?></td>
-                                            <td><?= $td['nama_dokter'] ?></td>
+                                            <td><?= $td['nama_pegawai'] ?></td>
                                             <td><?= $td['nama_ruang'] ?></td>
                                             <td><?= $td['nama_tindakan'] ?></td>
                                             <td><?= $td['tanggal_tindakan'] ?></td>
@@ -137,12 +137,12 @@
                         <div class="col-lg-10 align-items-center ">
 
                             <div class="mb-3">
-                                <label for="nama_dokter" class="form-label">Nama Dokter</label>
+                                <label for="nama_pegawai" class="form-label">Nama Dokter</label>
                                 <input type="hidden" id="id_visite" name="id_visite">
                                 <input type="hidden" id="id_tindakan_pasien" name="id_tindakan_pasien">
-                                <input type="hidden" id="no_dokter" name="no_dokter" value="<?= $user['no_dokter'] ?>">
-                                <input type="text" id="nama_dokter" name="nama_dokter" class="form-control"
-                                    value="<?= $user['nama_dokter'] ?>" readonly>
+                                <input type="hidden" id="no_pegawai" name="no_pegawai" value="<?= $user['no_pegawai'] ?>">
+                                <input type="text" id="nama_pegawai" name="nama_pegawai" class="form-control"
+                                    value="<?= $user['nama_pegawai'] ?>" readonly>
                             </div>
                             <div class="mb-3">
                                 <label for="nama_pasien" class="form-label">Nama Pasien</label>

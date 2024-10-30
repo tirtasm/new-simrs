@@ -1,5 +1,3 @@
-
-
 <div id="content-wrapper" class="p-flex flex-column">
 
     <!-- Main Content -->
@@ -36,8 +34,13 @@
                                         <td class="text-center"><?= $no ?></td>
                                         <td><?= $p['no_medis'] ?></td>
                                         <td><?= $p['nama'] ?></td>
-                                        
-                                        <td><?= $p['nama_ruang'] ?></td>
+                                        <td>
+                                            <?php if ($p['nama_ruang_igd']): ?>
+                                                <?= $p['nama_ruang_igd'] ?>
+                                            <?php else: ?>
+                                                <?= $p['nama_ruang'] ?>
+                                            <?php endif; ?>
+                                        </td>
                                         <td><?= $p['tanggal_masuk'] ?></td>
                                         <td>
                                             <?php

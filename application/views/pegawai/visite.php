@@ -40,16 +40,17 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-        <form action="<?= base_url('dokter/visite'); ?>" method="POST">
-    <div class="mb-4">
-        <h1 class="text-gray-800"><?= $judul ?></h1>
-        <div class="form">
-            <i class="fa fa-search"></i>
-            <input type="text" name="search" class="form-control form-input" placeholder="Cari Visite Pasien..." value="<?= isset($search) ? $search : '' ?>">
-            <button class="btn btn-primary" type="submit">Search</button>
-        </div>
-    </div>
-</form>
+            <form action="<?= base_url('pegawai/visite'); ?>" method="POST">
+                <div class="mb-4">
+                    <h1 class="text-gray-800"><?= $judul ?></h1>
+                    <div class="form">
+                        <i class="fa fa-search"></i>
+                        <input type="text" name="search" class="form-control form-input"
+                            placeholder="Cari Visite Pasien..." value="<?= isset($search) ? $search : '' ?>">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
             <div class="btn btn-primary mb-3 btnVisite" data-toggle="modal" data-target="#visiteModal">Visite</div>
 
             <div class="visiteflash" data-visite-added="<?= $this->session->flashdata('visite_success'); ?>"
@@ -86,16 +87,16 @@
                                             <td><?= $p['no_medis'] ?></td>
                                             <td><?= $p['nama'] ?></td>
                                             <td><?= $p['nama_ruang'] ?></td>
-                                            <td><?= $p['nama_dokter'] ?></td>
+                                            <td><?= $p['nama_pegawai'] ?></td>
                                             <td><?= $p['tanggal_visite'] ?></td>
                                             <td style="max-width:300px;">
                                                 <?= $p['catatan'] ?>
                                             </td>
                                             <td class="text-center">
-                                                <a href="<?= base_url('dokter/editvisite/') . $p['id_visite'] ?>"
+                                                <a href="<?= base_url('pegawai/editvisite/') . $p['id_visite'] ?>"
                                                     class="badge badge-warning visiteModal" data-toggle="modal"
                                                     data-target="#visiteModal" data-id="<?= $p['id_visite'] ?>">Edit</a>
-                                                <a href="<?= base_url('dokter/deletevisite/') . $p['id_visite'] ?>"
+                                                <a href="<?= base_url('pegawai/deletevisite/') . $p['id_visite'] ?>"
                                                     class="badge badge-danger delete">Hapus</a>
                                             </td>
 
@@ -142,17 +143,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="<?= base_url('dokter/addvisite') ?>" method="post">
+                <form action="<?= base_url('pegawai/addvisite') ?>" method="post">
                     <div class="row justify-content-center">
 
                         <div class="col-lg-10 align-items-center ">
 
                             <div class="mb-3">
-                                <label for="nama_dokter" class="form-label">Nama Dokter</label>
+                                <label for="nama_pegawai" class="form-label">Nama Dokter</label>
                                 <input type="hidden" id="id_visite" name="id_visite">
-                                <input type="hidden" id="no_dokter" name="no_dokter" value="<?= $user['no_dokter'] ?>">
-                                <input type="text" id="nama_dokter" name="nama_dokter" class="form-control"
-                                    value="<?= $user['nama_dokter'] ?>" readonly>
+                                <input type="hidden" id="no_pegawai" name="no_pegawai"
+                                    value="<?= $user['no_pegawai'] ?>">
+                                <input type="text" id="nama_pegawai" name="nama_pegawai" class="form-control"
+                                    value="<?= $user['nama_pegawai'] ?>" readonly>
                             </div>
                             <div class="mb-3">
                                 <label for="nama_pasien" class="form-label">Nama Pasien</label>
@@ -162,7 +164,8 @@
                                         <?php if (!empty($pasien)): ?>
                                             <?php foreach ($pasien as $p): ?>
                                                 <option value="<?= $p['id_pasien'] ?>" data-nomor="<?= $p['no_telp'] ?>"
-                                                    data-ruang="<?= $p['nama_ruang'] ?>" data-id_ruang="<?= $p['id_ruang'] ?>">
+                                                    data-ruang="<?= $p['nama_ruang'] ?>" data-id_ruang="<?= $p['id_ruang'] ?>" data-id_ruang_igd="<?= $p['id_ruang_igd'] ?>"
+                                                    data-ruang_igd="<?= $p['nama_ruang_igd'] ?>">
                                                     <?= $p['nama'] ?>
                                                 </option>
                                             <?php endforeach; ?>
@@ -173,9 +176,6 @@
 
                                 </div>
                             </div>
-                            <script>
-
-                            </script>
 
                             <div class="mb-3">
                                 <label for="no_telp" class="form-label">No Telp Pasien</label>
@@ -185,6 +185,8 @@
                             <div class="mb-3">
                                 <label for="ruang" class="form-label">Nama Ruang</label>
                                 <input type="hidden" id="id_ruang" name="id_ruang" class="form-control" readonly>
+                                <input type="hidden" id="id_ruang_igd" name="id_ruang_igd" class="form-control"
+                                    readonly>
                                 <input type="text" id="ruang" name="ruang" class="form-control" readonly>
                             </div>
                             <div class="mb-3">
@@ -211,28 +213,52 @@
 </div>
 
 <script>
+    // const selectPasien = document.getElementById('nama_pasien');
+    // const ruangId = document.getElementById('id_ruang');
+    // const ruangIgdId = document.getElementById('id_ruang_igd');
+
+    // selectPasien.addEventListener('change', function () {
+    //     const selectedOption = selectPasien.options[selectPasien.selectedIndex];
+    //     const ruangValue = selectedOption.getAttribute('data-id_ruang');
+    //     const ruangIgdValue = selectedOption.getAttribute('data-id_ruang_igd');
+
+    //     if (ruangValue && ruangValue !== '') {
+    //         ruangId.value = ruangValue;
+    //         ruangIgdId.value = ''; 
+    //         // console.log(ruangValue);
+    //     } else if (ruangIgdValue && ruangIgdValue !== '') {
+    //         ruangIgdId.value = ruangIgdValue;
+    //         ruangId.value = ''; 
+    //         // console.log(ruangIgdValue);
+    //     } else {
+    //         ruangId.value = '';
+    //         ruangIgdId.value = '';
+    //     }
+    // });
     const selectPasien = document.getElementById('nama_pasien');
     const nomorTelp = document.getElementById('no_telp');
     const ruang = document.getElementById('ruang');
     const ruangId = document.getElementById('id_ruang');
+    const ruangIgdId = document.getElementById('id_ruang_igd');
+    const ruangIgd = document.getElementById('ruang_igd');
 
     selectPasien.addEventListener('change', function () {
         const selectedOption = selectPasien.options[selectPasien.selectedIndex];
         const nomor = selectedOption.getAttribute('data-nomor');
         const ruangValue = selectedOption.getAttribute('data-ruang');
-        const ruangValueId = selectedOption.getAttribute('data-id_ruang');       
-        
+        const ruangIgdValue = selectedOption.getAttribute('data-ruang_igd');
+        const ruangValueId = selectedOption.getAttribute('data-id_ruang');
+        const ruangIgdValueId = selectedOption.getAttribute('data-id_ruang_igd');
 
         if (ruang && nomor) {
             nomorTelp.value = nomor;
-            ruang.value = ruangValue;
-            ruangId.value = ruangValueId;
+            ruang.value = ruangValue || ruangIgdValue;
+            ruangId.value = ruangValueId || ruangIgdValueId;
+            // console.log(ruangId.value);          
         } else {
             nomorTelp.value = '';
             ruang.value = '';
         }
+        // console.log(ruangValue)
     });
-    
-
-
 </script>
