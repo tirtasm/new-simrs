@@ -14,13 +14,13 @@ class MenuAdmin_model extends CI_Model
 
     public function getPasienById($id)
     {
-        $this->db->select('pasien.*, pelayanan.*, ruang.*');
+        $this->db->select('pasien.*, pelayanan.*, ruang_igd.*, ruang.*');
         $this->db->from('pasien');
         $this->db->join('pelayanan', 'pasien.id_pasien = pelayanan.id_pasien');
-        $this->db->join('ruang', 'ruang.id_ruang = pelayanan.id_ruang');
+        $this->db->join('ruang_igd', 'ruang_igd.id_ruang_igd = pelayanan.id_ruang_igd', 'left');
+        $this->db->join('ruang', 'ruang.id_ruang = pelayanan.id_ruang', 'left');
         $this->db->where('pasien.id_pasien', $id);
         return $this->db->get()->row_array();
-
     }
     //for all data active
     public function get_pasien($limit, $start, $search = null)
@@ -152,71 +152,71 @@ class MenuAdmin_model extends CI_Model
     }
 
     public function addPasien()
-{
-  
-    $jenis_pelayanan = htmlspecialchars($this->input->post('jenis_pelayanan', true));
-    $pasien = htmlspecialchars($this->input->post('pasien', true));
-    $tanggal_masuk = htmlspecialchars($this->input->post('tanggal_masuk', true));
-    $id_jenis_pelayanan = htmlspecialchars($this->input->post('jenis_pelayanan', true));
+    {
 
-   
-    if ($jenis_pelayanan == 1) { 
-        $ruang_igd = htmlspecialchars($this->input->post('ruang_igd', true));
-        $ruang = null; 
-    } elseif ($jenis_pelayanan == 2) { 
-        $ruang = htmlspecialchars($this->input->post('ruang', true));
-        $ruang_igd = null; 
-    } else {
-      
-        echo 'Jenis pelayanan tidak valid.';
-        return;
-    }
+        $jenis_pelayanan = htmlspecialchars($this->input->post('jenis_pelayanan', true));
+        $pasien = htmlspecialchars($this->input->post('pasien', true));
+        $tanggal_masuk = htmlspecialchars($this->input->post('tanggal_masuk', true));
+        $id_jenis_pelayanan = htmlspecialchars($this->input->post('jenis_pelayanan', true));
 
-   
-    $this->db->set('is_inap', 1);
-    $this->db->where('id_pasien', $pasien);
-    $this->db->update('pasien');
 
-   
-    if (!empty($ruang)) {
-        $this->db->select('kapasitas');
-        $this->db->where('id_ruang', $ruang);
-        $ruang_data = $this->db->get('ruang')->row_array();
+        if ($jenis_pelayanan == 1) {
+            $ruang_igd = htmlspecialchars($this->input->post('ruang_igd', true));
+            $ruang = null;
+        } elseif ($jenis_pelayanan == 2) {
+            $ruang = htmlspecialchars($this->input->post('ruang', true));
+            $ruang_igd = null;
+        } else {
 
-        if ($ruang_data && isset($ruang_data['kapasitas'])) {
-            $kapasitas = $ruang_data['kapasitas'];
-            if ($kapasitas > 0) {
-                $updated_kapasitas = $kapasitas - 1;
-                $this->db->set('kapasitas', $updated_kapasitas);
-                $this->db->where('id_ruang', $ruang);
-                $this->db->update('ruang');
+            echo 'Jenis pelayanan tidak valid.';
+            return;
+        }
+
+
+        $this->db->set('is_inap', 1);
+        $this->db->where('id_pasien', $pasien);
+        $this->db->update('pasien');
+
+
+        if (!empty($ruang)) {
+            $this->db->select('kapasitas');
+            $this->db->where('id_ruang', $ruang);
+            $ruang_data = $this->db->get('ruang')->row_array();
+
+            if ($ruang_data && isset($ruang_data['kapasitas'])) {
+                $kapasitas = $ruang_data['kapasitas'];
+                if ($kapasitas > 0) {
+                    $updated_kapasitas = $kapasitas - 1;
+                    $this->db->set('kapasitas', $updated_kapasitas);
+                    $this->db->where('id_ruang', $ruang);
+                    $this->db->update('ruang');
+                }
+            }
+        } elseif (!empty($ruang_igd)) {
+            $this->db->select('kapasitas');
+            $this->db->where('id_ruang', $ruang_igd);
+            $ruang_igd_data = $this->db->get('ruang')->row_array();
+
+            if ($ruang_igd_data && isset($ruang_igd_data['kapasitas'])) {
+                $kapasitas_igd = $ruang_igd_data['kapasitas'];
+                if ($kapasitas_igd > 0) {
+                    $updated_kapasitas_igd = $kapasitas_igd - 1;
+                    $this->db->set('kapasitas', $updated_kapasitas_igd);
+                    $this->db->where('id_ruang', $ruang_igd);
+                    $this->db->update('ruang');
+                }
             }
         }
-    } elseif (!empty($ruang_igd)) {
-        $this->db->select('kapasitas');
-        $this->db->where('id_ruang', $ruang_igd);
-        $ruang_igd_data = $this->db->get('ruang')->row_array();
-
-        if ($ruang_igd_data && isset($ruang_igd_data['kapasitas'])) {
-            $kapasitas_igd = $ruang_igd_data['kapasitas'];
-            if ($kapasitas_igd > 0) {
-                $updated_kapasitas_igd = $kapasitas_igd - 1;
-                $this->db->set('kapasitas', $updated_kapasitas_igd);
-                $this->db->where('id_ruang', $ruang_igd);
-                $this->db->update('ruang');
-            }
-        }
+        $data = [
+            'id_pasien' => $pasien,
+            'id_ruang' => $ruang,
+            'id_ruang_igd' => $ruang_igd,
+            'tanggal_masuk' => $tanggal_masuk,
+            'tanggal_keluar' => null,
+            'id_jenis_pelayanan' => $id_jenis_pelayanan
+        ];
+        $this->db->insert('pelayanan', $data);
     }
-    $data = [
-        'id_pasien' => $pasien,
-        'id_ruang' => $ruang, 
-        'id_ruang_igd' => $ruang_igd, 
-        'tanggal_masuk' => $tanggal_masuk,
-        'tanggal_keluar' => null,
-        'id_jenis_pelayanan' => $id_jenis_pelayanan
-    ];
-    $this->db->insert('pelayanan', $data);
-}
 
 
 
@@ -224,52 +224,50 @@ class MenuAdmin_model extends CI_Model
     public function editRuangPasien()
     {
         $ruang_baru = htmlspecialchars($this->input->post('ruang', true));
+        $ruang_igd_baru = htmlspecialchars($this->input->post('ruang_igd', true));
+        $ruang_baru = $ruang_baru ? $ruang_baru : null;
+        $ruang_igd_baru = $ruang_igd_baru ? $ruang_igd_baru : null;
         $pasien = htmlspecialchars($this->input->post('id_pasien', true));
-
-
-        $this->db->select('id_ruang');
+        
+        $this->db->select('id_ruang, id_ruang_igd');
         $this->db->where('id_pasien', $pasien);
         $ruang_sebelumnya = $this->db->get('pelayanan')->row_array();
+        var_dump($ruang_igd_baru);
 
         if ($ruang_sebelumnya) {
             $ruang_lama = $ruang_sebelumnya['id_ruang'];
+            $ruang_igd_lama = $ruang_sebelumnya['id_ruang_igd'];
 
-            if ($ruang_lama === $ruang_baru) {
-                $this->session->set_flashdata('errorflash', 'Pasien sudah berada di ruang yang dipilih.');
+            if ($ruang_lama === $ruang_baru && $ruang_igd_lama === $ruang_igd_baru) {
+                $this->session->set_flashdata('errorflash', 'Pasien sudah berada di ruang dan IGD yang dipilih.');
                 return;
-            } else {
-                $this->session->set_flashdata('pasienflash', 'Pasien berhasil dipindahkan ke ruang lain.');
             }
 
-            $this->db->select('kapasitas');
+            $this->db->set('kapasitas', 'kapasitas + 1', FALSE);
             $this->db->where('id_ruang', $ruang_lama);
-            $ruang_lama_data = $this->db->get('ruang')->row_array();
-            if ($ruang_lama_data && isset($ruang_lama_data['kapasitas'])) {
-                $kapasitas_ruang_lama = $ruang_lama_data['kapasitas'] + 1;
-                // var_dump($kapasitas_ruang_lama);
-                $this->db->set('kapasitas', $kapasitas_ruang_lama);
-                $this->db->where('id_ruang', $ruang_lama);
-                $this->db->update('ruang');
-            }
-        }
-        $this->db->select('kapasitas');
-        $this->db->where('id_ruang', $ruang_baru);
-        $ruang_baru_data = $this->db->get('ruang')->row_array();
-
-        if ($ruang_baru_data && isset($ruang_baru_data['kapasitas'])) {
-            $kapasitas_ruang_baru = $ruang_baru_data['kapasitas'] - 1;
-            $this->db->set('kapasitas', $kapasitas_ruang_baru);
-            $this->db->where('id_ruang', $ruang_baru);
             $this->db->update('ruang');
-            $data = [
-                'id_ruang' => $ruang_baru,
-                'tanggal_keluar' => null
-            ];
-            $this->db->where('id_pasien', $pasien);
-            $this->db->update('pelayanan', $data);
-        } else {
-            echo 'Data kapasitas tidak ditemukan untuk ruang yang dipilih.';
+
+            $this->db->set('kapasitas', 'kapasitas + 1', FALSE);
+            $this->db->where('id_ruang', $ruang_igd_lama);
+            $this->db->update('ruang');
         }
+        $this->db->set('kapasitas', 'kapasitas - 1', FALSE);
+        $this->db->where('id_ruang', $ruang_baru);
+        $this->db->update('ruang');
+        $this->db->set('kapasitas', 'kapasitas - 1', FALSE);
+        $this->db->where('id_ruang', $ruang_igd_baru);
+        $this->db->update('ruang');
+        $data = [
+            'id_ruang' => $ruang_baru,
+            'id_ruang_igd' => $ruang_igd_baru,
+            'tanggal_keluar' => null
+        ];
+        // var_dump($data);
+        $this->db->where('id_pasien', $pasien);
+        $this->db->update('pelayanan', $data);
+
+        $this->session->set_flashdata('pasienflash', 'Pasien berhasil dipindahkan ke ruang yang lain.');
+
 
     }
     public function keluar($no_medis)

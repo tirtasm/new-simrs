@@ -75,11 +75,12 @@ class Pegawai_model extends CI_Model
     public function visite_pasien($limit, $start, $search = null)
     {
         $no_pegawai = $this->session->userdata('no_pegawai');
-        $this->db->select('visite.*, pasien.*, pegawai.nama_pegawai, ruang.nama_ruang');
+        $this->db->select('visite.*, pasien.*, pegawai.nama_pegawai, ruang.nama_ruang, ruang_igd.nama_ruang_igd');
         $this->db->from('visite');
         $this->db->join('pasien', 'pasien.id_pasien = visite.id_pasien');
         $this->db->join('pegawai', 'pegawai.no_pegawai = visite.no_pegawai');
-        $this->db->join('ruang', 'ruang.id_ruang = visite.id_ruang');
+        $this->db->join('ruang', 'ruang.id_ruang = visite.id_ruang', 'left');
+        $this->db->join('ruang_igd', 'ruang_igd.id_ruang_igd = visite.id_ruang_igd', 'left');
         $this->db->order_by('visite.tanggal_visite', 'DESC');
         $this->db->where('visite.no_pegawai', $no_pegawai);
         $this->db->limit($limit, $start);
@@ -89,6 +90,7 @@ class Pegawai_model extends CI_Model
             $this->db->like('pasien.nama', $search);
             $this->db->or_like('pasien.no_medis', $search);
             $this->db->or_like('ruang.nama_ruang', $search);
+            $this->db->or_like('ruang_igd.nama_ruang_igd', $search);
             $this->db->or_like('visite.tanggal_visite', $search);
             $this->db->group_end();
         }
@@ -98,10 +100,11 @@ class Pegawai_model extends CI_Model
     {
       
 
-        $this->db->select('visite.*, pasien.*, ruang.*, pegawai.nama_pegawai');
+        $this->db->select('visite.*, pasien.*, ruang.*, pegawai.nama_pegawai, ruang_igd.*');
         $this->db->from('visite');
         $this->db->join('pasien', 'pasien.id_pasien = visite.id_pasien');
-        $this->db->join('ruang', 'ruang.id_ruang = visite.id_ruang');
+        $this->db->join('ruang', 'ruang.id_ruang = visite.id_ruang', 'left');
+        $this->db->join('ruang_igd', 'ruang_igd.id_ruang_igd = visite.id_ruang_igd', 'left');
         $this->db->join('pegawai', 'pegawai.no_pegawai = visite.no_pegawai');
         $this->db->where('visite.id_visite', $id);
         $this->db->order_by('visite.tanggal_visite', 'DESC');
@@ -110,11 +113,12 @@ class Pegawai_model extends CI_Model
     }
     public function getTindakanPasienById($id)
     {
-        $this->db->select('t.*, pegawai.*, pasien.*, ri.*, r.*, jt.*');
+        $this->db->select('t.*, pegawai.*, pasien.*, pl.*, r.*, jt.*, r_igd.*');
         $this->db->from('tindakan_pasien t');
         $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
-        $this->db->join('pelayanan ri', 'ri.id_pelayanan = t.id_pelayanan');
-        $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
+        $this->db->join('pelayanan pl', 'pl.id_pelayanan = t.id_pelayanan');
+        $this->db->join('ruang r', 'r.id_ruang = pl.id_ruang', 'left');
+        $this->db->join('ruang_igd r_igd', 'r_igd.id_ruang_igd = pl.id_ruang_igd', 'left');
         $this->db->join('pegawai', 'pegawai.no_pegawai = t.no_pegawai');
         $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
         $this->db->order_by('t.tanggal_tindakan', 'DESC');
@@ -123,32 +127,42 @@ class Pegawai_model extends CI_Model
     }
     public function addVisite()
     {   
-        // $ruang = $this->input->post('id_ruang');
-        // $ruang_igd = $this->input->post('id_ruang_igd');
-        // var_dump($ruang);
-        // var_dump($ruang_igd);
+        $ruang = htmlspecialchars($this->input->post('id_ruang'));
+        $ruang = $ruang ? $ruang : null;
+        
+        $ruang_igd = htmlspecialchars($this->input->post('id_ruang_igd'));
+        $ruang_igd = $ruang_igd ? $ruang_igd : null;
+        
         $data = [
             'id_pasien' => htmlspecialchars($this->input->post('nama_pasien')),
             'no_pegawai' => htmlspecialchars($this->input->post('no_pegawai')),
-            'id_ruang' => htmlspecialchars($this->input->post('id_ruang')),
-            'id_ruang_igd' => htmlspecialchars($this->input->post('id_ruang_igd')),
+            'id_ruang' => $ruang,
+            'id_ruang_igd' => $ruang_igd,
             'tanggal_visite' => htmlspecialchars($this->input->post('tanggal_visite')),
             'catatan' => htmlspecialchars($this->input->post('catatan'))
         ];
+        
         $this->db->insert('visite', $data);
         
     }
 
     public function editVisite()
-    {
+    {   
+        $ruang = htmlspecialchars($this->input->post('id_ruang'));
+        $ruang = $ruang ? $ruang : null;
+        
+        $ruang_igd = htmlspecialchars($this->input->post('id_ruang_igd'));
+        $ruang_igd = $ruang_igd ? $ruang_igd : null;
+        
         $data = [
             'id_pasien' => htmlspecialchars($this->input->post('nama_pasien')),
             'no_pegawai' => htmlspecialchars($this->input->post('no_pegawai')),
-            'id_ruang' => htmlspecialchars($this->input->post('id_ruang')),
+            'id_ruang' => $ruang,
+            'id_ruang_igd' => $ruang_igd,
             'tanggal_visite' => htmlspecialchars($this->input->post('tanggal_visite')),
             'catatan' => htmlspecialchars($this->input->post('catatan'))
         ];
-        var_dump($data);
+        
         $this->db->where('id_visite', $this->input->post('id_visite'));
         $this->db->update('visite', $data);
     }
@@ -161,11 +175,12 @@ class Pegawai_model extends CI_Model
    public function v_tindakan($limit, $start, $search = null)
 {
     $no_pegawai = $this->session->userdata('no_pegawai'); 
-    $this->db->select('t.*, pegawai.nama_pegawai, pasien.nama, ri.id_ruang, r.nama_ruang, jt.nama_tindakan');
+    $this->db->select('t.*, pegawai.nama_pegawai, pasien.nama, pl.id_ruang, r.*, jt.*, r_igd.*');
     $this->db->from('tindakan_pasien t');
     $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
-    $this->db->join('pelayanan ri', 'ri.id_pelayanan = t.id_pelayanan');
-    $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
+    $this->db->join('pelayanan pl', 'pl.id_pelayanan = t.id_pelayanan');
+    $this->db->join('ruang r', 'r.id_ruang = pl.id_ruang', 'left');
+    $this->db->join('ruang_igd r_igd', 'r_igd.id_ruang_igd = pl.id_ruang_igd', 'left');
     $this->db->join('pegawai', 'pegawai.no_pegawai = t.no_pegawai');
     $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
     $this->db->where('t.no_pegawai', $no_pegawai);
@@ -210,16 +225,16 @@ class Pegawai_model extends CI_Model
         ];
         $this->db->where('id_tindakan_pasien', $this->input->post('id_tindakan_pasien'));
         $this->db->update('tindakan_pasien', $data);
-        // var_dump($data);
+        
     }
 
 
     public function catatan_dokter($limit,$start,$search = null){
-        $this->db->select('t.*, pegawai.nama_pegawai, pasien.nama, ri.id_ruang, r.nama_ruang, jt.nama_tindakan');
+        $this->db->select('t.*, pegawai.nama_pegawai, pasien.nama, pl.id_ruang, r.nama_ruang, jt.nama_tindakan');
         $this->db->from('tindakan_pasien t');
         $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
-        $this->db->join('pelayanan ri', 'ri.id_pelayanan = t.id_pelayanan');
-        $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
+        $this->db->join('pelayanan pl', 'pl.id_pelayanan = t.id_pelayanan');
+        $this->db->join('ruang r', 'r.id_ruang = pl.id_ruang');
         $this->db->join('pegawai', 'pegawai.no_pegawai = t.no_pegawai');
         $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
         $this->db->order_by('t.tanggal_tindakan', 'DESC');

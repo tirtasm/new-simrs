@@ -133,7 +133,7 @@
                 redirect('pegawai/visite');
             } else {
                 $this->Pegawai_model->editVisite();
-                $this->session->set_flashdata('visite_success', 'berhasil diedit!');
+                $this->session->set_flashdata('visite_success', 'Tindakan berhasil diedit!');
                 redirect('pegawai/visite');
             }
         }

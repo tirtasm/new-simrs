@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="form-group row justify-content-end">
-                <a href="<?= base_url('dokter/edit/') . $user['no_pegawai'] ?>"
+                <a href="<?= base_url('pegawai/edit/') . $user['no_pegawai'] ?>"
                     class="badge mr-2 px-3 py-2 btn-primary profilModal" data-toggle="modal" data-target="#formModal"
                     data-id="<?= $user['no_pegawai'] ?>">Edit</a>
             </div>
@@ -53,7 +53,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="<?= base_url('dokter/edit') ?>" method="post">
+                    <form action="<?= base_url('pegawai/edit') ?>" method="post">
                         <div class="row justify-content-center">
 
                             <div class="col-lg-10 align-items-center ">

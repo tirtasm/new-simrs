@@ -7,7 +7,7 @@
 
     <div class="menu-flash" data-menuflash="<?= $this->session->flashdata('menu_flash'); ?>" data-submenu_added="<?=$this->session->flashdata('submenu_added');?>" data-submenu_failed="<?= $this->session->flashdata('submenu_failed'); ?>"></div>
     <div class="btn btn-primary mb-3 btnEdit" data-toggle="modal" data-target="#formModal"
-        >Add New Sub Menu</div>
+        >Tambah Sub Menu</div>
     <div class="row">
         <div class="col-lg-12 ">
             <table class="table table-hover table-responsive mx-4 ">
@@ -19,7 +19,7 @@
                         <th>URL</th>
                         <th>Icon</th>
                         <th>Active</th>
-                        <th class="text-center">Action</th>
+                        <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,4 +119,4 @@
     </div>
 </div>
 
-</script>
+<script src="<?= base_url('assets/js/menu.js') ?>"></script>

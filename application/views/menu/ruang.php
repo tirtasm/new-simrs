@@ -24,7 +24,7 @@
         </form>
 
 
-            <div class="btn btn-primary mb-3 btnAddRuang" data-toggle="modal" data-target="#ruangModal" >Tambah Ruang
+            <div class="btn btn-primary mb-3 btnRuang" data-toggle="modal" data-target="#ruangModal" >Tambah Ruang
             </div>
             <div class="ruangflash" data-ruang-flash="<?= $this->session->flashdata('ruangflash'); ?>"
                 data-error-flash="<?= $this->session->flashdata('errorflash'); ?>"></div>
@@ -126,3 +126,4 @@
         </div>
     </div>
 </div>
+<script src="<?= base_url('assets/js/menuadmin.js') ?>"></script>

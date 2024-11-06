@@ -18,7 +18,7 @@ class MenuAdmin extends CI_Controller
         $data['judul'] = 'Pasien';
         $data['user'] = $this->MenuAdmin_model->getDokterByNo();
         $data['total_pasien'] = $this->MenuAdmin_model->total_pasien();
-        $config['base_url'] = base_url('menu/pasien');
+        $config['base_url'] = base_url('menuadmin/pasien');
         $config['total_rows'] = $data['total_pasien'];
         $config['per_page'] = 10;
         $config['num_links'] = 5;
@@ -28,6 +28,7 @@ class MenuAdmin extends CI_Controller
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         $data['pasien'] = $this->MenuAdmin_model->get_pasien($config['per_page'], $page, $search);
         $data['pasien_not_inap'] = $this->MenuAdmin_model->pasien_not_inap();
+
         $data['ruang'] = $this->MenuAdmin_model->get_ruang();
         $data['ruang_igd'] = $this->MenuAdmin_model->get_ruang_igd();
         $data['jenis_pelayanan'] = $this->MenuAdmin_model->get_jenis_pelayanan();
@@ -57,9 +58,15 @@ class MenuAdmin extends CI_Controller
     }
     public function edit()
     {
-        $this->MenuAdmin_model->editRuangPasien();
-
-        redirect('menuadmin/pasien');
+        $this->form_validation->set_rules('no_telp', 'no', 'required');
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('errorflash', 'Pasien gagal diedit');
+            redirect('menuadmin/pasien');
+        } else {
+            $this->MenuAdmin_model->editRuangPasien();
+            $this->session->set_flashdata('pasienflash', 'Pasien berhasil diedit');
+            redirect('menuadmin/pasien');
+        }
     }
     public function keluar($no_medis)
     {
@@ -71,6 +78,7 @@ class MenuAdmin extends CI_Controller
     {
 
         echo json_encode($this->MenuAdmin_model->getPasienById($this->input->post('id_pasien')));
+        // echo json_encode($this->MenuAdmin_model->getPasienById($id));
     }
     public function getEditRuang(){
         echo json_encode($this->MenuAdmin_model->getRuangById($this->input->post('id_ruang')));

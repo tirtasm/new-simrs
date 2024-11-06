@@ -12,7 +12,7 @@
 
 
     <div class="btn btn-primary mb-3 btnAddRole" data-toggle="modal" data-target="#roleModal"
-        >Add New Role</div>
+        >Tambah Role</div>
     <div class="row">
         <div class="col-lg-10">
             <table class="table table-hover table-responsive mx-3">
@@ -54,7 +54,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="roleModalLabel">Add New Role</h5>
+                <h5 class="modal-title" id="roleModalLabel">Tambah Role</h5>
 
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -76,7 +76,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" >Add</button>
+                <button type="submit" class="btn btn-primary" >Tambah</button>
                 <!-- <button type="button" id="editButton" class="btn btn-primary edit-button" data-id="" onclick="editMenu(this)" hidden>Edit</button> -->
             </div>
             </form>
@@ -84,7 +84,4 @@
     </div>
 </div>
 
-<script>
-
-
-</script>
+<script src="<?= base_url('assets/js/menuadmin.js') ?>"></script>

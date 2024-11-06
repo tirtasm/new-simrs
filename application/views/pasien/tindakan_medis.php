@@ -38,7 +38,7 @@
                                         <td><?= $tm['no_medis'] ?></td>
                                         <td><?= $tm['nama'] ?></td>
                                         <td><?= $tm['nama_ruang'] ?></td>
-                                        <td><?= $tm['nama_dokter'] ?></td>
+                                        <td><?= $tm['nama_pegawai'] ?></td>
                                         <td><?= $tm['nama_tindakan'] ?></td>
                                         <td><?= $tm['tanggal_tindakan'] ?></td>
                                         <td><?= 'Rp ' . number_format($tm['biaya'], 0, ',', '.') ?></td>

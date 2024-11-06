@@ -127,3 +127,4 @@
         </div>
     </div>
 </div>
+<script src="<?= base_url('assets/js/menuadmin.js') ?>"></script>

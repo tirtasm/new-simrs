@@ -1,4 +1,3 @@
-
 <div id="content-wrapper" class="p-flex flex-column">
 
     <!-- Main Content -->
@@ -7,25 +6,27 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
-        <form action="<?= base_url('menuadmin/pasien'); ?>" method="POST">
-            <div class="mb-4">
-                <h1 class="text-gray-800"><?= $judul ?></h1>
-                <div class="form-row align-items-center">
-                    <div class="col-auto">
-                        <i class="fa fa-search"></i>
-                    </div>
-                    <div class="col">
-                        <input type="text" name="search" class="form-control form-input" placeholder="Cari Pasien..." value="<?= isset($search) ? $search : '' ?>">
-                    </div>
-                    <div class="col-auto">
-                        <button class="btn btn-primary" type="submit">Search</button>
+            <form action="<?= base_url('menuadmin/pasien'); ?>" method="POST">
+                <div class="mb-4">
+                    <h1 class="text-gray-800"><?= $judul ?></h1>
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <i class="fa fa-search"></i>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="search" class="form-control form-input"
+                                placeholder="Cari Pasien..." value="<?= isset($search) ? $search : '' ?>">
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
 
-            <div class="btn btn-primary mb-3 btnEdit" data-toggle="modal" data-target="#pasienModal">Tambah Pasien Masuk
+            <div class="btn btn-primary mb-3 btnPasien" data-toggle="modal" data-target="#pasienModal">Tambah Pasien
+                Masuk
             </div>
             <div class="pasienflash" data-pasien-flash="<?= $this->session->flashdata('pasienflash'); ?>"
                 data-error-flash="<?= $this->session->flashdata('errorflash'); ?>"></div>
@@ -62,7 +63,8 @@
                                             <td><?= $p['nama'] ?></td>
                                             <td><?= $p['no_telp'] ?></td>
                                             <td class="text-center"><?= $p['tanggal_lahir'] ?></td>
-                                            <td><?= !empty($p['nama_ruang_igd']) ? $p['nama_ruang_igd'] : $p['nama_ruang'] ?></td>
+                                            <td><?= !empty($p['nama_ruang_igd']) ? $p['nama_ruang_igd'] : $p['nama_ruang'] ?>
+                                            </td>
                                             <td class="text-center"><?= $p['tanggal_masuk'] ?></td>
 
                                             <!-- <td><?= $p['tanggal_keluar'] ?></td> -->
@@ -156,9 +158,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <script>
-
-                            </script>
 
                             <div class="mb-3">
                                 <label for="no_telp" class="form-label">No Telp Pasien</label>
@@ -182,15 +181,16 @@
                                 <label for="role" class="form-label">Nama Ruang</label>
                                 <div class="d-flex ">
 
-                                    <select name="ruang_igd" id="ruang_igd" class="form-control d-flex justify-content-between"
-                                        >
+                                    <select name="ruang_igd" id="ruang_igd"
+                                        class="form-control d-flex justify-content-between">
                                         <?php if (empty($ruang_igd) || array_sum(array_column($ruang_igd, 'kapasitas')) == 0): ?>
                                             <option value="">---Tidak Ada Ruang Tersedia---</option>
                                         <?php else: ?>
                                             <option value="">---Pilih Ruang IGD---</option>
                                             <?php foreach ($ruang_igd as $r): ?>
                                                 <?php if ($r['kapasitas'] > 0): ?>
-                                                    <option value="<?= $r['id_ruang_igd'] ?>" data-kapasitas-igd="<?= $r['kapasitas'] ?>">
+                                                    <option value="<?= $r['id_ruang_igd'] ?>"
+                                                        data-kapasitas-igd="<?= $r['kapasitas'] ?>">
                                                         <?= $r['nama_ruang_igd'] ?>
                                                     </option>
                                                 <?php endif; ?>
@@ -207,8 +207,7 @@
                                 <label for="role" class="form-label">Nama Ruang</label>
                                 <div class="d-flex ">
 
-                                    <select name="ruang" id="ruang" class="form-control d-flex justify-content-between"
-                                        >
+                                    <select name="ruang" id="ruang" class="form-control d-flex justify-content-between">
                                         <?php if (empty($ruang) || array_sum(array_column($ruang, 'kapasitas')) == 0): ?>
                                             <option value="">---Tidak Ada Ruang Tersedia---</option>
                                         <?php else: ?>
@@ -225,27 +224,6 @@
                                     <div id="kapasitas-info" class="btn badge-success px-3 ml-2">Kapasitas</div>
                                 </div>
                             </div>
-
-                            <script>
-
-                                const selectPelayanan = document.getElementById('jenis_pelayanan');
-                                selectPelayanan.addEventListener('change', function () {
-                                    const selectedOption = selectPelayanan.options[selectPelayanan.selectedIndex];
-                                    
-                                    if(selectedOption.value == 1){
-                                        document.getElementById('igd').style.display = 'block';
-                                    }else{
-                                        document.getElementById('igd').style.display = 'none';
-                                    }
-                                    if(selectedOption.value == 2){
-                                        document.getElementById('rawat_inap').style.display = 'block';                                        
-                                    }else{
-                                        document.getElementById('rawat_inap').style.display = 'none';
-                                    }
-                                });
-
-
-                            </script>
                             <div class="mb-3">
                                 <label for="tanggal_masuk" class="form-label">Tanggal Masuk</label>
                                 <input type="date" name="tanggal_masuk" id="tanggal_masuk" class="form-control"
@@ -256,16 +234,31 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-primary">Tambahs</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<script>
+<script>  const selectPelayanan = document.getElementById('jenis_pelayanan');
+    selectPelayanan.addEventListener('change', function () {
+        const selectedOption = selectPelayanan.options[selectPelayanan.selectedIndex];
+
+        if (selectedOption.value == 1) {
+            document.getElementById('igd').style.display = 'block';
+        } else {
+            document.getElementById('igd').style.display = 'none';
+        }
+        if (selectedOption.value == 2) {
+            document.getElementById('rawat_inap').style.display = 'block';
+        } else {
+            document.getElementById('rawat_inap').style.display = 'none';
+        }
+    });
 
     const selectPasien = document.getElementById('pasien');
+    const selectPasien2 = document.getElementById('v_pasien');
     const nomorTelp = document.getElementById('no_telp');
     selectPasien.addEventListener('change', function () {
         const selectedOption = selectPasien.options[selectPasien.selectedIndex];
@@ -273,12 +266,12 @@
         console.log(nomor);
 
 
-        if (nomor) {
-            nomorTelp.value = nomor;
-        } else {
-            nomorTelp.value = '';
-        }
+        nomor ? nomorTelp.value = nomor : nomorTelp.value = '';
     });
-
-
+    selectPasien2.addEventListener('change', function () {
+        const selectedOption = selectPasien2.options[selectPasien2.selectedIndex];
+        const nomor = selectedOption.getAttribute('data-nomor');
+        nomor ? nomorTelp.value = nomor : nomorTelp.value = '';
+    });
 </script>
+<script src="<?= base_url('assets/js/menuadmin.js') ?>"></script>

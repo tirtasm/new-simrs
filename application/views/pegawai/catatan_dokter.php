@@ -49,7 +49,7 @@
                                     <tbody>
                                         <tr>
                                             <td class="text-center"><?= $no ?></td>
-                                            <td><?= $td['nama_dokter'] ?></td>
+                                            <td><?= $td['nama_pegawai'] ?></td>
                                             <td><?= $td['nama'] ?></td>
                                             <td><?= $td['nama_ruang'] ?></td>
                                             <td><?= $td['nama_tindakan'] ?></td>
