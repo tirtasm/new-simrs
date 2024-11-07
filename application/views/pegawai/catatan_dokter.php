@@ -45,17 +45,18 @@
                             <?php
                             $no = $this->uri->segment(3) ? $this->uri->segment(3) + 1 : 1;
                             if (!empty($catatan)):
-                                foreach ($catatan as $td): ?>
+                                foreach ($catatan as $ct): ?>
                                     <tbody>
                                         <tr>
                                             <td class="text-center"><?= $no ?></td>
-                                            <td><?= $td['nama_pegawai'] ?></td>
-                                            <td><?= $td['nama'] ?></td>
-                                            <td><?= $td['nama_ruang'] ?></td>
-                                            <td><?= $td['nama_tindakan'] ?></td>
-                                            <td><?= $td['tanggal_tindakan'] ?></td>
+                                            <td><?= $ct['nama_pegawai'] ?></td>
+                                            <td><?= $ct['nama'] ?></td>
+                                            <td><?= !empty($ct['nama_ruang_igd']) ? $ct['nama_ruang_igd'] : $ct['nama_ruang'] ?>
+                                            </td>
+                                            <td><?= $ct['nama_tindakan'] ?></td>
+                                            <td><?= $ct['tanggal_tindakan'] ?></td>
                                             <td style="max-width:300px;">
-                                                <?= $td['catatan'] ?>
+                                                <?= $ct['catatan'] ?>
                                             </td>
                                         </tr>
                                     </tbody>

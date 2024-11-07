@@ -24,8 +24,8 @@
                                 <th>Nama Dokter</th>
                                 <th>Tindakan</th>
                                 <th>Tanggal Tindakan</th>
-                                <th>Biaya</th>
                                 <th>Catatan</th>
+                                <th>Biaya</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,19 +37,33 @@
                                         <td class="text-center"><?= $no ?></td>
                                         <td><?= $tm['no_medis'] ?></td>
                                         <td><?= $tm['nama'] ?></td>
-                                        <td><?= $tm['nama_ruang'] ?></td>
+                                        <td><?= !empty($tm['nama_ruang_igd']) ? $tm['nama_ruang_igd'] : $tm['nama_ruang'] ?>
+                                            </td>
                                         <td><?= $tm['nama_pegawai'] ?></td>
                                         <td><?= $tm['nama_tindakan'] ?></td>
                                         <td><?= $tm['tanggal_tindakan'] ?></td>
-                                        <td><?= 'Rp ' . number_format($tm['biaya'], 0, ',', '.') ?></td>
                                         <td style="max-width:300px;"><?= $tm['catatan'] ?></td>
+                                        <td style="min-width:120px;"><?= 'Rp ' . number_format($tm['biaya'], 0, ',', '.') ?></td>
                                     </tr>
                                     <?php
                                     $no++;
                                 endforeach; ?>
+                                <tr>
+                                    <td colspan="8" class="text-center">Jumlah Biaya</td>
+
+                                    <td style="min-width:120px;">
+                                        <?php
+                                        $total = 0;
+                                        foreach ($tindakan_medis as $tm) {
+                                            $total += $tm['biaya'];
+                                        }
+                                        echo 'Rp ' . number_format($total, 0, ',', '.');
+                                        ?>
+                                    
+                                    </tr>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="8" class="text-center">Data Tidak Ditemukan</td>
+                                    <td colspan="9" class="text-center">Data Tidak Ditemukan</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

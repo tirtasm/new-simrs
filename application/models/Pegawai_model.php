@@ -230,11 +230,12 @@ class Pegawai_model extends CI_Model
 
 
     public function catatan_dokter($limit,$start,$search = null){
-        $this->db->select('t.*, pegawai.nama_pegawai, pasien.nama, pl.id_ruang, r.nama_ruang, jt.nama_tindakan');
+        $this->db->select('t.*, pegawai.nama_pegawai, pasien.nama, pl.id_ruang, r.nama_ruang, r_igd.nama_ruang_igd, jt.nama_tindakan');
         $this->db->from('tindakan_pasien t');
         $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
         $this->db->join('pelayanan pl', 'pl.id_pelayanan = t.id_pelayanan');
-        $this->db->join('ruang r', 'r.id_ruang = pl.id_ruang');
+        $this->db->join('ruang r', 'r.id_ruang = pl.id_ruang', 'left');
+        $this->db->join('ruang_igd r_igd', 'r_igd.id_ruang_igd = pl.id_ruang_igd', 'left');
         $this->db->join('pegawai', 'pegawai.no_pegawai = t.no_pegawai');
         $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
         $this->db->order_by('t.tanggal_tindakan', 'DESC');

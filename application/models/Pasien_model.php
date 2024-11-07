@@ -75,11 +75,12 @@ class Pasien_model extends CI_Model
     public function get_tindakan_by_no()
     {
         $no_medis = $this->session->userdata('no_medis');
-        $this->db->select('t.*, pegawai.nama_pegawai, pasien.*, ri.id_ruang, r.nama_ruang, jt.*');
+        $this->db->select('t.*, pegawai.nama_pegawai, pasien.*, pl.id_ruang, r.nama_ruang, r_igd.nama_ruang_igd, jt.*');
         $this->db->from('tindakan_pasien t');
         $this->db->join('pasien', 'pasien.id_pasien = t.id_pasien');
-        $this->db->join('pelayanan ri', 'ri.id_pelayanan = t.id_pelayanan');
-        $this->db->join('ruang r', 'r.id_ruang = ri.id_ruang');
+        $this->db->join('pelayanan pl', 'pl.id_pelayanan = t.id_pelayanan');
+        $this->db->join('ruang r', 'r.id_ruang = pl.id_ruang', 'left');
+        $this->db->join('ruang_igd r_igd', 'r_igd.id_ruang_igd = pl.id_ruang_igd', 'left');
         $this->db->join('pegawai', 'pegawai.no_pegawai = t.no_pegawai');
         $this->db->join('jenis_tindakan jt', 'jt.id_tindakan = t.id_tindakan');
         $this->db->where('pasien.no_medis', $no_medis);
